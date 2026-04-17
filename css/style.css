@@ -376,10 +376,10 @@ body::after {
 /* Dragon characters */
 .hero-dragon { position:absolute; pointer-events:none; }
 
-/* hd1: 手前レイヤー — プロモ画像の左下に重なり、最前面 */
+/* hd1: 手前レイヤー — プロモ画像の左端に軽く重なる */
 .hd1 {
   width:clamp(120px,14vw,200px);
-  bottom:6%; left:-1%;
+  bottom:22%; left:3%;
   z-index:4;
   animation:fd1 7s ease-in-out infinite;
   filter:
@@ -387,10 +387,10 @@ body::after {
     drop-shadow(0 0 22px rgba(255,179,0,.26));
 }
 
-/* hd2: 最前面 — タイトル右上に被さる主役キャラ */
+/* hd2: 最前面 — タイトル右端に軽く重なる（可読性維持） */
 .hd2 {
   width:clamp(100px,13vw,188px);
-  top:2%; right:-1%;
+  top:26%; right:2%;
   z-index:4;
   animation:fd2 9s ease-in-out infinite;
   filter:
@@ -398,15 +398,16 @@ body::after {
     drop-shadow(0 4px 12px rgba(0,0,0,.30));
 }
 
-/* hd3: 奥レイヤー — プロモ画像の後ろからのぞく */
+/* hd3: 奥レイヤー — 離れた位置に配置し奥行き演出 */
 .hd3 {
-  width:clamp(100px,12vw,172px);
-  bottom:12%; right:-2%;
+  width:clamp(90px,11vw,156px);
+  bottom:8%; right:5%;
   z-index:1;   /* hero-inner (z-index:2) の後ろに入る */
+  opacity:.72;
   animation:fd3 8s ease-in-out infinite;
   filter:
-    drop-shadow(0 4px 14px rgba(0,0,0,.22))
-    drop-shadow(0 0 18px rgba(200,120,255,.22));
+    drop-shadow(0 4px 14px rgba(0,0,0,.18))
+    drop-shadow(0 0 18px rgba(200,120,255,.18));
 }
 @keyframes fd1 { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-22px) rotate(3deg)} }
 @keyframes fd2 { 0%,100%{transform:translateY(0) rotate(5deg)}  50%{transform:translateY(-16px) rotate(-5deg)} }
@@ -449,15 +450,39 @@ body::after {
   font-family:var(--font-title);
   font-size:clamp(2.0rem,6.4vw,4.8rem);
   font-weight:700;
-  background:linear-gradient(155deg,#FFFFFF 0%,#FFE880 22%,#FFB300 54%,#FF8C00 80%,#FF6020 100%);
+  /* グラデーションを横方向に広げてシマー流れを有効化 */
+  background:linear-gradient(135deg,
+    #FFCA28  0%,
+    #FFFFFF 16%,
+    #FFE880 28%,
+    #FFB300 48%,
+    #FF8C00 70%,
+    #FF6020 86%,
+    #FFB300 100%);
+  background-size:220% auto;
   -webkit-background-clip:text; background-clip:text; color:transparent;
   filter:drop-shadow(0 3px 6px rgba(0,0,0,.38)) drop-shadow(0 0 30px rgba(255,179,0,.62));
   line-height:1.04; letter-spacing:.05em; margin-bottom:5px;
-  animation:titleGlow 3.2s ease-in-out infinite alternate;
+  /* ① グロー脈動  ② 微小浮遊  ③ グラデーション流れ */
+  animation:
+    titleGlow      3.4s ease-in-out infinite alternate,
+    titleDrift     6.5s ease-in-out infinite,
+    titleGradShift 9.0s linear     infinite;
 }
 @keyframes titleGlow {
-  from { filter:drop-shadow(0 3px 6px rgba(0,0,0,.38)) drop-shadow(0 0 20px rgba(255,179,0,.46)); }
-  to   { filter:drop-shadow(0 3px 6px rgba(0,0,0,.38)) drop-shadow(0 0 46px rgba(255,179,0,.84)); }
+  from { filter:drop-shadow(0 3px 6px rgba(0,0,0,.38)) drop-shadow(0 0 22px rgba(255,179,0,.48)); }
+  to   { filter:drop-shadow(0 3px 6px rgba(0,0,0,.38)) drop-shadow(0 0 54px rgba(255,179,0,.92)); }
+}
+/* 1〜2px の微小縦揺れ — 生きているような浮遊感 */
+@keyframes titleDrift {
+  0%,100% { transform:translateY(0px);   }
+  38%     { transform:translateY(-2px);  }
+  72%     { transform:translateY(0.8px); }
+}
+/* グラデーションが左から右へゆっくり流れる */
+@keyframes titleGradShift {
+  0%   { background-position:0%   center; }
+  100% { background-position:220% center; }
 }
 
 .hero-title {
@@ -1362,8 +1387,9 @@ section {
   .nav-list { display:none; }
   .nav-x    { display:none; }
   .nav-hamburger { display:flex; }
-  /* タブレット幅では hd2 を小さく控えめに */
-  .hd2 { width:clamp(70px,9vw,110px); top:3%; right:0%; }
+  /* タブレット幅: hd2をタイトル帯に合わせて縮小, hd3は非表示 */
+  .hd2 { width:clamp(70px,9vw,110px); top:28%; right:1%; }
+  .hd3 { display:none; }
 }
 @media(max-width:640px) {
   section { padding:52px 16px; }
@@ -1371,9 +1397,10 @@ section {
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
   .hero-info-row .hero-badge-item { font-size:.76rem;padding:6px 12px; }
-  .hd1 { bottom:1%; left:-2%; opacity:.42; width:72px; }
+  /* モバイル: hd1のみ小さく端に退避、hd2/hd3は非表示 */
+  .hd1 { bottom:2%; left:0%; opacity:.38; width:68px; }
   .hd2 { display:none; }
-  .hd3 { bottom:1%; right:-2%; opacity:.42; width:64px; }
+  .hd3 { display:none; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }
   .about-teaser-card { padding:22px 16px; }
   .footer-top { flex-direction:column;gap:28px; }
