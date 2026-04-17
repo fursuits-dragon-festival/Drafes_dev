@@ -110,15 +110,10 @@
     <div class="cloud c2" aria-hidden="true"></div>
     <div class="cloud c3" aria-hidden="true"></div>
 
-    <!-- hd3: 背景装飾レイヤー（hero基準 / z-index:1 でhero-innerの後ろ） -->
-    <img src="images/dragon-friendly.svg" class="hero-dragon hd3" alt="" aria-hidden="true">
-
     <div class="hero-inner">
       <!-- タイトル -->
       <div class="hero-en-title">Dragon Festival</div>
-      <!-- hd2: hero-title-wrap基準 / タイトル右端に構造的に重なる -->
       <div class="hero-title-wrap">
-        <img src="images/dragon-cool.svg" class="hero-dragon hd2" alt="" aria-hidden="true">
         <div class="hero-edition">第2回</div>
         <h1 class="hero-title">竜族のお祭り　ドラゴンフェスティバル <span class="hero-returns-inline">～ リターンズ ～</span></h1>
       </div>
@@ -126,10 +121,14 @@
       <!-- キャッチコピー -->
       <p class="hero-catch">竜族系着ぐるみが一堂に集う、のんびりまったり交流イベント</p>
 
-      <!-- プロモーションイラスト — 画面の主役 -->
+      <!-- プロモーションイラスト — 画面の主役 / キャラ3体をこのコンテナを基準に三角配置 -->
       <div class="hero-promo">
-        <!-- hd1: hero-promo基準 / プロモ画像の左端に構造的に重なる -->
-        <img src="images/dragon-cute.svg" class="hero-dragon hd1" alt="" aria-hidden="true">
+        <!-- hd1: 左下コーナー（プロモ左端に重なる） -->
+        <img src="images/dragon-cute.svg"     class="hero-dragon hd1" alt="" aria-hidden="true">
+        <!-- hd2: 右下コーナー（hd1と対称） -->
+        <img src="images/dragon-cool.svg"     class="hero-dragon hd2" alt="" aria-hidden="true">
+        <!-- hd3: 右上コーナー（キャッチコピー帯に軽く被る） -->
+        <img src="images/dragon-friendly.svg" class="hero-dragon hd3" alt="" aria-hidden="true">
         <img src="images/promo_mock.png" alt="ドラゴンフェスティバル ～リターンズ～ プロモーションイラスト">
         <div class="hero-promo-ring"  aria-hidden="true"></div>
         <div class="hero-promo-ring2" aria-hidden="true"></div>

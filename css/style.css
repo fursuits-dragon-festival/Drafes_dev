@@ -373,13 +373,25 @@ body::after {
 }
 .sparkles-bg { position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0; }
 
-/* Dragon characters */
-.hero-dragon { position:absolute; pointer-events:none; }
+/* Dragon characters — width/border/shadow は個別ルールで制御 */
+.hero-dragon {
+  position:absolute; pointer-events:none;
+  width:auto; height:auto;
+  border:none !important; box-shadow:none !important;
+  border-radius:0 !important; background:none !important;
+  display:block;
+}
 
-/* hd1: hero-promo基準 — プロモ画像の左端に構造的に重なる */
+/*
+ * hd1/hd2/hd3 は全て .hero-promo (position:relative) を基準に配置。
+ * px固定オフセットで画面サイズに関わらず常に一定の重なりを維持。
+ * 三角配置: hd1=左下 / hd2=右下 / hd3=右上（キャッチコピー帯に軽く被る）
+ */
+
+/* hd1: 左下コーナー — プロモ画像の左端に重なる */
 .hd1 {
   width:140px;
-  left:-35px; bottom:-15px;
+  left:-40px; bottom:-20px;
   z-index:4;
   animation:fd1 7s ease-in-out infinite;
   filter:
@@ -387,10 +399,10 @@ body::after {
     drop-shadow(0 0 22px rgba(255,179,0,.26));
 }
 
-/* hd2: hero-title-wrap基準 — タイトル右端に構造的に重なる */
+/* hd2: 右下コーナー — hd1と対称、プロモ画像の右端に重なる */
 .hd2 {
   width:130px;
-  right:-20px; top:-10px;
+  right:-40px; bottom:-20px;
   z-index:4;
   animation:fd2 9s ease-in-out infinite;
   filter:
@@ -398,16 +410,16 @@ body::after {
     drop-shadow(0 4px 12px rgba(0,0,0,.30));
 }
 
-/* hd3: 奥レイヤー — 離れた位置に配置し奥行き演出 */
+/* hd3: 右上コーナー — キャッチコピーに軽く被り奥行きを出す中間レイヤー */
 .hd3 {
-  width:clamp(90px,11vw,156px);
-  bottom:8%; right:5%;
-  z-index:1;   /* hero-inner (z-index:2) の後ろに入る */
-  opacity:.72;
+  width:118px;
+  right:-28px; top:-38px;
+  z-index:2;
+  opacity:.90;
   animation:fd3 8s ease-in-out infinite;
   filter:
-    drop-shadow(0 4px 14px rgba(0,0,0,.18))
-    drop-shadow(0 0 18px rgba(200,120,255,.18));
+    drop-shadow(0 4px 14px rgba(0,0,0,.22))
+    drop-shadow(0 0 18px rgba(200,120,255,.26));
 }
 @keyframes fd1 { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-22px) rotate(3deg)} }
 @keyframes fd2 { 0%,100%{transform:translateY(0) rotate(5deg)}  50%{transform:translateY(-16px) rotate(-5deg)} }
@@ -429,7 +441,6 @@ body::after {
 }
 
 .hero-title-wrap {
-  position:relative;            /* hd2 の配置基準 */
   display:flex; align-items:center; gap:12px;
   justify-content:center; flex-wrap:wrap;
   margin-bottom:16px;
@@ -500,7 +511,8 @@ body::after {
   position:relative;
   max-width:min(820px,94vw); margin:12px auto 28px;
 }
-.hero-promo img {
+/* プロモ画像本体のみに適用（.hero-dragon を除外） */
+.hero-promo img:not(.hero-dragon) {
   width:100%; height:auto;
   border-radius:var(--r-xl);
   box-shadow:
@@ -582,7 +594,7 @@ body::after {
 }
 .hero-badge-item svg { flex-shrink:0; color:var(--gold-dark); }
 
-.hero-cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.hero-cta { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:8px; }
 
 /* ================================================================
    BUTTONS
@@ -1388,18 +1400,18 @@ section {
   .nav-list { display:none; }
   .nav-x    { display:none; }
   .nav-hamburger { display:flex; }
-  /* タブレット幅: 要素基準を維持しつつサイズ縮小, hd3は非表示 */
-  .hd1 { width:108px; left:-22px; bottom:-10px; }
-  .hd2 { width:105px; right:-15px; top:-8px; }
-  .hd3 { display:none; }
+  /* タブレット幅: 三角配置を維持しつつサイズ縮小 */
+  .hd1 { width:108px; left:-28px; bottom:-14px; }
+  .hd2 { width:100px; right:-28px; bottom:-14px; }
+  .hd3 { width:88px;  right:-18px; top:-24px; }
 }
 @media(max-width:640px) {
   section { padding:52px 16px; }
   .hero   { padding:34px 16px 52px; }
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
-  /* モバイル: hd1はプロモ角にスモール表示、hd2/hd3は非表示 */
-  .hd1 { width:68px; left:-12px; bottom:-6px; opacity:.45; }
+  /* モバイル: hd1のみ左下スモール表示、hd2/hd3は非表示（スペース確保） */
+  .hd1 { width:64px; left:-10px; bottom:-8px; opacity:.50; }
   .hd2 { display:none; }
   .hd3 { display:none; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }

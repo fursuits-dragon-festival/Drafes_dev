@@ -121,18 +121,18 @@
   // ファイルが存在しない（またはIMG_ENABLED=false）の場合は
   // Canvas描画にフォールバックします。
   // ============================================================
-  const IMG_ENABLED = false; // true にするとファイルを読み込む
+  const IMG_ENABLED = true;  // SVGモック画像を使用（実画像差し替え時は .png に変更）
   const ASSET_PATH  = '../images/game/';
   const IMG = {};  // { dragon, gemGold, gemRuby, gemEmerald, bg }
 
   function loadImages(cb) {
     if (!IMG_ENABLED) { cb(); return; }
     const entries = [
-      ['dragon',     'dragon.png'],
-      ['gemGold',    'gem_gold.png'],
-      ['gemRuby',    'gem_ruby.png'],
-      ['gemEmerald', 'gem_emerald.png'],
-      ['bg',         'bg.png'],
+      ['dragon',     'dragon.svg'],
+      ['gemGold',    'gem_gold.svg'],
+      ['gemRuby',    'gem_ruby.svg'],
+      ['gemEmerald', 'gem_emerald.svg'],
+      ['bg',         'bg.svg'],
     ];
     let pending = entries.length;
     entries.forEach(([key, file]) => {
@@ -274,6 +274,16 @@
 
   // --- Draw dragon ---
   function drawDragon(x, y) {
+    // 画像が読み込み済みなら描画してリターン
+    if (IMG.dragon) {
+      const s = 80;
+      ctx.save();
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(IMG.dragon, x - s / 2, y - s / 2, s, s);
+      ctx.restore();
+      return;
+    }
     const cx = x, cy = y;
     // Wings (back)
     ctx.save();
@@ -345,6 +355,19 @@
   // --- Draw gem ---
   function drawGem(gem) {
     const { x, y, type, rot } = gem;
+    // 画像が読み込み済みなら描画してリターン
+    const imgKey = type.label === 'gold' ? 'gemGold'
+                 : type.label === 'ruby' ? 'gemRuby' : 'gemEmerald';
+    if (IMG[imgKey]) {
+      const s = 40;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(IMG[imgKey], -s / 2, -s / 2, s, s);
+      ctx.restore();
+      return;
+    }
     const s = GEM_SIZE;
     ctx.save();
     ctx.translate(x, y);
@@ -422,7 +445,23 @@
 
   // --- Draw background ---
   function drawBG(t) {
-    // Deep space gradient
+    // 背景画像が読み込み済みなら使用（星は常に上書き描画）
+    if (IMG.bg) {
+      ctx.drawImage(IMG.bg, 0, 0, W, H);
+      // 星のアニメーションはキャンバス描画で重ねる
+      for (const s of bgStars) {
+        s.tw += 0.018;
+        const a = s.a * (0.5 + 0.5 * Math.sin(s.tw));
+        ctx.globalAlpha = a;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      return;
+    }
+    // Deep space gradient (fallback)
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0,   '#07091e');
     grad.addColorStop(0.5, '#0a0e2a');
