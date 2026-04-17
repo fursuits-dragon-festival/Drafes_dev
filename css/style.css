@@ -383,15 +383,20 @@ body::after {
 }
 
 /*
- * hd1/hd2/hd3 は全て .hero-promo (position:relative) を基準に配置。
- * px固定オフセットで画面サイズに関わらず常に一定の重なりを維持。
- * 三角配置: hd1=左下 / hd2=右下 / hd3=右上（キャッチコピー帯に軽く被る）
+ * キャラクター配置 — 3体の基準要素・役割を分離
+ *
+ *  hd1 … .hero-promo基準  唯一のoverlap。プロモ左下に軽く被る。z-index:4（最前面）
+ *  hd2 … .hero-inner基準  非overlap。タイトル右上エリア。縦=上層。z-index:3
+ *  hd3 … .hero-inner基準  非overlap。タイトル左エリア。縦=上層・横=左。z-index:2
+ *
+ *  ▸ hd2/hd3 は top を固定px にすることでプロモ画像（下方）と縦軸が絶対に交差しない
+ *  ▸ hd1 の bottom:0 でキャラ下端 = プロモ下ライン（制約を構造で保証）
  */
 
-/* hd1: 左下コーナー — プロモ画像の左端に重なる */
+/* hd1: hero-promo基準 — プロモ左下角に重なる（唯一のoverlapキャラ） */
 .hd1 {
   width:140px;
-  left:-40px; bottom:-20px;
+  left:-30px; bottom:0;
   z-index:4;
   animation:fd1 7s ease-in-out infinite;
   filter:
@@ -399,26 +404,26 @@ body::after {
     drop-shadow(0 0 22px rgba(255,179,0,.26));
 }
 
-/* hd2: 右下コーナー — hd1と対称、プロモ画像の右端に重なる */
+/* hd2: hero-inner基準 — タイトル右上エリア（プロモと縦軸が交差しない） */
 .hd2 {
-  width:130px;
-  right:-40px; bottom:-20px;
-  z-index:4;
+  width:122px;
+  right:-20px; top:14px;
+  z-index:3;
   animation:fd2 9s ease-in-out infinite;
   filter:
     drop-shadow(0 8px 24px rgba(21,214,152,.46))
     drop-shadow(0 4px 12px rgba(0,0,0,.30));
 }
 
-/* hd3: 右上コーナー — キャッチコピーに軽く被り奥行きを出す中間レイヤー */
+/* hd3: hero-inner基準 — タイトル左エリア・hd2より少し下（縦横とも分散） */
 .hd3 {
-  width:118px;
-  right:-28px; top:-38px;
+  width:108px;
+  left:-18px; top:56px;
   z-index:2;
   opacity:.90;
   animation:fd3 8s ease-in-out infinite;
   filter:
-    drop-shadow(0 4px 14px rgba(0,0,0,.22))
+    drop-shadow(0 4px 14px rgba(0,0,0,.20))
     drop-shadow(0 0 18px rgba(200,120,255,.26));
 }
 @keyframes fd1 { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-22px) rotate(3deg)} }
@@ -1400,18 +1405,18 @@ section {
   .nav-list { display:none; }
   .nav-x    { display:none; }
   .nav-hamburger { display:flex; }
-  /* タブレット幅: 三角配置を維持しつつサイズ縮小 */
-  .hd1 { width:108px; left:-28px; bottom:-14px; }
-  .hd2 { width:100px; right:-28px; bottom:-14px; }
-  .hd3 { width:88px;  right:-18px; top:-24px; }
+  /* タブレット幅: 各基準要素を維持しつつサイズ縮小 */
+  .hd1 { width:106px; left:-20px; bottom:0; }
+  .hd2 { width:96px;  right:-12px; top:12px; }
+  .hd3 { width:84px;  left:-12px;  top:44px; }
 }
 @media(max-width:640px) {
   section { padding:52px 16px; }
   .hero   { padding:34px 16px 52px; }
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
-  /* モバイル: hd1のみ左下スモール表示、hd2/hd3は非表示（スペース確保） */
-  .hd1 { width:64px; left:-10px; bottom:-8px; opacity:.50; }
+  /* モバイル: hd1のみ（プロモ左下角）、hd2/hd3は非表示 */
+  .hd1 { width:62px; left:-8px; bottom:0; opacity:.50; }
   .hd2 { display:none; }
   .hd3 { display:none; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }

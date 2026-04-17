@@ -111,6 +111,14 @@
     <div class="cloud c3" aria-hidden="true"></div>
 
     <div class="hero-inner">
+      <!--
+        hd2: hero-inner基準 / タイトル右上エリア（プロモ非overlap）
+        hd3: hero-inner基準 / タイトル左エリア（プロモ非overlap）
+        ※ position:absolute で配置されるためレイアウトに影響しない
+      -->
+      <img src="images/dragon-cool.svg"     class="hero-dragon hd2" alt="" aria-hidden="true">
+      <img src="images/dragon-friendly.svg" class="hero-dragon hd3" alt="" aria-hidden="true">
+
       <!-- タイトル -->
       <div class="hero-en-title">Dragon Festival</div>
       <div class="hero-title-wrap">
@@ -121,14 +129,10 @@
       <!-- キャッチコピー -->
       <p class="hero-catch">竜族系着ぐるみが一堂に集う、のんびりまったり交流イベント</p>
 
-      <!-- プロモーションイラスト — 画面の主役 / キャラ3体をこのコンテナを基準に三角配置 -->
+      <!-- プロモーションイラスト — 画面の主役 -->
       <div class="hero-promo">
-        <!-- hd1: 左下コーナー（プロモ左端に重なる） -->
-        <img src="images/dragon-cute.svg"     class="hero-dragon hd1" alt="" aria-hidden="true">
-        <!-- hd2: 右下コーナー（hd1と対称） -->
-        <img src="images/dragon-cool.svg"     class="hero-dragon hd2" alt="" aria-hidden="true">
-        <!-- hd3: 右上コーナー（キャッチコピー帯に軽く被る） -->
-        <img src="images/dragon-friendly.svg" class="hero-dragon hd3" alt="" aria-hidden="true">
+        <!-- hd1のみ: hero-promo基準 / プロモ左下に軽く重なる（唯一のoverlap） -->
+        <img src="images/dragon-cute.svg" class="hero-dragon hd1" alt="" aria-hidden="true">
         <img src="images/promo_mock.png" alt="ドラゴンフェスティバル ～リターンズ～ プロモーションイラスト">
         <div class="hero-promo-ring"  aria-hidden="true"></div>
         <div class="hero-promo-ring2" aria-hidden="true"></div>
