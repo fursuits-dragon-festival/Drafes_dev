@@ -109,6 +109,40 @@
     };
   }
 
+  // ============================================================
+  // IMAGE ASSETS — 画像ファイルで差し替える場合はこちらを編集
+  // Place files in:  ../images/game/
+  //
+  //   dragon.png  … ドラゴンキャラクター (推奨サイズ: 80×80px)
+  //   gem_gold.png    gem_ruby.png    gem_emerald.png
+  //               … 各宝石アイコン (推奨サイズ: 40×40px)
+  //   bg.png      … ゲーム背景 (360×580px)
+  //
+  // ファイルが存在しない（またはIMG_ENABLED=false）の場合は
+  // Canvas描画にフォールバックします。
+  // ============================================================
+  const IMG_ENABLED = false; // true にするとファイルを読み込む
+  const ASSET_PATH  = '../images/game/';
+  const IMG = {};  // { dragon, gemGold, gemRuby, gemEmerald, bg }
+
+  function loadImages(cb) {
+    if (!IMG_ENABLED) { cb(); return; }
+    const entries = [
+      ['dragon',     'dragon.png'],
+      ['gemGold',    'gem_gold.png'],
+      ['gemRuby',    'gem_ruby.png'],
+      ['gemEmerald', 'gem_emerald.png'],
+      ['bg',         'bg.png'],
+    ];
+    let pending = entries.length;
+    entries.forEach(([key, file]) => {
+      const img = new Image();
+      img.onload  = () => { IMG[key] = img; if (--pending === 0) cb(); };
+      img.onerror = () => {           if (--pending === 0) cb(); }; // fallback to canvas
+      img.src = ASSET_PATH + file;
+    });
+  }
+
   // --- Constants ---
   const GEM_TYPES = [
     { color: '#FFD040', glow: '#FFB300', pts: 1, label: 'gold'    },
@@ -587,8 +621,10 @@
     drawHUD();
   }
 
-  // Start render loop
-  requestAnimationFrame(ts => { lastTime = ts; loop(ts); });
+  // Start render loop (after optional image preload)
+  loadImages(() => {
+    requestAnimationFrame(ts => { lastTime = ts; loop(ts); });
+  });
 
 })();
 </script>

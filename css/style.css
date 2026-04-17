@@ -483,6 +483,21 @@ body::after {
   border:1px solid rgba(255,202,40,.28);
 }
 
+/* Hero catchphrase */
+.hero-catch {
+  font-family:var(--font-body);
+  font-size:clamp(.88rem,2.0vw,1.08rem);
+  color:rgba(255,242,200,.92);
+  text-shadow:0 1px 10px rgba(0,0,0,.52), 0 0 28px rgba(255,179,0,.26);
+  letter-spacing:.06em;
+  margin-bottom:26px;
+  background:rgba(12,14,46,.28);
+  display:inline-block;
+  padding:7px 24px;
+  border-radius:var(--r-full);
+  border:1px solid rgba(255,202,40,.20);
+}
+
 .hero-info-row {
   display:flex; flex-wrap:wrap; gap:8px;
   justify-content:center; margin-bottom:26px;
@@ -625,7 +640,7 @@ section {
   margin-bottom:8px;
   letter-spacing:.03em;
 }
-.sec-head p { color:var(--text-muted); font-size:.92rem; }
+.sec-head p { color:var(--text-muted); font-size:.92rem; text-shadow:0 1px 6px rgba(0,0,0,.55); }
 
 /* レインボーデコレーションライン（下） */
 .sec-head::after {
@@ -858,7 +873,7 @@ section {
   margin-bottom:6px; letter-spacing:.04em;
   word-break:keep-all; overflow-wrap:break-word;
 }
-.page-hero-sub { color:var(--text-muted); font-size:.92rem; }
+.page-hero-sub { color:rgba(255,255,255,.84); font-size:.92rem; text-shadow:0 1px 8px rgba(0,0,0,.60); }
 
 .page-title-wrap {
   display:inline-flex; align-items:center; justify-content:center;
@@ -1328,4 +1343,6 @@ section {
   /* モバイルで最低2列を確保 */
   .info-cards-grid { grid-template-columns:repeat(2,1fr); }
   .nav-cards        { grid-template-columns:repeat(2,1fr); }
+  /* 奇数枚最終カード: 2列グリッドで孤立しないよう全幅に */
+  .info-cards-grid > .info-card:last-child:nth-child(odd) { grid-column:span 2; }
 }
