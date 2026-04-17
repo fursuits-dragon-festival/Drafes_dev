@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 220">
+  <!-- Shadow -->
+  <ellipse cx="90" cy="212" rx="52" ry="8" fill="rgba(0,0,0,0.07)"/>
+
+  <!-- Tail -->
+  <path d="M 118 162 C 152 168 162 150 155 133 C 148 118 130 115 134 103" stroke="#FF85A1" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <!-- Heart tail tip -->
+  <path d="M 134,98 C 133,91 124,91 124,98 C 124,105 134,112 134,112 C 134,112 144,105 144,98 C 144,91 135,91 134,98 Z" fill="#E8306A"/>
+
+  <!-- Back Wings -->
+  <path d="M 55 106 C 16 80 12 36 34 14 C 54 -5 78 26 73 68 Z" fill="#FFBBD0" opacity="0.9"/>
+  <path d="M 125 106 C 164 80 168 36 146 14 C 126 -5 102 26 107 68 Z" fill="#FFBBD0" opacity="0.9"/>
+  <!-- Wing membrane veins -->
+  <path d="M 73,68 C 57,50 42,28 36,16" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M 73,68 C 54,55 38,36 31,21" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M 107,68 C 123,50 138,28 144,16" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M 107,68 C 126,55 142,36 149,21" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.7"/>
+
+  <!-- Body -->
+  <ellipse cx="90" cy="152" rx="48" ry="43" fill="#FFA8C0"/>
+  <!-- Belly -->
+  <ellipse cx="90" cy="158" rx="30" ry="28" fill="#FFD5E2"/>
+
+  <!-- Left arm -->
+  <path d="M 44 143 C 30 150 24 162 34 170" stroke="#FFA8C0" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="34" cy="171" r="12" fill="#FFA8C0"/>
+  <!-- Left claws -->
+  <path d="M 25,178 L 20,186" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 32,180 L 29,189" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 39,179 L 38,188" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Right arm -->
+  <path d="M 136 143 C 150 150 156 162 146 170" stroke="#FFA8C0" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="146" cy="171" r="12" fill="#FFA8C0"/>
+  <!-- Right claws -->
+  <path d="M 155,178 L 160,186" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 148,180 L 151,189" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 141,179 L 142,188" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Legs -->
+  <ellipse cx="68" cy="190" rx="18" ry="14" fill="#FFA8C0"/>
+  <ellipse cx="112" cy="190" rx="18" ry="14" fill="#FFA8C0"/>
+  <!-- Foot claws -->
+  <path d="M 56,196 L 51,205" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 63,199 L 60,208" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 71,200 L 70,209" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 124,196 L 129,205" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 117,199 L 120,208" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 109,200 L 110,209" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Head -->
+  <circle cx="90" cy="82" r="40" fill="#FFBDCC"/>
+  <!-- Head top fluff -->
+  <circle cx="80" cy="46" r="10" fill="#FFBDCC"/>
+  <circle cx="90" cy="43" r="11" fill="#FFBDCC"/>
+  <circle cx="100" cy="46" r="10" fill="#FFBDCC"/>
+
+  <!-- Horns -->
+  <path d="M 68,54 L 58,24 L 76,50" fill="#FF85A1"/>
+  <path d="M 112,54 L 122,24 L 104,50" fill="#FF85A1"/>
+  <!-- Horn highlights -->
+  <path d="M 62,47 L 60,30" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 118,47 L 120,30" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Ears -->
+  <ellipse cx="55" cy="70" rx="11" ry="17" fill="#FFBDCC" transform="rotate(-25,55,70)"/>
+  <ellipse cx="125" cy="70" rx="11" ry="17" fill="#FFBDCC" transform="rotate(25,125,70)"/>
+  <ellipse cx="55" cy="72" rx="6.5" ry="11" fill="#FF9AB5" transform="rotate(-25,55,72)"/>
+  <ellipse cx="125" cy="72" rx="6.5" ry="11" fill="#FF9AB5" transform="rotate(25,125,72)"/>
+
+  <!-- Eyes white -->
+  <circle cx="75" cy="81" r="14" fill="white"/>
+  <circle cx="105" cy="81" r="14" fill="white"/>
+  <!-- Iris -->
+  <circle cx="76" cy="82" r="10" fill="#6DC4E8"/>
+  <circle cx="106" cy="82" r="10" fill="#6DC4E8"/>
+  <!-- Pupil -->
+  <circle cx="77" cy="83" r="6.5" fill="#1a1a2e"/>
+  <circle cx="107" cy="83" r="6.5" fill="#1a1a2e"/>
+  <!-- Eye shine -->
+  <circle cx="74" cy="79" r="3.5" fill="white"/>
+  <circle cx="104" cy="79" r="3.5" fill="white"/>
+  <circle cx="78.5" cy="85" r="1.5" fill="rgba(255,255,255,0.7)"/>
+  <circle cx="108.5" cy="85" r="1.5" fill="rgba(255,255,255,0.7)"/>
+
+  <!-- Eyelashes top -->
+  <path d="M 67,72 C 66,67 68,65 70,67" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 72,70 C 72,65 74,64 75,66" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 77,69 C 78,64 80,64 80,67" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 97,69 C 98,64 100,64 100,67" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 102,70 C 102,65 104,64 105,66" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 107,72 C 108,67 110,65 112,67" stroke="#E8306A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Blush -->
+  <circle cx="61" cy="91" r="10" fill="#FF9AB5" opacity="0.4"/>
+  <circle cx="119" cy="91" r="10" fill="#FF9AB5" opacity="0.4"/>
+
+  <!-- Nose -->
+  <ellipse cx="90" cy="93" rx="8" ry="5.5" fill="#FF7A9A"/>
+  <circle cx="86.5" cy="91.5" r="2.2" fill="rgba(0,0,0,0.18)"/>
+  <circle cx="93.5" cy="91.5" r="2.2" fill="rgba(0,0,0,0.18)"/>
+
+  <!-- Mouth / Happy smile -->
+  <path d="M 78,102 Q 90,114 102,102" stroke="#D4245C" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <!-- Little teeth -->
+  <rect x="83" y="102" width="6" height="5" rx="1" fill="white"/>
+  <rect x="91" y="102" width="6" height="5" rx="1" fill="white"/>
+
+  <!-- Sparkle decorations -->
+  <path d="M 152,58 L 154,50 L 156,58 L 164,60 L 156,62 L 154,70 L 152,62 L 144,60 Z" fill="#FFD700" opacity="0.85"/>
+  <path d="M 20,80 L 21.5,74 L 23,80 L 29,81.5 L 23,83 L 21.5,89 L 20,83 L 14,81.5 Z" fill="#FFD700" opacity="0.7"/>
+</svg>
