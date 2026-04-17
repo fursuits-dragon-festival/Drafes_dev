@@ -374,11 +374,40 @@ body::after {
 .sparkles-bg { position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0; }
 
 /* Dragon characters */
-.hero-dragon { position:absolute; pointer-events:none; z-index:3; }
-.hd1 { width:clamp(100px,11vw,170px); bottom:6%;  left:0%;  animation:fd1 7s ease-in-out infinite; }
-.hd2 { width:clamp(80px,9vw,140px);  top:10%;    right:2%; animation:fd2 9s ease-in-out infinite;
-       filter:drop-shadow(0 0 16px rgba(21,214,152,.42)); }
-.hd3 { width:clamp(90px,10vw,158px); bottom:7%;  right:1%; animation:fd3 8s ease-in-out infinite; }
+.hero-dragon { position:absolute; pointer-events:none; }
+
+/* hd1: 手前レイヤー — プロモ画像の左下に重なり、最前面 */
+.hd1 {
+  width:clamp(120px,14vw,200px);
+  bottom:6%; left:-1%;
+  z-index:4;
+  animation:fd1 7s ease-in-out infinite;
+  filter:
+    drop-shadow(0 6px 18px rgba(0,0,0,.32))
+    drop-shadow(0 0 22px rgba(255,179,0,.26));
+}
+
+/* hd2: 最前面 — タイトル右上に被さる主役キャラ */
+.hd2 {
+  width:clamp(100px,13vw,188px);
+  top:2%; right:-1%;
+  z-index:4;
+  animation:fd2 9s ease-in-out infinite;
+  filter:
+    drop-shadow(0 8px 24px rgba(21,214,152,.46))
+    drop-shadow(0 4px 12px rgba(0,0,0,.30));
+}
+
+/* hd3: 奥レイヤー — プロモ画像の後ろからのぞく */
+.hd3 {
+  width:clamp(100px,12vw,172px);
+  bottom:12%; right:-2%;
+  z-index:1;   /* hero-inner (z-index:2) の後ろに入る */
+  animation:fd3 8s ease-in-out infinite;
+  filter:
+    drop-shadow(0 4px 14px rgba(0,0,0,.22))
+    drop-shadow(0 0 18px rgba(200,120,255,.22));
+}
 @keyframes fd1 { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-22px) rotate(3deg)} }
 @keyframes fd2 { 0%,100%{transform:translateY(0) rotate(5deg)}  50%{transform:translateY(-16px) rotate(-5deg)} }
 @keyframes fd3 { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-26px) rotate(2deg)} }
@@ -436,7 +465,8 @@ body::after {
   font-size:clamp(.88rem,2.3vw,1.58rem);
   color:rgba(255,255,255,.94);
   text-shadow:0 2px 8px rgba(0,0,0,.42),0 0 22px rgba(255,179,0,.22);
-  letter-spacing:.06em; line-height:1.3; margin-bottom:16px;
+  letter-spacing:.06em; line-height:1.4; margin-bottom:16px;
+  cursor:default; user-select:none;
 }
 
 /* プロモーションイラスト — 画面の主役 */
@@ -471,6 +501,17 @@ body::after {
   to   { box-shadow:0 0 44px rgba(255,179,0,.72); opacity:1;   }
 }
 
+/* リターンズ ── インライン版（タイトルと同行） */
+.hero-returns-inline {
+  font-family:var(--font-sub); font-style:italic;
+  font-size:.64em;
+  color:rgba(255,230,120,.94);
+  text-shadow:0 0 20px rgba(255,179,0,.72), 0 1px 4px rgba(0,0,0,.50);
+  letter-spacing:.18em;
+  white-space:nowrap;
+}
+
+/* 旧スタンドアローン版（後方互換のため残す） */
 .hero-returns {
   display:inline-block;
   font-family:var(--font-sub); font-style:italic;
@@ -872,6 +913,7 @@ section {
   text-shadow:0 0 30px rgba(255,179,0,.52),0 2px 6px rgba(0,0,0,.32);
   margin-bottom:6px; letter-spacing:.04em;
   word-break:keep-all; overflow-wrap:break-word;
+  cursor:default; user-select:none;
 }
 .page-hero-sub { color:rgba(255,255,255,.84); font-size:.92rem; text-shadow:0 1px 8px rgba(0,0,0,.60); }
 
@@ -1320,7 +1362,8 @@ section {
   .nav-list { display:none; }
   .nav-x    { display:none; }
   .nav-hamburger { display:flex; }
-  .hd2 { display:none; }
+  /* タブレット幅では hd2 を小さく控えめに */
+  .hd2 { width:clamp(70px,9vw,110px); top:3%; right:0%; }
 }
 @media(max-width:640px) {
   section { padding:52px 16px; }
@@ -1328,7 +1371,9 @@ section {
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
   .hero-info-row .hero-badge-item { font-size:.76rem;padding:6px 12px; }
-  .hd1,.hd3 { bottom:2%;opacity:.38;width:70px; }
+  .hd1 { bottom:1%; left:-2%; opacity:.42; width:72px; }
+  .hd2 { display:none; }
+  .hd3 { bottom:1%; right:-2%; opacity:.42; width:64px; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }
   .about-teaser-card { padding:22px 16px; }
   .footer-top { flex-direction:column;gap:28px; }

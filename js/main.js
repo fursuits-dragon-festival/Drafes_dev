@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupFireworks();
   setupMagicParticles();
   setupPhotoModal();
+  setupTitleHoverFX();
 });
 
 /* ---- Navigation ---- */
@@ -299,6 +300,70 @@ function setupMagicParticles() {
     else if (t === 3) spawnOrb();
     else              spawnDiamond();
   }, 480);
+}
+
+/* ---- Title Hover Sparkle FX ---- */
+function setupTitleHoverFX() {
+  // 対象: トップページh1 + 各サブページのpage-hero-title
+  const targets = document.querySelectorAll('.page-hero-title, h1.hero-title');
+  if (!targets.length) return;
+
+  const colors = [
+    '#FFD040','#FFE880',   // gold
+    '#80C8FF','#B8E0FF',   // sky
+    '#C880FF','#E0B8FF',   // purple
+    '#50E8A8',              // emerald
+    '#FFFFFF',              // white
+  ];
+
+  let lastSpawn = 0;
+
+  targets.forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastSpawn < 72) return; // ~14粒/秒に制限
+      lastSpawn = now;
+
+      // カーソル座標を中心に 2〜3 粒生成
+      const count = 2 + Math.floor(Math.random() * 2);
+      for (let i = 0; i < count; i++) {
+        const size  = 2.5 + Math.random() * 3.5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const dot   = document.createElement('div');
+        const ox    = (Math.random() - .5) * 28; // カーソル周辺にばらける
+        const oy    = (Math.random() - .5) * 14;
+
+        dot.style.cssText = `
+          position:fixed;
+          left:${e.clientX + ox}px;
+          top:${e.clientY + oy}px;
+          width:${size}px; height:${size}px;
+          border-radius:50%;
+          background:${color};
+          box-shadow:0 0 ${size * 2.2}px ${color}, 0 0 ${size * 4}px ${color}55;
+          pointer-events:none;
+          z-index:9999;
+          transform:translate(-50%,-50%);
+        `;
+        document.body.appendChild(dot);
+
+        const drift = (Math.random() - .5) * 22;
+        const rise  = 18 + Math.random() * 28;
+        const dur   = 480 + Math.random() * 360;
+
+        dot.animate([
+          { transform:`translate(-50%,-50%) scale(1.1)`, opacity:.88 },
+          { transform:`translate(calc(-50% + ${drift}px), calc(-50% - ${rise * .5}px)) scale(.7)`,
+            opacity:.55, offset:.5 },
+          { transform:`translate(calc(-50% + ${drift * 1.4}px), calc(-50% - ${rise}px)) scale(0)`,
+            opacity:0 }
+        ], { duration: dur, easing:'ease-out', fill:'forwards' })
+        .finished.then(() => dot.remove());
+      }
+    });
+
+    // マウスが離れたとき残留粒子は自然に消えるため追加処理不要
+  });
 }
 
 /* ---- Photo Modal ---- */
