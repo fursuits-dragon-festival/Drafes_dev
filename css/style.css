@@ -376,10 +376,10 @@ body::after {
 /* Dragon characters */
 .hero-dragon { position:absolute; pointer-events:none; }
 
-/* hd1: 手前レイヤー — プロモ画像の左端に軽く重なる */
+/* hd1: hero-promo基準 — プロモ画像の左端に構造的に重なる */
 .hd1 {
-  width:clamp(120px,14vw,200px);
-  bottom:22%; left:3%;
+  width:140px;
+  left:-35px; bottom:-15px;
   z-index:4;
   animation:fd1 7s ease-in-out infinite;
   filter:
@@ -387,10 +387,10 @@ body::after {
     drop-shadow(0 0 22px rgba(255,179,0,.26));
 }
 
-/* hd2: 最前面 — タイトル右端に軽く重なる（可読性維持） */
+/* hd2: hero-title-wrap基準 — タイトル右端に構造的に重なる */
 .hd2 {
-  width:clamp(100px,13vw,188px);
-  top:26%; right:2%;
+  width:130px;
+  right:-20px; top:-10px;
   z-index:4;
   animation:fd2 9s ease-in-out infinite;
   filter:
@@ -429,6 +429,7 @@ body::after {
 }
 
 .hero-title-wrap {
+  position:relative;            /* hd2 の配置基準 */
   display:flex; align-items:center; gap:12px;
   justify-content:center; flex-wrap:wrap;
   margin-bottom:16px;
@@ -848,7 +849,7 @@ section {
 /* ================================================================
    ACCESS
    ================================================================ */
-.access-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+.access-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch; }
 @media(max-width:760px) { .access-grid { grid-template-columns:1fr; } }
 
 .access-card {
@@ -885,7 +886,7 @@ section {
    NAV CARDS
    ================================================================ */
 .nav-cards {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
 }
 .nav-card {
   display:block; padding:28px 20px; text-align:center;
@@ -1387,8 +1388,9 @@ section {
   .nav-list { display:none; }
   .nav-x    { display:none; }
   .nav-hamburger { display:flex; }
-  /* タブレット幅: hd2をタイトル帯に合わせて縮小, hd3は非表示 */
-  .hd2 { width:clamp(70px,9vw,110px); top:28%; right:1%; }
+  /* タブレット幅: 要素基準を維持しつつサイズ縮小, hd3は非表示 */
+  .hd1 { width:108px; left:-22px; bottom:-10px; }
+  .hd2 { width:105px; right:-15px; top:-8px; }
   .hd3 { display:none; }
 }
 @media(max-width:640px) {
@@ -1396,9 +1398,8 @@ section {
   .hero   { padding:34px 16px 52px; }
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
-  .hero-info-row .hero-badge-item { font-size:.76rem;padding:6px 12px; }
-  /* モバイル: hd1のみ小さく端に退避、hd2/hd3は非表示 */
-  .hd1 { bottom:2%; left:0%; opacity:.38; width:68px; }
+  /* モバイル: hd1はプロモ角にスモール表示、hd2/hd3は非表示 */
+  .hd1 { width:68px; left:-12px; bottom:-6px; opacity:.45; }
   .hd2 { display:none; }
   .hd3 { display:none; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }
