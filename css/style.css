@@ -6,7 +6,7 @@
      3位: Proposal Three (装飾は最小限)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=RocknRoll+One&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
 
 /* ================================================================
    CSS Variables — Proposal One カラーパレット
@@ -465,7 +465,7 @@ body::after {
 }
 
 .hero-en-title {
-  font-family:var(--font-title);
+  font-family:'Cinzel Decorative','RocknRoll One',sans-serif;
   font-size:clamp(2.0rem,6.4vw,4.8rem);
   font-weight:700;
   /* グラデーションを横方向に広げてシマー流れを有効化 */
