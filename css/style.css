@@ -6,7 +6,7 @@
      3位: Proposal Three (装飾は最小限)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=RocknRoll+One&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
 
 /* ================================================================
    CSS Variables — Proposal One カラーパレット
@@ -49,9 +49,9 @@
   --text-muted:   rgba(255,255,255,0.60);
 
   /* Typography */
-  --font-title:   'Cinzel Decorative','Cinzel',serif;
+  --font-title:   'RocknRoll One','Noto Sans JP',sans-serif;
   --font-heading: 'RocknRoll One','Noto Sans JP',sans-serif;
-  --font-sub:     'Cinzel',serif;
+  --font-sub:     'Noto Sans JP',sans-serif;
   --font-body:    'Noto Sans JP',sans-serif;
 
   /* Layout */
