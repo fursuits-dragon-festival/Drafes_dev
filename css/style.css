@@ -938,8 +938,8 @@ section {
    PAGE HERO (sub-pages) — Proposal Two のページ識別
    ================================================================ */
 .page-hero {
-  min-height:calc(var(--nav-h) + 180px);
-  padding:calc(var(--nav-h) + 24px) 20px 24px;
+  min-height:220px;
+  padding:24px 20px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; position:relative; overflow:hidden; z-index:1;
 }
