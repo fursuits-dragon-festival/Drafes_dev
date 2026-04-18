@@ -454,12 +454,13 @@ body::after {
 
 .hero-edition {
   display:inline-block; flex-shrink:0;
-  font-family:var(--font-sub); font-size:.76rem; font-weight:700;
-  letter-spacing:.22em; color:#b8dcff;
-  border:1px solid rgba(160,210,255,.60);
+  font-family:var(--font-sub); font-size:.82rem; font-weight:900;
+  letter-spacing:.22em; color:#e8f4ff;
+  border:1px solid rgba(180,220,255,.80);
   padding:5px 18px; border-radius:var(--r-full);
-  background:rgba(40,90,180,.35);
-  box-shadow:0 0 16px rgba(100,170,255,.30);
+  background:rgba(40,90,180,.55);
+  box-shadow:0 0 16px rgba(100,170,255,.40),0 2px 8px rgba(0,0,0,.40);
+  text-shadow:0 1px 6px rgba(0,0,0,.60),0 0 18px rgba(160,210,255,.70);
   white-space:nowrap; line-height:1;
 }
 
@@ -580,6 +581,10 @@ body::after {
   padding:7px 24px;
   border-radius:var(--r-full);
   border:1px solid rgba(255,202,40,.20);
+  max-width:min(520px,92vw);
+  white-space:normal;
+  word-break:keep-all;
+  overflow-wrap:break-word;
 }
 
 .hero-info-row {
@@ -895,6 +900,7 @@ section {
   border-radius:var(--r-lg); padding:28px;
   box-shadow:var(--glass-shadow); backdrop-filter:blur(14px);
   text-align:center;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
 .map-card h3 { font-family:var(--font-heading);color:var(--sky-deep);margin-bottom:8px;font-size:1.05rem; }
 .map-card p  { font-size:.88rem;color:var(--text-sub);margin-bottom:18px; }
