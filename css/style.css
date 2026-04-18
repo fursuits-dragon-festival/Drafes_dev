@@ -407,7 +407,7 @@ body::after {
 /* hd2: hero-inner基準 — タイトル右上エリア（プロモと縦軸が交差しない） */
 .hd2 {
   width:122px;
-  right:-20px; top:14px;
+  right:-44px; top:14px;
   z-index:3;
   animation:fd2 9s ease-in-out infinite;
   filter:
@@ -1295,7 +1295,7 @@ section {
   box-shadow:var(--glass-shadow),0 0 28px rgba(255,179,0,.22);
   border:2px solid rgba(255,202,40,.42);
 }
-.pf-photo img { width:100%; height:auto; display:block; }
+.pf-photo img { width:100%; height:auto; display:block; cursor:zoom-in; }
 .pf-1 { width:clamp(140px,36vw,220px); animation:pfbob1 6s ease-in-out infinite; }
 .pf-2 { width:clamp(160px,42vw,260px); animation:pfbob2 7s ease-in-out infinite .8s; }
 .pf-3 { width:clamp(130px,33vw,200px); animation:pfbob3 8s ease-in-out infinite 1.6s; }
@@ -1319,7 +1319,7 @@ section {
   transition:transform .3s var(--ease), box-shadow .3s var(--ease);
 }
 .ap-photo:nth-child(2) { margin-bottom:12px; }
-.ap-photo img { width:100%; height:auto; display:block; }
+.ap-photo img { width:100%; height:auto; display:block; cursor:zoom-in; }
 .ap-photo:hover {
   transform:translateY(-4px);
   box-shadow:var(--glass-shadow),0 0 34px rgba(255,179,0,.32);
@@ -1415,10 +1415,10 @@ section {
   .hero   { padding:34px 16px 52px; }
   .hero-cta { flex-direction:column;align-items:center; }
   .hero-cta .btn { width:100%;max-width:300px;justify-content:center; }
-  /* モバイル: hd1のみ（プロモ左下角）、hd2/hd3は非表示 */
-  .hd1 { width:62px; left:-8px; bottom:0; opacity:.50; }
-  .hd2 { display:none; }
-  .hd3 { display:none; }
+  /* モバイル: 全キャラ表示。サイズ縮小＋端配置でテキスト可読性を確保 */
+  .hd1 { width:74px; left:-8px; bottom:0; }
+  .hd2 { width:60px; right:-22px; top:6px; }
+  .hd3 { width:56px; left:-20px; top:50px; }
   .cbox,.register-box,.contact-box { padding:22px 16px; }
   .about-teaser-card { padding:22px 16px; }
   .footer-top { flex-direction:column;gap:28px; }

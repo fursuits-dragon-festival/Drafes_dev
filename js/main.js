@@ -368,14 +368,40 @@ function setupTitleHoverFX() {
 
 /* ---- Photo Modal ---- */
 function setupPhotoModal() {
-  const modal = document.getElementById('photo-modal');
-  if (!modal) return;
+  const imgs = [
+    ...document.querySelectorAll('.history-photo img'),
+    ...document.querySelectorAll('.ap-photo img'),
+    ...document.querySelectorAll('.pf-photo img'),
+  ];
+  if (!imgs.length) return;
+
+  // 既存モーダルを使うか、なければ動的生成
+  let modal = document.getElementById('photo-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'photo-modal';
+    modal.className = 'photo-modal';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = `
+      <div class="photo-modal-bg"></div>
+      <div class="photo-modal-inner">
+        <img id="photo-modal-img" src="" alt="">
+        <button class="photo-modal-close" aria-label="閉じる">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>`;
+    document.body.appendChild(modal);
+  }
 
   const modalImg = document.getElementById('photo-modal-img');
   const closeBtn = modal.querySelector('.photo-modal-close');
   const bg       = modal.querySelector('.photo-modal-bg');
 
-  document.querySelectorAll('.history-photo img').forEach(img => {
+  imgs.forEach(img => {
     img.addEventListener('click', () => {
       modalImg.src = img.src;
       modalImg.alt = img.alt;
