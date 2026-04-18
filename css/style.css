@@ -1358,9 +1358,10 @@ section {
 .footer-x:hover { background:rgba(255,179,0,.16);border-color:var(--gold);color:var(--gold); }
 .footer-nav { display:flex;gap:38px;flex-wrap:wrap; }
 .fn-group h4 {
-  font-family:var(--font-sub);font-size:.70rem;
-  text-transform:uppercase;letter-spacing:.14em;color:var(--gold);
+  font-family:var(--font-heading);font-size:.92rem;font-weight:700;
+  letter-spacing:.04em;color:var(--gold);
   margin-bottom:10px;
+  text-shadow:0 0 14px rgba(255,179,0,.36);
 }
 .fn-group ul { display:flex;flex-direction:column;gap:6px; }
 .fn-group ul li a {
