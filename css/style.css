@@ -1592,7 +1592,7 @@ section {
 .upload-status.ok  { display:block; background:rgba(21,214,152,.12); border:1px solid rgba(21,214,152,.40); color:#007A40; }
 .upload-status.err { display:block; background:rgba(217,26,77,.08);  border:1px solid rgba(217,26,77,.26);  color:var(--ruby); }
 .upload-preview-img {
-  display:none; max-width:100%; max-height:260px; margin-top:14px;
+  display:none; max-width:100%; max-height:260px; margin:14px auto 0;
   border-radius:var(--r); border:2px solid rgba(255,202,40,.46);
   object-fit:contain; pointer-events:none;
 }
