@@ -1,15 +1,12 @@
 /* ============================================================
    ドラゴンフェスティバル ～リターンズ～  Main Stylesheet v3
    優先順位:
-     1位: Proposal Two  (構造・ページ設計)
-     2位: Proposal One  (配色・明るさ・テンション)
-     3位: Proposal Three (装飾は最小限)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=RocknRoll+One&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
 
 /* ================================================================
-   CSS Variables — Proposal One カラーパレット
+   CSS Variables — カラーパレット
    ================================================================ */
 :root {
   /* Gold — メインアクセント */
@@ -76,7 +73,7 @@
 html { scroll-behavior:smooth; font-size:16px; }
 
 /* ================================================================
-   BACKGROUND — Proposal One の祭り空グラデーション
+   BACKGROUND — 祭り空グラデーション
    明るい昼間フェスティバル: 深紺 → 明るい青空 → 暖かいゴールデン午後
    ================================================================ */
 body {
@@ -139,7 +136,7 @@ body::after {
 .nav-logo:hover img { transform:scale(1.06) rotate(-2deg); }
 .nav-logo-name {
   font-family:var(--font-heading);
-  font-size:.80rem; color:var(--gold);
+  font-size:1.1rem; color:var(--gold);
   letter-spacing:.06em; white-space:nowrap;
   text-shadow:0 0 14px rgba(255,179,0,.52);
 }
@@ -310,7 +307,7 @@ body::after {
 .main { margin-top:var(--nav-h); position:relative; z-index:1; }
 
 /* ================================================================
-   HERO — キービジュアル全開（Proposal One 配色フル活用）
+   HERO — キービジュアル全開
    ================================================================ */
 .hero {
   position:relative;
@@ -337,7 +334,7 @@ body::after {
   pointer-events:none; z-index:1;
 }
 
-/* Cloud — Proposal Three の演出（控えめ） */
+/* Cloud — 演出（控えめ） */
 .cloud {
   position:absolute; background:rgba(255,255,255,.22);
   border-radius:50px; pointer-events:none; z-index:1;
@@ -687,7 +684,7 @@ body::after {
 .btn-lg { font-size:1.06rem; padding:14px 44px; }
 
 /* ================================================================
-   SECTIONS — Proposal Two の情報設計ベース
+   SECTIONS — 情報設計ベース
    ================================================================ */
 section {
   padding:76px 20px;
@@ -783,7 +780,7 @@ section {
 .info-card-val   { font-size:.98rem; font-weight:700; color:var(--text); line-height:1.4; }
 
 /* ================================================================
-   ABOUT TEASER — 2カラム（Proposal Two）
+   ABOUT TEASER — 2カラム
    ================================================================ */
 .about-teaser {
   display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center;
@@ -935,7 +932,7 @@ section {
 .nav-card p  { font-size:.82rem;color:var(--text-sub);margin:0; }
 
 /* ================================================================
-   PAGE HERO (sub-pages) — Proposal Two のページ識別
+   PAGE HERO (sub-pages) — ページ識別
    ================================================================ */
 .page-hero {
   min-height:220px;
@@ -974,7 +971,7 @@ section {
 .pd-title-r { animation:fd3 7.5s ease-in-out infinite 0.8s; }
 
 /* ================================================================
-   BREADCRUMB — Proposal Two のページ位置表示
+   BREADCRUMB — ページ位置表示
    ================================================================ */
 .breadcrumb {
   display:flex; align-items:center; gap:6px;
@@ -1195,6 +1192,35 @@ section {
 .step-list { list-style:decimal; padding-left:22px; display:flex; flex-direction:column; gap:8px; }
 .step-list li { font-size:.93rem; line-height:1.80; color:var(--text); }
 
+/* Registration flow steps */
+.reg-steps { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:14px; }
+.reg-step  { display:flex; gap:14px; align-items:flex-start; }
+.reg-step-num {
+  flex-shrink:0; width:30px; height:30px; border-radius:50%;
+  background:var(--sky-deep); color:white;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:.85rem; margin-top:2px;
+  box-shadow:0 2px 8px rgba(30,80,200,.28);
+}
+.reg-step-body { display:flex; flex-direction:column; gap:2px; }
+.reg-step-body strong { font-size:.94rem; color:var(--text); line-height:1.55; }
+.reg-step-body span   { font-size:.84rem; color:var(--text-sub); line-height:1.65; }
+.reg-step-highlight .reg-step-num { background:var(--gold-dark); box-shadow:0 2px 8px rgba(200,120,0,.30); }
+.reg-step-warn {
+  display:block; margin-top:8px;
+  padding:8px 12px;
+  background:rgba(255,242,244,.95); border-left:3px solid var(--ruby);
+  border-radius:0 var(--r) var(--r) 0;
+  font-size:.82rem; color:#8B0020; line-height:1.75;
+}
+
+/* Google account notice in register box */
+.reg-google-notice {
+  display:flex; align-items:flex-start; gap:10px;
+  background:rgba(66,133,244,.10); border-left-color:#4285F4;
+  margin:16px 0 20px; text-align:left;
+}
+
 /* ================================================================
    REGISTER / CONTACT
    ================================================================ */
@@ -1232,7 +1258,7 @@ section {
 .prv-sec li { font-size:.9rem;color:var(--text-sub);line-height:1.82; }
 
 /* ================================================================
-   PAGE BOTTOM NAV — Proposal Two の関連ページ誘導
+   PAGE BOTTOM NAV — 関連ページ誘導
    ================================================================ */
 .page-bottom-nav {
   border-top:2px solid rgba(255,202,40,.22);
@@ -1443,4 +1469,147 @@ section {
   .nav-cards        { grid-template-columns:repeat(2,1fr); }
   /* 奇数枚最終カード: 2列グリッドで孤立しないよう全幅に */
   .info-cards-grid > .info-card:last-child:nth-child(odd) { grid-column:span 2; }
+}
+
+/* ================================================================
+   API STATUS WIDGET — 参加登録ページ
+   ================================================================ */
+.status-widget { text-align:center; }
+.status-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:5px 16px; border-radius:var(--r-full);
+  font-size:.82rem; font-weight:700; letter-spacing:.04em;
+  margin-bottom:14px;
+}
+.status-badge.open   { background:rgba(21,214,152,.16); border:1px solid rgba(21,214,152,.46); color:#007A40; }
+.status-badge.closed { background:rgba(217,26,77,.10);  border:1px solid rgba(217,26,77,.36);  color:var(--ruby); }
+.status-badge.loading{ background:rgba(96,160,232,.12); border:1px solid rgba(96,160,232,.30); color:var(--sky-deep); }
+.status-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+.status-badge.open   .status-dot { background:#15D698; box-shadow:0 0 6px #15D698; }
+.status-badge.closed .status-dot { background:var(--ruby); }
+.status-badge.loading .status-dot { background:var(--sky); animation:sdot 1s ease-in-out infinite; }
+@keyframes sdot { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+.status-remaining { font-size:.86rem; color:var(--text-sub); margin-bottom:18px; }
+.status-remaining strong { color:var(--text); font-weight:700; }
+.status-err {
+  font-size:.82rem; color:var(--ruby);
+  background:rgba(217,26,77,.07); border:1px solid rgba(217,26,77,.22);
+  border-radius:var(--r); padding:9px 14px; margin-bottom:14px;
+}
+
+.btn:disabled, .btn[disabled] {
+  opacity:.50; cursor:not-allowed;
+  transform:none !important; box-shadow:none !important;
+  pointer-events:none;
+}
+.btn-spinner {
+  width:15px; height:15px; flex-shrink:0;
+  border:2px solid rgba(0,0,0,.20); border-top-color:rgba(0,0,0,.65);
+  border-radius:50%; animation:spin .7s linear infinite;
+  display:inline-block;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ================================================================
+   PARTICIPANTS LIST — 参加者一覧
+   ================================================================ */
+.participants-meta { color:var(--text-muted); font-size:.88rem; text-shadow:0 1px 6px rgba(0,0,0,.55); margin-bottom:14px; }
+.participants-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:10px; margin-top:8px;
+}
+.participant-card {
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:var(--r-lg); padding:14px 16px;
+  box-shadow:var(--shadow-s); backdrop-filter:blur(12px); color:var(--text);
+  display:flex; flex-direction:column; gap:3px;
+}
+.participant-card.dragon {
+  border-color:rgba(255,202,40,.64);
+  background:rgba(255,248,215,.95);
+}
+.p-header { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:2px; }
+.p-name { font-weight:700; font-size:.95rem; flex:1; min-width:0; word-break:break-word; }
+.participant-card.dragon .p-name { color:var(--gold-deep); }
+.p-xid  { font-size:.78rem; color:var(--text-sub); }
+.p-char { font-size:.78rem; color:var(--text-sub); margin-top:1px; }
+.p-cat  {
+  font-size:.68rem; font-weight:700; letter-spacing:.04em;
+  padding:2px 8px; border-radius:var(--r-full); flex-shrink:0;
+  white-space:nowrap; align-self:flex-start;
+  background:rgba(96,160,232,.14); border:1px solid rgba(96,160,232,.34); color:var(--sky-deep);
+}
+.participant-card.dragon .p-cat {
+  background:rgba(255,179,0,.16); border-color:rgba(255,202,40,.52); color:var(--gold-deep);
+}
+.participants-msg { text-align:center; padding:36px 20px; color:var(--text-sub); grid-column:1/-1; }
+
+/* ================================================================
+   UPLOAD FORM — 画像アップロード
+   ================================================================ */
+.upload-box {
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:var(--r-xl); padding:44px 36px; text-align:center;
+  box-shadow:var(--glass-shadow); backdrop-filter:blur(14px); color:var(--text);
+  margin-bottom:22px;
+}
+.upload-box h2 { font-family:var(--font-heading); color:var(--sky-deep); margin-bottom:10px; font-size:1.4rem; }
+.upload-type-badge {
+  display:inline-block; padding:4px 14px; border-radius:var(--r-full);
+  font-size:.76rem; font-weight:700; letter-spacing:.08em; margin-bottom:20px;
+  background:rgba(21,214,152,.14); border:1px solid rgba(21,214,152,.42); color:#007A40;
+}
+.upload-type-badge.illust {
+  background:rgba(96,64,176,.12); border-color:rgba(144,100,220,.38); color:#6040B0;
+}
+.upload-dropzone {
+  border:2px dashed rgba(255,202,40,.46); border-radius:var(--r-lg);
+  padding:38px 20px; cursor:pointer; position:relative;
+  transition:border-color .2s, background .2s;
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color:var(--gold); background:rgba(255,179,0,.05);
+}
+.upload-dropzone input[type="file"] {
+  position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%;
+}
+.upload-drop-icon { font-size:2.2rem; margin-bottom:8px; pointer-events:none; }
+.upload-drop-text { color:var(--text-sub); font-size:.90rem; pointer-events:none; }
+.upload-drop-hint { font-size:.76rem; color:var(--text-sub); margin-top:5px; opacity:.72; pointer-events:none; }
+.upload-filename  { margin-top:10px; font-size:.84rem; font-weight:700; color:var(--sky-deep); word-break:break-all; }
+.upload-note {
+  margin-top:20px; text-align:left;
+  font-size:.82rem; color:var(--text-sub);
+  background:rgba(255,202,40,.07); border:1px solid rgba(255,202,40,.24);
+  border-radius:var(--r); padding:12px 16px; line-height:1.8;
+}
+.upload-status {
+  margin-top:16px; padding:12px 16px; border-radius:var(--r);
+  font-size:.88rem; font-weight:600; display:none;
+}
+.upload-status.ok  { display:block; background:rgba(21,214,152,.12); border:1px solid rgba(21,214,152,.40); color:#007A40; }
+.upload-status.err { display:block; background:rgba(217,26,77,.08);  border:1px solid rgba(217,26,77,.26);  color:var(--ruby); }
+
+/* ================================================================
+   CANCEL PAGE — キャンセル確認
+   ================================================================ */
+.cancel-warn {
+  display:flex; flex-direction:column; align-items:center;
+  gap:10px; padding:28px 20px;
+  background:rgba(217,26,77,.06);
+  border:1px solid rgba(217,26,77,.24);
+  border-radius:var(--r-lg);
+  margin:20px 0 0;
+}
+.cancel-warn-icon { font-size:2.4rem; line-height:1; }
+.cancel-warn-text {
+  font-family:var(--font-heading); font-size:1.15rem;
+  color:var(--ruby); font-weight:700; margin:0;
+}
+
+@media(max-width:600px) {
+  .upload-box { padding:28px 18px; }
+  .participants-grid { grid-template-columns:1fr; }
 }

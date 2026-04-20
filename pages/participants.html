@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>過去実績 | ドラゴンフェスティバル</title>
+  <title>参加者一覧 | ドラゴンフェスティバル</title>
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/const.js"></script>
 </head>
@@ -38,71 +38,25 @@
   <div class="page-hero">
     <div class="cloud c1"></div><div class="cloud c2"></div>
     <div class="page-title-wrap">
-      <img src="../images/dragon-cool.svg" class="pd-title pd-title-l" alt="" aria-hidden="true">
-      <h1 class="page-hero-title">過去実績</h1>
+      <img src="../images/dragon-cute.svg" class="pd-title pd-title-l" alt="" aria-hidden="true">
+      <h1 class="page-hero-title">参加者一覧</h1>
+      <img src="../images/dragon-friendly.svg" class="pd-title pd-title-r" alt="" aria-hidden="true">
     </div>
-    <p class="page-hero-sub">これまでのドラゴンフェスティバル開催レポート</p>
+    <p class="page-hero-sub">ドラゴンフェスティバル 参加者のみなさん</p>
   </div>
 
   <section>
-    <div class="container">
+    <div class="container-sm">
 
-
-      <!-- 第1回 -->
-      <div class="history-entry fade-up">
-        <div class="history-head">
-          <div class="history-badge">第1回</div>
-          <div>
-            <div class="history-title">ドラゴンフェスティバル</div>
-            <div class="history-meta">竜族のお祭り　着ぐるみ交流イベント</div>
-          </div>
-        </div>
-
-        <div class="history-content">
-          <div>
-            <div class="cbox" style="margin-bottom:24px;">
-              <table style="width:100%;border-collapse:collapse;">
-                <tbody>
-                  <tr style="border-bottom:1px solid #E0D5C0;">
-                    <th style="padding:10px 8px;text-align:left;width:32%;color:var(--sky-deep);font-size:.88rem;white-space:nowrap;">開催日時</th>
-                    <td style="padding:10px 8px;font-size:.93rem;">（記録準備中）</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid #E0D5C0;">
-                    <th style="padding:10px 8px;text-align:left;color:var(--sky-deep);font-size:.88rem;">会場</th>
-                    <td style="padding:10px 8px;font-size:.93rem;">（記録準備中）</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="stats-row fade-up delay-1">
-              <div class="stat">
-                <div class="stat-num">--</div>
-                <div class="stat-lbl">参加人数</div>
-              </div>
-              <div class="stat">
-                <div class="stat-num">--</div>
-                <div class="stat-lbl">ドラゴン総数</div>
-              </div>
-              <div class="stat">
-                <div class="stat-num">--</div>
-                <div class="stat-lbl">参加キャラ数</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="history-photo fade-up delay-2">
-              <img src="../images/history_1.jpg" alt="第1回ドラゴンフェスティバル 集合写真">
-            </div>
-            <p style="text-align:center;font-size:.85rem;color:var(--text-sub);margin-top:10px;">第1回ドラゴンフェスティバル 集合写真</p>
-          </div>
-        </div>
+      <div class="sec-head fade-up">
+        <h2>参加者一覧</h2>
+        <p>登録済みの参加者をご紹介します</p>
       </div>
 
-      <div class="text-center fade-up">
-        <p style="color:var(--text-sub);margin-bottom:20px;">次回の第2回ドラゴンフェスティバル ～リターンズ～ もよろしくお願いします！</p>
-        <a href="register.html" class="btn btn-primary">第2回に参加登録する</a>
+      <div class="cbox fade-up" style="margin-bottom:24px;">
+        <p id="participants-meta" class="participants-meta">読み込み中...</p>
+        <div id="participants-grid" class="participants-grid"></div>
       </div>
-
 
     </div>
   </section>
@@ -121,16 +75,63 @@
     <div class="footer-bottom"><p>&copy; 2027 ドラゴンフェスティバル All Rights Reserved.</p></div>
   </div>
 </footer>
-<script src="../js/main.js"></script>
 
-<div id="photo-modal" class="photo-modal" aria-hidden="true" role="dialog" aria-label="写真拡大表示">
-  <div class="photo-modal-bg"></div>
-  <div class="photo-modal-inner">
-    <button class="photo-modal-close" aria-label="閉じる">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <img id="photo-modal-img" src="" alt="">
-  </div>
-</div>
+<script src="../js/main.js"></script>
+<script>
+(function() {
+  const GAS_BASE = CONST.GAS_BASE;
+  const meta  = document.getElementById('participants-meta');
+  const grid  = document.getElementById('participants-grid');
+
+  function categoryLabel(cat) {
+    return cat || '一般';
+  }
+
+  function renderCard(p) {
+    const isDragon = p.category === 'ドラゴン';
+    const card = document.createElement('div');
+    card.className = 'participant-card' + (isDragon ? ' dragon' : '');
+
+    const rawXid  = (p.xId || '').replace(/^@/, '');
+    const xidHtml = rawXid
+      ? '<div class="p-xid"><a href="https://x.com/' + escHtml(rawXid) + '" target="_blank" rel="noopener noreferrer">@' + escHtml(rawXid) + '</a></div>'
+      : '';
+    const char = p.characterName ? '<div class="p-char">キャラクター：' + escHtml(p.characterName) + '</div>' : '';
+
+    card.innerHTML =
+      '<div class="p-header">' +
+        '<div class="p-name">' + escHtml(p.name) + '</div>' +
+        '<div class="p-cat">'  + escHtml(categoryLabel(p.category)) + '</div>' +
+      '</div>' +
+      xidHtml +
+      char;
+    return card;
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  fetch(CONST.GAS_BASE + CONST.API.PARTICIPANTS)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      const list = data.participants || [];
+      if (list.length === 0) {
+        meta.textContent = '';
+        grid.innerHTML = '<div class="participants-msg">まだ参加者が登録されていません。</div>';
+        return;
+      }
+      meta.textContent = '参加登録者数：' + list.length + ' 名';
+      grid.innerHTML = '';
+      list.forEach(function(p) { grid.appendChild(renderCard(p)); });
+    })
+    .catch(function() {
+      meta.textContent = '';
+      grid.innerHTML = '<div class="participants-msg">一覧の取得に失敗しました。しばらくしてから再度お試しください。</div>';
+    });
+})();
+</script>
 </body>
 </html>

@@ -1,10 +1,11 @@
 /* ================================================
    ドラゴンフェスティバル  Main JS — Festival Fantasy
-   統合版: Proposal Three のアニメーション強化
+   統合版: アニメーション強化
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
   setupNav();
+  setupParticipantsNavLink();
   setupFAQ();
   setupScrollFade();
   setupFireworks();
@@ -77,6 +78,17 @@ function setupNav() {
   });
 }
 
+/* ---- Participants nav: show after OPEN_TIME ---- */
+function setupParticipantsNavLink() {
+  const OPEN_TIME = (typeof CONST !== 'undefined' && CONST.PARTICIPANTS_OPEN_TIME)
+    ? CONST.PARTICIPANTS_OPEN_TIME
+    : new Date('2026-04-01T12:00:00+09:00');
+  if (new Date() < OPEN_TIME) return;
+  document.querySelectorAll('#nav-participants, #mm-participants, #foot-participants').forEach(el => {
+    el.style.display = '';
+  });
+}
+
 /* ---- FAQ accordion ---- */
 function setupFAQ() {
   document.querySelectorAll('.faq-item').forEach(item => {
@@ -107,7 +119,7 @@ function setupScrollFade() {
   els.forEach(el => io.observe(el));
 }
 
-/* ---- Firework bursts (Proposal Three 実装) ---- */
+/* ---- Firework bursts (実装) ---- */
 function setupFireworks() {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;';
@@ -267,7 +279,7 @@ function setupMagicParticles() {
     .finished.then(() => el.remove());
   }
 
-  /* Type C: small glowing orbs (Proposal One スタイルの浮遊ドット) */
+  /* Type C: small glowing orbs (浮遊ドット) */
   function spawnOrb() {
     const size  = 5 + Math.random() * 8;
     const color = colors[Math.floor(Math.random() * colors.length)];
