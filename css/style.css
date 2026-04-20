@@ -1544,6 +1544,12 @@ section {
 .participant-card.dragon .p-cat {
   background:rgba(255,179,0,.16); border-color:rgba(255,202,40,.52); color:var(--gold-deep);
 }
+.p-cat.cat-kigurumi {
+  background:rgba(110,80,220,.15); border-color:rgba(110,80,220,.38); color:#5530B8;
+}
+.p-cat.cat-general {
+  background:rgba(80,108,88,.11);  border-color:rgba(80,108,88,.26);  color:#3E5E4A;
+}
 .participants-msg { text-align:center; padding:36px 20px; color:var(--text-sub); grid-column:1/-1; }
 
 /* ================================================================

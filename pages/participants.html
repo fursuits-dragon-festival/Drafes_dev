@@ -87,6 +87,12 @@
     return cat || '一般';
   }
 
+  function categoryBadgeClass(cat) {
+    if (cat === '着ぐるみ') return ' cat-kigurumi';
+    if (cat === 'ドラゴン')  return '';  // .participant-card.dragon .p-cat で装飾
+    return ' cat-general';
+  }
+
   function renderCard(p) {
     const isDragon = p.category === 'ドラゴン';
     const card = document.createElement('div');
@@ -101,7 +107,7 @@
     card.innerHTML =
       '<div class="p-header">' +
         '<div class="p-name">' + escHtml(p.name) + '</div>' +
-        '<div class="p-cat">'  + escHtml(categoryLabel(p.category)) + '</div>' +
+        '<div class="p-cat' + categoryBadgeClass(p.category) + '">' + escHtml(categoryLabel(p.category)) + '</div>' +
       '</div>' +
       xidHtml +
       char;
