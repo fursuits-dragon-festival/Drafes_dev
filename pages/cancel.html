@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>参加キャンセル | ドラゴンフェスティバル</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/const.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-wrap">
+    <a href="../index.html" class="nav-logo"><img src="../images/logo_mock.png" alt="ドラゴンフェスティバル ロゴ"><span class="nav-logo-name">ドラゴンフェスティバル</span></a>
+    <ul class="nav-list">
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">イベントについて <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">参加する <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown"><li><a href="register.html">参加登録</a></li><li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">その他 <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown"><li><a href="faq.html">よくある質問</a></li><li><a href="history.html">過去実績</a></li><li><a href="contact.html">お問い合わせ</a></li><li><a href="staff.html">スタッフ一覧</a></li></ul>
+      </li>
+    </ul>
+    <a href="#" class="nav-x" target="_blank" rel="noopener" aria-label="公式X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>
+    <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" aria-hidden="true">
+    <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">その他</div><ul class="mm-links"><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+    <a href="#" class="mm-x" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-hero">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="page-title-wrap">
+      <img src="../images/dragon-cute.svg" class="pd-title pd-title-l" alt="" aria-hidden="true">
+      <h1 class="page-hero-title">参加キャンセル</h1>
+      <img src="../images/dragon-friendly.svg" class="pd-title pd-title-r" alt="" aria-hidden="true">
+    </div>
+    <p class="page-hero-sub">参加登録のキャンセル手続き</p>
+  </div>
+
+  <section>
+    <div class="container-sm">
+
+      <!-- 検証中 -->
+      <div id="state-validating" class="register-box fade-up">
+        <h2>リンクを確認中</h2>
+        <p style="color:var(--text-sub);margin-top:12px;">
+          <span class="btn-spinner" style="border-color:rgba(0,0,0,.15);border-top-color:var(--sky-deep);width:20px;height:20px;display:inline-block;"></span>
+        </p>
+      </div>
+
+      <!-- 無効なトークン -->
+      <div id="state-invalid" class="register-box fade-up" style="display:none">
+        <h2 style="color:var(--ruby);">無効なリンクです</h2>
+        <p style="color:var(--text-sub);margin-top:12px;">
+          このリンクは無効です。お手元のご案内メールをご確認ください。
+        </p>
+        <div style="margin-top:20px;">
+          <a href="contact.html" class="btn btn-secondary">お問い合わせはこちら</a>
+        </div>
+      </div>
+
+      <!-- キャンセル済み -->
+      <div id="state-used" class="register-box fade-up" style="display:none">
+        <h2 style="color:var(--text-sub);">既にキャンセルされています</h2>
+        <p style="color:var(--text-sub);margin-top:12px;">
+          このリンクでのキャンセルは既に完了しています。
+        </p>
+        <div class="notice notice-info" style="margin-top:16px;text-align:left;">
+          キャンセルに関するご不明点は、お問い合わせページよりご連絡ください。
+        </div>
+        <div style="margin-top:20px;">
+          <a href="contact.html" class="btn btn-secondary">お問い合わせはこちら</a>
+        </div>
+      </div>
+
+      <!-- 確認画面 -->
+      <div id="state-confirm" class="register-box fade-up" style="display:none">
+        <h2>参加キャンセルの確認</h2>
+
+        <div class="cancel-warn">
+          <div class="cancel-warn-icon" aria-hidden="true">⚠️</div>
+          <p class="cancel-warn-text">本当にキャンセルしますか？</p>
+        </div>
+
+        <div class="notice notice-warn" style="margin:20px 0;text-align:left;">
+          <ul style="padding-left:1.2em;list-style:disc;display:flex;flex-direction:column;gap:4px;">
+            <li>キャンセル後の取り消しはできません。</li>
+            <li>再度ご参加を希望される場合は、改めて参加登録が必要です。</li>
+            <li>定員の状況によっては再登録できない場合があります。</li>
+          </ul>
+        </div>
+
+        <div id="cancel-err" class="status-err" style="display:none;margin-bottom:14px;"></div>
+
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+          <button class="btn btn-outline-dark" id="back-btn" onclick="window.location.href='../index.html'">やめる</button>
+          <button class="btn btn-ruby" id="cancel-btn">
+            キャンセルを実行する
+          </button>
+        </div>
+        <p style="color:var(--text-sub);font-size:.80rem;margin-top:16px;">
+          ※ ボタンを押すとキャンセル処理が実行されます
+        </p>
+      </div>
+
+      <!-- 完了 -->
+      <div id="state-done" class="register-box fade-up" style="display:none">
+        <h2 style="color:var(--text-sub);">キャンセルが完了しました</h2>
+        <p style="color:var(--text-sub);margin-top:12px;">
+          参加登録のキャンセルを受け付けました。またのご参加をお待ちしております。
+        </p>
+        <div class="notice notice-info" style="margin-top:16px;text-align:left;">
+          ご不明な点がございましたら、お問い合わせページよりご連絡ください。
+        </div>
+        <div style="margin-top:20px;">
+          <a href="contact.html" class="btn btn-secondary">お問い合わせはこちら</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="footer-brand-name">ドラゴンフェスティバル</div><p class="footer-tagline">竜族のお祭り　着ぐるみ交流イベント</p><a href="#" class="footer-x" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a></div>
+      <nav class="footer-nav">
+        <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+        <div class="fn-group"><h4>その他</h4><ul><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+      </nav>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2027 ドラゴンフェスティバル All Rights Reserved.</p></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+(function() {
+  const GAS_BASE = CONST.GAS_BASE;
+
+  const token = new URLSearchParams(location.search).get('token') || '';
+
+  const states = {
+    validating: document.getElementById('state-validating'),
+    invalid:    document.getElementById('state-invalid'),
+    used:       document.getElementById('state-used'),
+    confirm:    document.getElementById('state-confirm'),
+    done:       document.getElementById('state-done'),
+  };
+  const cancelBtn = document.getElementById('cancel-btn');
+  const errBox    = document.getElementById('cancel-err');
+
+  function show(key) {
+    Object.keys(states).forEach(function(k) {
+      states[k].style.display = k === key ? '' : 'none';
+    });
+  }
+
+  /* ---- トークン検証 ---- */
+  if (!token) {
+    show('invalid');
+  } else {
+    fetch(CONST.GAS_BASE + CONST.API.VALIDATE_TOKEN + '&token=' + encodeURIComponent(token))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.valid) { show('invalid'); return; }
+        if (data.used)   { show('used');    return; }
+        show('confirm');
+      })
+      .catch(function() { show('invalid'); });
+  }
+
+  /* ---- キャンセル実行 ---- */
+  var submitting = false;
+
+  cancelBtn.addEventListener('click', function() {
+    if (submitting) return;
+    submitting = true;
+    cancelBtn.disabled = true;
+    cancelBtn.innerHTML = '<span class="btn-spinner" style="border-color:rgba(255,255,255,.30);border-top-color:#fff;"></span> 処理中...';
+    errBox.style.display = 'none';
+
+    fetch(CONST.GAS_BASE + '?action=cancel&token=' + encodeURIComponent(token))
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.ok) {
+        show('done');
+      } else if (res.alreadyCancelled) {
+        show('used');
+      } else {
+        errBox.style.display = '';
+        errBox.textContent = res.message || 'キャンセル処理に失敗しました。しばらくしてから再度お試しください。';
+        cancelBtn.disabled = false;
+        cancelBtn.innerHTML = 'キャンセルを実行する';
+        submitting = false;
+      }
+    })
+    .catch(function() {
+      errBox.style.display = '';
+      errBox.textContent = '通信エラーが発生しました。しばらくしてから再度お試しください。';
+      cancelBtn.disabled = false;
+      cancelBtn.innerHTML = 'キャンセルを実行する';
+      submitting = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

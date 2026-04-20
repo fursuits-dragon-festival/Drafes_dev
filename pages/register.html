@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>参加登録 | ドラゴンフェスティバル</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/const.js"></script>
 </head>
 <body>
 
@@ -16,7 +17,7 @@
         <ul class="nav-dropdown"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul>
       </li>
       <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">参加する <span class="nav-arrow"></span></button>
-        <ul class="nav-dropdown"><li><a href="register.html">参加登録</a></li><li><a href="beginner.html">初めての方へ</a></li></ul>
+        <ul class="nav-dropdown"><li><a href="register.html">参加登録</a></li><li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul>
       </li>
       <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">その他 <span class="nav-arrow"></span></button>
         <ul class="nav-dropdown"><li><a href="faq.html">よくある質問</a></li><li><a href="history.html">過去実績</a></li><li><a href="contact.html">お問い合わせ</a></li><li><a href="staff.html">スタッフ一覧</a></li></ul>
@@ -27,7 +28,7 @@
   </nav>
   <div class="mobile-menu" aria-hidden="true">
     <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
-    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
     <div class="mm-group"><div class="mm-cat">その他</div><ul class="mm-links"><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
     <a href="#" class="mm-x" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a>
   </div>
@@ -82,17 +83,153 @@
         </div>
       </div>
 
-      <div class="register-box fade-up delay-3">
-        <h2>ツイプラにて参加登録</h2>
-        <p style="color:var(--text-sub);margin-bottom:24px;">
-          下記のボタンよりツイプラの参加登録ページへ移動します。
-          <br><small>※ツイプラのリンクは準備中です。公式Xにてお知らせいたします。</small>
-        </p>
-        <a href="#" class="btn btn-primary btn-lg" style="opacity:.7;cursor:default;" aria-disabled="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          ツイプラで参加登録（準備中）
-        </a>
+      <!-- 登録手順 -->
+      <div class="cbox fade-up delay-3" style="margin-bottom:24px;">
+        <h2 class="cbox-title">登録手順</h2>
+        <ol class="reg-steps">
+          <li class="reg-step">
+            <div class="reg-step-num">1</div>
+            <div class="reg-step-body">
+              <strong>下部の「参加登録フォームへ」ボタンを押す</strong>
+              <span>Googleフォームのページへ移動します</span>
+            </div>
+          </li>
+          <li class="reg-step reg-step-highlight">
+            <div class="reg-step-num">2</div>
+            <div class="reg-step-body">
+              <strong>Googleアカウントでログイン</strong>
+              <span>フォームの表示には<strong style="color:var(--text);">Googleアカウント</strong>が必要です。あらかじめログインしておいてください</span>
+            </div>
+          </li>
+          <li class="reg-step">
+            <div class="reg-step-num">3</div>
+            <div class="reg-step-body">
+              <strong>必要事項を入力する</strong>
+              <span>ハンドルネーム・X(Twitter)ID・参加区分などをご記入ください</span>
+              <span class="reg-step-warn">
+                ※「メール返信に表示するメールアドレスとして記録する」に<strong>必ずチェック</strong>を入れてください<br>
+                ※チェックが入っていない場合、参加登録は完了しません
+              </span>
+            </div>
+          </li>
+          <li class="reg-step">
+            <div class="reg-step-num">4</div>
+            <div class="reg-step-body">
+              <strong>フォームを送信して登録完了</strong>
+              <span>送信ボタンを押すと参加登録が完了します</span>
+            </div>
+          </li>
+          <li class="reg-step">
+            <div class="reg-step-num">5</div>
+            <div class="reg-step-body">
+              <strong>確認メールを受信</strong>
+              <span>登録完了後、案内メールが届きます。届かない場合はお問い合わせください</span>
+            </div>
+          </li>
+        </ol>
       </div>
+
+      <!-- 参加登録ボタン -->
+      <div class="register-box fade-up delay-4" id="register-widget">
+        <h2>参加登録フォーム</h2>
+        <div id="open-badge" class="status-badge open" style="display:none;margin-bottom:12px;">
+          <span class="status-dot"></span><span>受付中</span>
+        </div>
+        <div id="status-remaining" class="status-remaining" style="display:none"></div>
+        <div id="status-err" class="status-err" style="display:none"></div>
+
+        <div class="notice reg-google-notice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:1px;">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          <div>
+            <strong>登録にはGoogleアカウントが必要です</strong><br>
+            <span style="font-size:.84rem;">フォームを開く前に、Googleアカウントへのログインをご確認ください。</span>
+          </div>
+        </div>
+
+        <div id="btn-area">
+          <button class="btn btn-primary btn-lg" disabled id="register-btn">
+            <span class="btn-spinner"></span>
+            読み込み中
+          </button>
+        </div>
+      </div>
+
+<script>
+(function() {
+  var openBadge = document.getElementById('open-badge');
+  var remaining = document.getElementById('status-remaining');
+  var errBox    = document.getElementById('status-err');
+  var btn       = document.getElementById('register-btn');
+
+  function setLoading() {
+    openBadge.style.display = 'none';
+    remaining.style.display = 'none';
+    errBox.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span> 読み込み中';
+    btn.onclick = null;
+  }
+
+  function setOpen(data) {
+    var formUrl = (data.formUrl || '').trim();
+    remaining.style.display = '';
+    remaining.innerHTML = '残り <strong>' + data.remaining + '</strong> 名 / 定員 ' + data.capacity + ' 名';
+    errBox.style.display = 'none';
+    if (formUrl) {
+      openBadge.style.display = '';
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> 参加登録フォームへ';
+      btn.onclick = function() { window.open(formUrl, '_blank', 'noopener'); };
+    } else {
+      openBadge.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = '受付停止中';
+      btn.onclick = null;
+    }
+  }
+
+  function setClosed(msg) {
+    openBadge.style.display = 'none';
+    remaining.style.display = 'none';
+    errBox.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = msg;
+    btn.onclick = null;
+  }
+
+  function setError() {
+    openBadge.style.display = 'none';
+    errBox.style.display = '';
+    errBox.textContent = 'ステータスの取得に失敗しました。しばらくしてから再度お試しください。';
+    btn.disabled = true;
+    btn.innerHTML = '再読み込み中...';
+  }
+
+  function fetchStatus() {
+    fetch(CONST.GAS_BASE + CONST.API.STATUS)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.isOpen || !data.acceptingRegistration) {
+          setClosed('受付停止中');
+        } else if (data.remaining <= 0) {
+          setClosed('満員');
+        } else {
+          setOpen(data);
+        }
+      })
+      .catch(setError);
+  }
+
+  setLoading();
+  fetchStatus();
+  setInterval(fetchStatus, 30000);
+})();
+</script>
 
 
     </div>
@@ -105,7 +242,7 @@
       <div class="footer-brand"><div class="footer-brand-name">ドラゴンフェスティバル</div><p class="footer-tagline">竜族のお祭り　着ぐるみ交流イベント</p><a href="#" class="footer-x" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a></div>
       <nav class="footer-nav">
         <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
-        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li></ul></div>
+        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
         <div class="fn-group"><h4>その他</h4><ul><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
       </nav>
     </div>
