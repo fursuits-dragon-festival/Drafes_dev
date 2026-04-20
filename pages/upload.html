@@ -70,6 +70,10 @@
         <p style="color:var(--text-sub);margin-top:10px;">
           このリンクでは既に画像がアップロードされています。
         </p>
+        <div id="used-preview-wrap" class="upload-used-preview" style="display:none">
+          <div class="upload-used-label">アップロード済みの画像</div>
+          <img id="used-preview-img" class="upload-used-img" alt="アップロード済みの画像">
+        </div>
         <div class="notice notice-info" style="margin-top:16px;text-align:left;">
           差し替えを希望される場合は、お問い合わせページまたはメールにてご連絡ください。
         </div>
@@ -89,6 +93,7 @@
           <div class="upload-drop-text">ここをクリック、またはファイルをドロップ</div>
           <div class="upload-drop-hint">JPG / PNG　20MB以内</div>
           <div id="upload-filename" class="upload-filename" style="display:none"></div>
+          <img id="preview-img" class="upload-preview-img" alt="プレビュー">
         </div>
 
         <div class="upload-note">
@@ -162,7 +167,16 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data.valid) { show('invalid'); return; }
-        if (data.used)   { show('used');    return; }
+        if (data.used) {
+          if (data.imageUrl) {
+            var usedImg  = document.getElementById('used-preview-img');
+            var usedWrap = document.getElementById('used-preview-wrap');
+            usedImg.src          = data.imageUrl;
+            usedWrap.style.display = '';
+          }
+          show('used');
+          return;
+        }
         if (data.tokenType && data.tokenType !== 'upload') { show('invalid'); return; }
         initUpload(data.type || type);
       })
@@ -173,12 +187,14 @@
   function initUpload(resolvedType) {
     show('upload');
 
-    var badge     = document.getElementById('upload-type-badge');
-    var dropzone  = document.getElementById('dropzone');
-    var fileInput = document.getElementById('file-input');
-    var filename  = document.getElementById('upload-filename');
-    var submitBtn = document.getElementById('submit-btn');
-    var statusEl  = document.getElementById('upload-status');
+    var badge      = document.getElementById('upload-type-badge');
+    var dropzone   = document.getElementById('dropzone');
+    var fileInput  = document.getElementById('file-input');
+    var filename   = document.getElementById('upload-filename');
+    var previewImg = document.getElementById('preview-img');
+    var submitBtn  = document.getElementById('submit-btn');
+    var statusEl   = document.getElementById('upload-status');
+    var previewUrl = null;
 
     var label = resolvedType === 'illust' ? 'イラスト' : '写真';
     badge.textContent = label;
@@ -194,6 +210,10 @@
 
     function onFileSelected(file) {
       if (!file) return;
+      if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+      previewImg.src          = '';
+      previewImg.style.display = 'none';
+
       if (CONST.UPLOAD.ALLOWED_TYPES.indexOf(file.type) === -1) {
         setStatus('err', 'JPGまたはPNGファイルを選択してください。');
         selectedFile = null;
@@ -211,6 +231,9 @@
         return;
       }
       selectedFile = file;
+      previewUrl = URL.createObjectURL(file);
+      previewImg.src           = previewUrl;
+      previewImg.style.display = 'block';
       setStatus('', '');
       filename.textContent = file.name + '  (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
       filename.style.display = '';

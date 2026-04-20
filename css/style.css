@@ -1591,6 +1591,23 @@ section {
 }
 .upload-status.ok  { display:block; background:rgba(21,214,152,.12); border:1px solid rgba(21,214,152,.40); color:#007A40; }
 .upload-status.err { display:block; background:rgba(217,26,77,.08);  border:1px solid rgba(217,26,77,.26);  color:var(--ruby); }
+.upload-preview-img {
+  display:none; max-width:100%; max-height:260px; margin-top:14px;
+  border-radius:var(--r); border:2px solid rgba(255,202,40,.46);
+  object-fit:contain; pointer-events:none;
+}
+.upload-used-preview {
+  margin-top:20px; text-align:center;
+}
+.upload-used-label {
+  font-size:.80rem; font-weight:700; color:var(--text-sub);
+  letter-spacing:.06em; margin-bottom:10px;
+}
+.upload-used-img {
+  display:block; max-width:100%; max-height:300px; margin:0 auto;
+  border-radius:var(--r-lg); border:2px solid rgba(21,214,152,.40);
+  object-fit:contain;
+}
 
 /* ================================================================
    CANCEL PAGE — キャンセル確認
