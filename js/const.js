@@ -9,7 +9,7 @@ const CONST = {
 
   // GAS ウェブアプリのデプロイ URL
   // ※ GAS を再デプロイした場合はこの値を更新すること
-  GAS_BASE: 'https://script.google.com/macros/s/AKfycbz-FZBbYuklcbpn7GNR48xI_nYWii_9h0M2_hWub4LWKKlnj7-QV9EytvjvQmlJdvED/exec',
+  GAS_BASE: 'https://script.google.com/macros/s/AKfycbzgLEHYn-rHu4xJAiUfBxVpvWJ-wNf37j-7uYxXgQ5z0N--iMznKNzbP-838l78GboK/exec',
 
   // API エンドポイント（GAS_BASE に連結して使用）
   API: {

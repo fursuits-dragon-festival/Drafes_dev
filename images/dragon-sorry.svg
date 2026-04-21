@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 220">
+  <!-- Shadow -->
+  <ellipse cx="90" cy="212" rx="52" ry="8" fill="rgba(0,0,0,0.07)"/>
+
+  <!-- Tail (drooping left/down) -->
+  <path d="M 62 162 C 30 170 18 154 26 140 C 34 126 50 128 46 116" stroke="#FFA8C0" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="46" cy="112" r="8" fill="#FF85A1"/>
+
+  <!-- Back Wings -->
+  <path d="M 55 108 C 16 86 12 42 34 20 C 54 1 78 32 73 70 Z" fill="#FFBBD0" opacity="0.85"/>
+  <path d="M 125 108 C 164 86 168 42 146 20 C 126 1 102 32 107 70 Z" fill="#FFBBD0" opacity="0.85"/>
+  <!-- Wing veins -->
+  <path d="M 73,70 C 57,52 42,28 36,16" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <path d="M 107,70 C 123,52 138,28 144,16" stroke="#FF9AB5" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+  <!-- Body -->
+  <ellipse cx="90" cy="152" rx="48" ry="43" fill="#FFA8C0"/>
+  <!-- Belly -->
+  <ellipse cx="90" cy="158" rx="30" ry="28" fill="#FFD5E2"/>
+
+  <!-- Left arm (hanging/drooping) -->
+  <path d="M 44 146 C 30 156 26 168 36 176" stroke="#FFA8C0" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="36" cy="177" r="12" fill="#FFA8C0"/>
+  <path d="M 27,184 L 22,192" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 34,186 L 31,195" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 41,185 L 40,194" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Right arm (raised, sorry wave) -->
+  <path d="M 136 140 C 150 129 163 135 159 148" stroke="#FFA8C0" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="158" cy="149" r="12" fill="#FFA8C0"/>
+  <path d="M 167,142 L 173,136" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 161,139 L 164,132" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 154,138 L 155,130" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Legs -->
+  <ellipse cx="68" cy="190" rx="18" ry="14" fill="#FFA8C0"/>
+  <ellipse cx="112" cy="190" rx="18" ry="14" fill="#FFA8C0"/>
+  <path d="M 56,196 L 51,205" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 63,199 L 60,208" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 71,200 L 70,209" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 124,196 L 129,205" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 117,199 L 120,208" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 109,200 L 110,209" stroke="#FF7A9A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Head -->
+  <circle cx="90" cy="82" r="40" fill="#FFBDCC"/>
+  <!-- Head top fluff -->
+  <circle cx="80" cy="46" r="10" fill="#FFBDCC"/>
+  <circle cx="90" cy="43" r="11" fill="#FFBDCC"/>
+  <circle cx="100" cy="46" r="10" fill="#FFBDCC"/>
+
+  <!-- Horns -->
+  <path d="M 68,54 L 58,24 L 76,50" fill="#FF85A1"/>
+  <path d="M 112,54 L 122,24 L 104,50" fill="#FF85A1"/>
+  <path d="M 62,47 L 60,30" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 118,47 L 120,30" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Ears -->
+  <ellipse cx="55" cy="70" rx="11" ry="17" fill="#FFBDCC" transform="rotate(-25,55,70)"/>
+  <ellipse cx="125" cy="70" rx="11" ry="17" fill="#FFBDCC" transform="rotate(25,125,70)"/>
+  <ellipse cx="55" cy="72" rx="6.5" ry="11" fill="#FF9AB5" transform="rotate(-25,55,72)"/>
+  <ellipse cx="125" cy="72" rx="6.5" ry="11" fill="#FF9AB5" transform="rotate(25,125,72)"/>
+
+  <!-- Eyes white -->
+  <circle cx="75" cy="81" r="14" fill="white"/>
+  <circle cx="105" cy="81" r="14" fill="white"/>
+  <!-- Iris (looking slightly downward) -->
+  <circle cx="75" cy="85" r="10" fill="#6DC4E8"/>
+  <circle cx="105" cy="85" r="10" fill="#6DC4E8"/>
+  <!-- Pupil -->
+  <circle cx="75" cy="86" r="6.5" fill="#1a1a2e"/>
+  <circle cx="105" cy="86" r="6.5" fill="#1a1a2e"/>
+  <!-- Eye shine -->
+  <circle cx="72" cy="81" r="3" fill="white"/>
+  <circle cx="102" cy="81" r="3" fill="white"/>
+  <circle cx="77" cy="88" r="1.5" fill="rgba(255,255,255,0.7)"/>
+  <circle cx="107" cy="88" r="1.5" fill="rgba(255,255,255,0.7)"/>
+
+  <!-- Droopy eyelid (covers top of eye with head color) -->
+  <path d="M 61,81 Q 75,72 89,81 L 89,67 Q 75,62 61,67 Z" fill="#FFBDCC"/>
+  <path d="M 91,81 Q 105,72 119,81 L 119,67 Q 105,62 91,67 Z" fill="#FFBDCC"/>
+
+  <!-- Sad eyebrows (/\ shape: inner high, outer low) -->
+  <path d="M 62,67 C 67,60 74,61 79,66" stroke="#D4245C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 101,66 C 106,61 113,60 118,67" stroke="#D4245C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Blush -->
+  <circle cx="60" cy="92" r="10" fill="#FF9AB5" opacity="0.35"/>
+  <circle cx="120" cy="92" r="10" fill="#FF9AB5" opacity="0.35"/>
+
+  <!-- Nose -->
+  <ellipse cx="90" cy="93" rx="8" ry="5.5" fill="#FF7A9A"/>
+  <circle cx="86.5" cy="91.5" r="2.2" fill="rgba(0,0,0,0.18)"/>
+  <circle cx="93.5" cy="91.5" r="2.2" fill="rgba(0,0,0,0.18)"/>
+
+  <!-- Mouth / Sad frown -->
+  <path d="M 78,108 Q 90,100 102,108" stroke="#D4245C" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+
+  <!-- Tears -->
+  <ellipse cx="66" cy="98" rx="3.5" ry="5.5" fill="#89C4E1" opacity="0.88"/>
+  <ellipse cx="114" cy="98" rx="3.5" ry="5.5" fill="#89C4E1" opacity="0.88"/>
+</svg>
