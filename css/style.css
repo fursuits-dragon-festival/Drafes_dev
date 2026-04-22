@@ -777,7 +777,7 @@ section {
 }
 .info-card:hover .info-card-icon { transform:scale(1.08); }
 .info-card-label { font-size:.70rem; font-weight:700; color:var(--text-sub); text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; display:block; }
-.info-card-val   { font-size:.98rem; font-weight:700; color:var(--text); line-height:1.4; }
+.info-card-val   { font-size:.98rem; font-weight:700; color:var(--text); line-height:1.4; word-break:keep-all; overflow-wrap:break-word; }
 
 /* ================================================================
    ABOUT TEASER — 2カラム
