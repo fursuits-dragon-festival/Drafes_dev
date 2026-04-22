@@ -543,15 +543,32 @@
     ctx.font = 'bold 22px monospace';
     ctx.fillText('Score: ' + score, W/2, H/2 - 14);
 
-    ctx.fillStyle = hi === score ? '#3EEEAD' : 'rgba(255,255,255,.55)';
+    const isNewBest = hi === score && score > 0;
+    ctx.fillStyle = isNewBest ? '#3EEEAD' : 'rgba(255,255,255,.55)';
     ctx.font = '14px sans-serif';
-    ctx.fillText((hi === score && score > 0 ? '★ NEW BEST! ' : 'Best: ') + hi, W/2, H/2 + 16);
+    ctx.fillText((isNewBest ? '★ NEW BEST! ' : 'Best: ') + hi, W/2, H/2 + 16);
 
+    if (isNewBest) {
+      // Screenshot prompt
+      const bgX = 20, bgW = W - 40, bgH = 46, bgY = H/2 + 28;
+      ctx.fillStyle = 'rgba(62,238,173,0.15)';
+      ctx.strokeStyle = 'rgba(62,238,173,0.70)';
+      ctx.lineWidth = 1.5;
+      ctx.roundRect(bgX, bgY, bgW, bgH, 8);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#3EEEAD';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('📸 この画面のスクリーンショットを', W/2, H/2 + 46);
+      ctx.fillText('当日受付で見せてください！', W/2, H/2 + 64);
+    }
+
+    const retryY = isNewBest ? H/2 + 90 : H/2 + 60;
     const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 400);
     ctx.globalAlpha = pulse;
     ctx.fillStyle = '#FFD040';
     ctx.font = 'bold 14px sans-serif';
-    ctx.fillText('タップ / クリック でリトライ', W/2, H/2 + 60);
+    ctx.fillText('タップ / クリック でリトライ', W/2, retryY);
     ctx.globalAlpha = 1;
 
     ctx.restore();
