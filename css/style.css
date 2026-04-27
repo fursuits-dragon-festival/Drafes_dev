@@ -1641,94 +1641,182 @@ section {
 }
 
 /* ================================================================
-   EXHIBITION CARD — トップページ展示企画セクション専用
+   EXHIBITION — トップページ展示企画セクション専用
    ================================================================ */
 .sec-exhibition {
-  background:rgba(100,50,0,0.10);
+  background:linear-gradient(135deg,rgba(100,50,0,0.13) 0%,rgba(60,30,80,0.09) 100%);
 }
 .sec-exhibition::before {
   content:''; position:absolute; inset:0; pointer-events:none;
   background:
-    radial-gradient(ellipse at 28% 55%, rgba(255,179,0,0.16) 0%,transparent 52%),
-    radial-gradient(ellipse at 74% 42%, rgba(21,214,152,0.09) 0%,transparent 48%);
+    radial-gradient(ellipse at 14% 50%, rgba(255,179,0,0.20) 0%,transparent 50%),
+    radial-gradient(ellipse at 86% 50%, rgba(21,214,152,0.12) 0%,transparent 46%),
+    radial-gradient(ellipse at 50% 100%, rgba(217,26,77,0.07) 0%,transparent 40%);
 }
 
-.exhibition-card {
+/* 2カラムカード */
+.exhibition-inner {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:52px;
+  align-items:center;
   background:var(--glass);
-  border:1.5px solid rgba(255,202,40,0.62);
+  border:1.5px solid rgba(255,202,40,0.60);
   border-radius:var(--r-xl);
-  padding:52px 44px;
-  box-shadow:var(--glass-shadow),0 0 52px rgba(255,179,0,0.20);
+  padding:52px 48px;
+  box-shadow:var(--glass-shadow),0 0 60px rgba(255,179,0,0.18);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  text-align:center;
   position:relative; overflow:hidden;
   color:var(--text);
-  transition:transform .28s var(--ease),box-shadow .28s,border-color .28s;
+  transition:box-shadow .30s var(--ease),border-color .30s;
 }
 /* レインボーボーダー（上） */
-.exhibition-card::before {
+.exhibition-inner::before {
   content:''; position:absolute;
   top:0; left:0; right:0; height:4px;
   background:linear-gradient(90deg, var(--ruby), var(--gold), var(--emerald), var(--sky));
 }
-/* 右上グロー装飾 */
-.exhibition-card::after {
+/* 左下グロー装飾 */
+.exhibition-inner::after {
   content:''; position:absolute;
-  top:-64px; right:-64px;
-  width:220px; height:220px; border-radius:50%;
-  background:radial-gradient(circle, rgba(255,179,0,0.12) 0%,transparent 70%);
+  bottom:-80px; left:-80px;
+  width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,179,0,0.10) 0%,transparent 70%);
   pointer-events:none;
 }
-.exhibition-card:hover {
-  transform:translateY(-6px);
-  box-shadow:var(--glass-shadow),var(--gold-glow),0 0 64px rgba(255,179,0,0.24);
+.exhibition-inner:hover {
+  box-shadow:var(--glass-shadow),var(--gold-glow),0 0 80px rgba(255,179,0,0.22);
   border-color:var(--gold);
 }
 
-.exhibition-card-icon {
-  width:72px; height:72px; margin:0 auto 20px;
-  background:linear-gradient(135deg,rgba(255,179,0,.22),rgba(255,202,40,.10));
-  border-radius:50%;
-  border:1.5px solid rgba(255,202,40,.56);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 28px rgba(255,179,0,.28);
-  transition:box-shadow .22s var(--ease),transform .22s var(--ease);
+/* テキスト列 */
+.exhibition-body { display:flex; flex-direction:column; }
+
+/* キャッチコピー */
+.exhibition-catch {
+  font-family:var(--font-heading);
+  font-size:clamp(1.56rem,3.0vw,2.30rem);
+  font-weight:700;
+  background:linear-gradient(135deg,#CC8800 0%,#FFB300 38%,#FFCA28 65%,#FFB300 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 2px 10px rgba(255,179,0,0.32));
+  line-height:1.26; margin-bottom:16px; letter-spacing:.02em;
+  animation:titleGradShift 7s linear infinite;
 }
-.exhibition-card:hover .exhibition-card-icon {
-  box-shadow:var(--gold-glow);
-  transform:scale(1.10);
-}
-.exhibition-card-icon svg { color:var(--gold-dark); }
 
 .exhibition-title {
   font-family:var(--font-heading);
-  font-size:clamp(1.12rem,2.6vw,1.52rem);
-  color:var(--gold-dark);
-  margin-bottom:16px; letter-spacing:.03em;
+  font-size:clamp(.88rem,1.7vw,1.04rem);
+  color:var(--text-sub);
+  margin-bottom:14px; letter-spacing:.02em; font-weight:500;
 }
 
 .exhibition-lead {
-  font-size:1.06rem; font-weight:600;
-  color:var(--text);
-  line-height:1.80; margin-bottom:10px;
+  font-size:.96rem; font-weight:500;
+  color:var(--text); line-height:1.88; margin-bottom:24px;
 }
 
-.exhibition-sub {
-  font-size:.94rem;
-  color:var(--text-sub);
-  line-height:1.88; margin-bottom:26px;
+/* フィーチャーリスト */
+.exhibition-features {
+  list-style:none; padding:0; margin:0 0 28px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.exhibition-features li {
+  display:flex; align-items:center; gap:12px;
+}
+.ef-icon {
+  flex-shrink:0; width:36px; height:36px; border-radius:var(--r);
+  display:flex; align-items:center; justify-content:center;
+}
+.ef-icon-gold    { background:rgba(255,179,0,.16);  border:1px solid rgba(255,202,40,.42); color:var(--gold-dark); }
+.ef-icon-sky     { background:rgba(96,160,232,.14); border:1px solid rgba(96,160,232,.38); color:var(--sky-deep); }
+.ef-icon-emerald { background:rgba(21,214,152,.14); border:1px solid rgba(21,214,152,.38); color:#009960; }
+.exhibition-features li > div { display:flex; flex-direction:column; gap:1px; }
+.exhibition-features strong { font-size:.92rem; color:var(--text); line-height:1.5; }
+.exhibition-features span   { font-size:.80rem; color:var(--text-sub); line-height:1.5; }
+
+/* CTAボタン群 */
+.exhibition-btns { display:flex; gap:12px; flex-wrap:wrap; }
+
+/* 詳細ボタン — ゴールドアウトライン／ホバーで塗りつぶし */
+.btn-gold-detail {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:12px 32px;
+  font-family:var(--font-body); font-size:.96rem; font-weight:700;
+  border-radius:var(--r-full); cursor:pointer;
+  text-decoration:none; white-space:nowrap;
+  background:rgba(255,179,0,0.14);
+  color:var(--gold-dark);
+  border:2px solid var(--gold);
+  transition:all .26s var(--ease);
+}
+.btn-gold-detail:hover {
+  background:var(--gold);
+  color:#1A0C00;
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(255,179,0,.52);
 }
 
+/* ビジュアル列 */
+.exhibition-visual {
+  display:flex; flex-direction:column; align-items:center;
+}
+
+/* フォトスタック */
+.exhibition-photo-stack {
+  display:flex; flex-direction:column; align-items:center;
+  width:100%; padding:0 8px;
+}
+.ep-frame {
+  width:84%; border-radius:var(--r-lg); overflow:hidden;
+  border:2px solid rgba(255,202,40,.50);
+  box-shadow:var(--shadow-m),0 0 22px rgba(255,179,0,.18);
+  position:relative;
+  transition:transform .30s var(--ease),box-shadow .30s;
+}
+.ep-frame img { width:100%; height:auto; display:block; }
+.ep-frame-1 { align-self:flex-end;  transform:rotate(2.2deg);  margin-bottom:-26px; z-index:3; }
+.ep-frame-2 { align-self:flex-start; transform:rotate(-2.8deg); margin-bottom:-20px; z-index:2; }
+.ep-frame-3 { align-self:flex-end;  transform:rotate(1.6deg);  z-index:1; }
+.ep-frame:hover {
+  transform:rotate(0deg) scale(1.03) translateY(-5px);
+  box-shadow:var(--shadow-l),var(--gold-glow);
+  z-index:10; position:relative;
+}
+
+/* タグ */
 .exhibition-tags {
   display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
-  margin-bottom:30px;
+  margin-top:22px;
 }
 
-.exhibition-btns {
-  display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+/* =========== レスポンシブ =========== */
+@media(max-width:860px) {
+  .exhibition-inner {
+    grid-template-columns:1fr;
+    gap:32px;
+    padding:36px 28px;
+  }
+  /* モバイル: ビジュアルを先に表示 */
+  .exhibition-visual { order:-1; }
+  /* 横並びスタック */
+  .exhibition-photo-stack { flex-direction:row; align-items:flex-end; gap:10px; padding:0; }
+  .ep-frame { width:31%; margin-bottom:0 !important; }
+  .ep-frame-1 { transform:rotate(2deg); }
+  .ep-frame-2 { transform:rotate(0deg); margin-bottom:14px !important; }
+  .ep-frame-3 { transform:rotate(-2deg); }
+  .exhibition-btns { justify-content:center; }
+  .exhibition-catch,
+  .exhibition-title,
+  .exhibition-lead { text-align:center; }
+  .exhibition-features { align-items:flex-start; max-width:380px; margin:0 auto 28px; }
 }
 
 @media(max-width:640px) {
-  .exhibition-card { padding:32px 20px; }
-  .exhibition-btns .btn { width:100%; max-width:300px; justify-content:center; }
+  .exhibition-inner { padding:28px 18px; gap:24px; }
+  .ep-frame { width:29%; }
+  .exhibition-btns { flex-direction:column; align-items:center; }
+  .exhibition-btns .btn,
+  .exhibition-btns .btn-gold-detail { width:100%; max-width:300px; justify-content:center; }
 }
