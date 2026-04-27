@@ -1822,93 +1822,108 @@ section {
 }
 
 /* ================================================================
-   DECORATIVE ENHANCEMENTS — 全ページ共通 世界観・装飾ルール
-   ドラゴン×ファンタジー / 鱗モチーフ / 統一ホバー挙動
+   FLUFFY FANTASY — ファードラ世界観・質感統一ルール
+   やわらかい形状 / ふわっとした空気感 / やさしい動き
    ================================================================ */
 
-/* ─── ① body 鱗スケールテクスチャ（全ページ基盤） ─── */
-/* 対角ハーフドロップ配置: 魚鱗/ドラゴン鱗に近い幾何パターン */
+/* ─── ① 全体の形状・影をソフト化（CSS変数上書き） ─── */
+:root {
+  --r:      14px;
+  --r-sm:    8px;
+  --r-lg:   22px;
+  --r-xl:   34px;
+  --shadow-s:    0  6px 28px rgba(26,54,115,0.11);
+  --shadow-m:    0 10px 48px rgba(26,54,115,0.15);
+  --shadow-l:    0 18px 72px rgba(26,54,115,0.19);
+  --glass-shadow:0 12px 56px rgba(26,54,115,0.13);
+}
+
+/* ─── ② body 背景: タイリングなし・ふわっとしたグロー ─── */
 body::after {
   background-image:
-    radial-gradient(circle at 50% 0%,  rgba(255,179,0,0.042) 27%,transparent 27%),
-    radial-gradient(circle at 0%  50%, rgba(255,179,0,0.042) 27%,transparent 27%);
-  background-size:44px 44px;
-  background-position:0 0,22px 22px;
+    radial-gradient(ellipse at 30% 20%, rgba(255,220,100,0.055) 0%,transparent 55%),
+    radial-gradient(ellipse at 72% 62%, rgba(180,140,230,0.045) 0%,transparent 50%),
+    radial-gradient(ellipse at 18% 80%, rgba(100,210,200,0.035) 0%,transparent 45%);
+  background-size:100% 100%;
+  background-position:0 0;
 }
 
-/* ─── ② セクション別 鱗テクスチャ（色温度で区別） ─── */
-/* 通常セクション: スカイブルー系 */
+/* ─── ③ セクション背景: 柔らかいサイドグロー ─── */
 section:not(.hero):not(.sec-alt):not(.sec-exhibition) {
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(96,160,232,0.028) 23%,transparent 23%),
-    radial-gradient(circle at 0%  50%, rgba(96,160,232,0.028) 23%,transparent 23%);
-  background-size:40px 40px;
-  background-position:0 0,20px 20px;
+    radial-gradient(ellipse at 82% 50%, rgba(96,160,232,0.06) 0%,transparent 55%);
+  background-size:100% 100%;
+  background-position:0 0;
 }
-/* sec-alt セクション: ゴールド系 */
 section.sec-alt {
-  background-color:rgba(255,210,50,0.09);
+  background-color:rgba(255,210,50,0.07);
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(255,179,0,0.042) 23%,transparent 23%),
-    radial-gradient(circle at 0%  50%, rgba(255,179,0,0.042) 23%,transparent 23%);
-  background-size:40px 40px;
-  background-position:0 0,20px 20px;
+    radial-gradient(ellipse at 16% 50%, rgba(255,179,0,0.09) 0%,transparent 52%);
+  background-size:100% 100%;
+  background-position:0 0;
 }
-/* セクション境界の細いゴールドライン */
-section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.18); }
+/* セクション境界: やわらかい1pxライン */
+section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
 
-/* ─── ③ .cbox — ホバー・右上コーナー鱗装飾 ─── */
-/* 右上コーナーに3点のドラゴン鱗パターン（背景レイヤーで安全） */
+/* ─── ④ .cbox — ふんわりホバー・ソフトコーナーグロー ─── */
 .cbox {
   position:relative; overflow:hidden;
-  transition:transform .26s var(--ease),box-shadow .26s;
+  transition:transform .32s var(--ease),box-shadow .32s;
+  /* 右上に楕円グロー: 鱗の尖りなし・ふわっとした光 */
   background-image:
-    radial-gradient(circle at 100% 0%,   rgba(255,202,40,0.11) 30%,transparent 30%),
-    radial-gradient(circle at 78%  0%,   rgba(255,202,40,0.07) 21%,transparent 21%),
-    radial-gradient(circle at 100% 22%, rgba(255,202,40,0.07) 21%,transparent 21%);
+    radial-gradient(ellipse at 96% 4%, rgba(255,202,40,0.09) 0%,transparent 48%);
 }
 .cbox:hover {
-  transform:translateY(-2px);
-  box-shadow:var(--glass-shadow),0 0 28px rgba(255,179,0,0.16);
+  transform:translateY(-3px) scale(1.006);
+  box-shadow:var(--glass-shadow),0 0 38px rgba(255,179,0,0.14);
 }
 
-/* ─── ④ .cbox-title 左アクセントバー（全ページ共通） ─── */
-/* セクション順にゴールド→スカイ→エメラルド→ルビー→パープルと変化 */
+/* ─── ⑤ .cbox-title 左アクセントバー: ソフト版 ─── */
+/* 幅広め・角丸大・下に向けて色が溶けるグラデーション */
 .cbox-title { display:flex; align-items:flex-start; gap:10px; }
 .cbox-title::before {
   content:''; flex-shrink:0; display:block;
-  width:3px; height:1.1em;
-  background:linear-gradient(to bottom,var(--gold),var(--gold-dark));
-  border-radius:2px; margin-top:.18em;
+  width:4px; height:1.1em;
+  background:linear-gradient(to bottom,var(--gold),rgba(255,179,0,0.30));
+  border-radius:4px; margin-top:.16em;
 }
-.cbox:nth-child(2) .cbox-title::before { background:linear-gradient(to bottom,var(--sky),var(--sky-deep)); }
-.cbox:nth-child(3) .cbox-title::before { background:linear-gradient(to bottom,var(--emerald),#009960); }
-.cbox:nth-child(4) .cbox-title::before { background:linear-gradient(to bottom,var(--ruby),#9E0030); }
-.cbox:nth-child(5) .cbox-title::before { background:linear-gradient(to bottom,#8860E0,#6040B0); }
+.cbox:nth-child(2) .cbox-title::before { background:linear-gradient(to bottom,var(--sky),rgba(96,160,232,0.30)); }
+.cbox:nth-child(3) .cbox-title::before { background:linear-gradient(to bottom,var(--emerald),rgba(21,214,152,0.30)); }
+.cbox:nth-child(4) .cbox-title::before { background:linear-gradient(to bottom,var(--ruby),rgba(217,26,77,0.30)); }
+.cbox:nth-child(5) .cbox-title::before { background:linear-gradient(to bottom,#8860E0,rgba(136,96,224,0.30)); }
 
-/* ─── ⑤ sec-head 虹ラインシマーアニメーション ─── */
+/* ─── ⑥ sec-head 虹ラインシマー（ゆっくりめ） ─── */
 .sec-head::before {
   background:linear-gradient(90deg,var(--ruby),var(--gold),var(--emerald),var(--sky),var(--gold),var(--ruby));
   background-size:200% auto;
-  animation:rainbowFlow 7s linear infinite;
+  animation:rainbowFlow 9s linear infinite;
 }
 .sec-head::after {
   background:linear-gradient(90deg,var(--sky),var(--gold),var(--ruby),var(--emerald),var(--gold),var(--sky));
   background-size:200% auto;
-  animation:rainbowFlow 7s linear infinite reverse;
+  animation:rainbowFlow 9s linear infinite reverse;
 }
 @keyframes rainbowFlow {
   0%   { background-position:0%   center; }
   100% { background-position:200% center; }
 }
 
-/* ─── ⑥ page-hero グラデーション強化（全サブページ共通） ─── */
+/* ─── ⑦ page-hero グラデーション（全サブページ共通） ─── */
 .page-hero::before {
   background:
-    radial-gradient(ellipse at center,   rgba(255,179,0,.24) 0%,transparent 62%),
-    radial-gradient(circle at 12% 35%, rgba(21,214,152,.14) 0%,transparent 34%),
-    radial-gradient(circle at 88% 35%, rgba(217,26,77,.11) 0%,transparent 30%);
+    radial-gradient(ellipse at center,   rgba(255,179,0,.22) 0%,transparent 60%),
+    radial-gradient(circle at 14% 36%, rgba(21,214,152,.13) 0%,transparent 34%),
+    radial-gradient(circle at 86% 36%, rgba(217,26,77,.10) 0%,transparent 30%);
 }
 
-/* ─── ⑦ info-card-icon ホバーアニメーション（開催概要カード） ─── */
-.info-card:hover .info-card-icon { transform:scale(1.10) rotate(8deg); }
+/* ─── ⑧ ボタン: ふんわり浮き（scale追加） ─── */
+.btn-primary:hover    { transform:translateY(-3px) scale(1.025); }
+.btn-secondary:hover  { transform:translateY(-2px) scale(1.015); }
+.btn-gold-detail:hover { transform:translateY(-3px) scale(1.020); }
+
+/* ─── ⑨ info-card: やさしいリフト（回転なし） ─── */
+.info-card:hover               { transform:translateY(-6px) scale(1.02); }
+.info-card:hover .info-card-icon { transform:scale(1.12); }
+
+/* ─── ⑩ glass-card: ふんわり浮き ─── */
+.glass-card:hover { transform:translateY(-5px) scale(1.01); }
