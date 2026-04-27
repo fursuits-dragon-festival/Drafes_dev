@@ -1927,3 +1927,41 @@ section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
 
 /* ─── ⑩ glass-card: ふんわり浮き ─── */
 .glass-card:hover { transform:translateY(-5px) scale(1.01); }
+
+/* ================================================================
+   FUR DRAGON — もふもふドラゴンモチーフ追加
+   「ちゃんと分かるが自然」なラインで2要素に限定
+   ================================================================ */
+
+/* ─── A. page-hero ボトムライン → 双角シルエット ─── */
+/* サブページ全ページのヒーロー下部レインボーストライプを
+   ドラゴンの双角（耳/角）シルエットに変形する。
+   clip-pathで2本の三角形を組み込み、「デザインの一部」として溶け込ませる */
+.page-hero::after {
+  height:14px;
+  clip-path:polygon(
+    0%     100%,
+    100%   100%,
+    100%   57%,
+    71.5%  57%, 70% 0%, 68.5% 57%,
+    31.5%  57%, 30% 0%, 28.5% 57%,
+    0%     57%
+  );
+}
+
+/* ─── B. sec-head 見出し下: ふわっとしたゴールドグロー ─── */
+/* 毛並みの温かさを「光のにじみ」で表現する（ファー表現・限定1箇所）
+   フィルタブラーで境界を溶かし、もこっとした柔らかさを演出 */
+.sec-head h2::after {
+  content:''; display:block;
+  width:70px; height:10px;
+  margin:3px auto 0;
+  background:radial-gradient(ellipse at center, rgba(255,179,0,0.52) 0%,transparent 65%);
+  filter:blur(4px);
+  border-radius:50%;
+}
+
+/* ─── C. sec-head 装飾ライン: 微ぼかしで発光感 ─── */
+/* シャープな直線からわずかにソフトな光に変える */
+.sec-head::before,
+.sec-head::after { filter:blur(0.6px); }
