@@ -72,6 +72,9 @@
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { scroll-behavior:smooth; font-size:16px; }
 
+/* アンカーリンク遷移時の固定ヘッダー分オフセット */
+[id] { scroll-margin-top: calc(var(--nav-h) + 20px); }
+
 /* ================================================================
    BACKGROUND — 祭り空グラデーション
    明るい昼間フェスティバル: 深紺 → 明るい青空 → 暖かいゴールデン午後
@@ -1635,4 +1638,97 @@ section {
 @media(max-width:600px) {
   .upload-box { padding:28px 18px; }
   .participants-grid { grid-template-columns:1fr; }
+}
+
+/* ================================================================
+   EXHIBITION CARD — トップページ展示企画セクション専用
+   ================================================================ */
+.sec-exhibition {
+  background:rgba(100,50,0,0.10);
+}
+.sec-exhibition::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse at 28% 55%, rgba(255,179,0,0.16) 0%,transparent 52%),
+    radial-gradient(ellipse at 74% 42%, rgba(21,214,152,0.09) 0%,transparent 48%);
+}
+
+.exhibition-card {
+  background:var(--glass);
+  border:1.5px solid rgba(255,202,40,0.62);
+  border-radius:var(--r-xl);
+  padding:52px 44px;
+  box-shadow:var(--glass-shadow),0 0 52px rgba(255,179,0,0.20);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  text-align:center;
+  position:relative; overflow:hidden;
+  color:var(--text);
+  transition:transform .28s var(--ease),box-shadow .28s,border-color .28s;
+}
+/* レインボーボーダー（上） */
+.exhibition-card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg, var(--ruby), var(--gold), var(--emerald), var(--sky));
+}
+/* 右上グロー装飾 */
+.exhibition-card::after {
+  content:''; position:absolute;
+  top:-64px; right:-64px;
+  width:220px; height:220px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,179,0,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.exhibition-card:hover {
+  transform:translateY(-6px);
+  box-shadow:var(--glass-shadow),var(--gold-glow),0 0 64px rgba(255,179,0,0.24);
+  border-color:var(--gold);
+}
+
+.exhibition-card-icon {
+  width:72px; height:72px; margin:0 auto 20px;
+  background:linear-gradient(135deg,rgba(255,179,0,.22),rgba(255,202,40,.10));
+  border-radius:50%;
+  border:1.5px solid rgba(255,202,40,.56);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 28px rgba(255,179,0,.28);
+  transition:box-shadow .22s var(--ease),transform .22s var(--ease);
+}
+.exhibition-card:hover .exhibition-card-icon {
+  box-shadow:var(--gold-glow);
+  transform:scale(1.10);
+}
+.exhibition-card-icon svg { color:var(--gold-dark); }
+
+.exhibition-title {
+  font-family:var(--font-heading);
+  font-size:clamp(1.12rem,2.6vw,1.52rem);
+  color:var(--gold-dark);
+  margin-bottom:16px; letter-spacing:.03em;
+}
+
+.exhibition-lead {
+  font-size:1.06rem; font-weight:600;
+  color:var(--text);
+  line-height:1.80; margin-bottom:10px;
+}
+
+.exhibition-sub {
+  font-size:.94rem;
+  color:var(--text-sub);
+  line-height:1.88; margin-bottom:26px;
+}
+
+.exhibition-tags {
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+  margin-bottom:30px;
+}
+
+.exhibition-btns {
+  display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+}
+
+@media(max-width:640px) {
+  .exhibition-card { padding:32px 20px; }
+  .exhibition-btns .btn { width:100%; max-width:300px; justify-content:center; }
 }
