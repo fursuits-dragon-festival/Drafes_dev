@@ -25,6 +25,7 @@
         </button>
         <ul class="nav-dropdown" role="menu">
           <li role="none"><a href="pages/about.html"   role="menuitem">ドラゴンフェスティバルとは</a></li>
+          <li role="none"><a href="pages/event.html"   role="menuitem">イベント詳細（第2回）</a></li>
           <li role="none"><a href="pages/rules.html"   role="menuitem">参加規約</a></li>
           <li role="none"><a href="pages/privacy.html" role="menuitem">プライバシーポリシー</a></li>
         </ul>
@@ -36,6 +37,7 @@
         <ul class="nav-dropdown" role="menu">
           <li role="none"><a href="pages/register.html" role="menuitem">参加登録</a></li>
           <li id="nav-participants" style="display:none" role="none"><a href="pages/participants.html" role="menuitem">参加者一覧</a></li>
+          <li id="nav-characters"   style="display:none" role="none"><a href="pages/characters.html"  role="menuitem">キャラクター一覧</a></li>
           <li role="none"><a href="pages/beginner.html" role="menuitem">初めての方へ</a></li>
         </ul>
       </li>
@@ -67,6 +69,7 @@
       <div class="mm-cat">イベントについて</div>
       <ul class="mm-links">
         <li><a href="pages/about.html">ドラゴンフェスティバルとは</a></li>
+        <li><a href="pages/event.html">イベント詳細（第2回）</a></li>
         <li><a href="pages/rules.html">参加規約</a></li>
         <li><a href="pages/privacy.html">プライバシーポリシー</a></li>
       </ul>
@@ -76,6 +79,7 @@
       <ul class="mm-links">
         <li><a href="pages/register.html">参加登録</a></li>
         <li id="mm-participants" style="display:none"><a href="pages/participants.html">参加者一覧</a></li>
+        <li id="mm-characters"   style="display:none"><a href="pages/characters.html">キャラクター一覧</a></li>
         <li><a href="pages/beginner.html">初めての方へ</a></li>
       </ul>
     </div>
@@ -119,8 +123,8 @@
         hd3: hero-inner基準 / タイトル左エリア（プロモ非overlap）
         ※ position:absolute で配置されるためレイアウトに影響しない
       -->
-      <img src="images/dragon-cool.svg"     class="hero-dragon hd2" alt="" aria-hidden="true">
-      <img src="images/dragon-friendly.svg" class="hero-dragon hd3" alt="" aria-hidden="true">
+      <img src="images/dragon-cool.png"     class="hero-dragon hd2" alt="" aria-hidden="true">
+      <img src="images/dragon-friendly.png" class="hero-dragon hd3" alt="" aria-hidden="true">
 
       <!-- タイトル -->
       <div class="hero-en-title">Dragon Festival</div>
@@ -135,7 +139,7 @@
       <!-- プロモーションイラスト — 画面の主役 -->
       <div class="hero-promo">
         <!-- hd1のみ: hero-promo基準 / プロモ左下に軽く重なる（唯一のoverlap） -->
-        <img src="images/dragon-cute.svg" class="hero-dragon hd1" alt="" aria-hidden="true">
+        <img src="images/dragon-cute.png" class="hero-dragon hd1" alt="" aria-hidden="true">
         <img src="images/promo_mock.png" alt="ドラゴンフェスティバル ～リターンズ～ プロモーションイラスト">
         <div class="hero-promo-ring"  aria-hidden="true"></div>
         <div class="hero-promo-ring2" aria-hidden="true"></div>
@@ -144,7 +148,12 @@
       <!-- CTA -->
       <div class="hero-cta">
         <a href="pages/register.html" class="btn btn-primary btn-lg">参加登録はこちら</a>
-        <a href="pages/about.html"    class="btn btn-secondary btn-lg">イベント詳細を見る</a>
+        <a href="pages/event.html"     class="btn btn-secondary btn-lg">イベント詳細を見る</a>
+      </div>
+      <!-- 公開後リンク -->
+      <div id="hero-list-links" style="display:none;margin-top:16px;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="pages/participants.html" style="display:inline-flex;align-items:center;padding:10px 22px;background:rgba(255,202,40,.92);color:#1a0a00;font-weight:700;border-radius:var(--r);text-decoration:none;font-size:.93rem;border:none;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">参加者一覧</a>
+        <a href="pages/characters.html"   style="display:inline-flex;align-items:center;padding:10px 22px;background:rgba(255,202,40,.92);color:#1a0a00;font-weight:700;border-radius:var(--r);text-decoration:none;font-size:.93rem;border:none;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">キャラクター一覧</a>
       </div>
     </div>
   </section>
@@ -239,7 +248,7 @@
             </li>
           </ul>
           <div class="exhibition-btns">
-            <a href="pages/about.html#exhibition" class="btn btn-gold-detail">企画の詳細を見る</a>
+            <a href="pages/event.html#exhibition" class="btn btn-gold-detail">企画の詳細を見る</a>
             <a href="pages/register.html" class="btn btn-primary">参加登録はこちら</a>
           </div>
         </div>
@@ -316,16 +325,21 @@
           </div>
         </div>
 
-        <div class="map-card fade-up delay-2">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 14px;color:var(--sky-deep)" aria-hidden="true">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-          </svg>
-          <h3>さいたま市プラザノース</h3>
-          <p>埼玉県さいたま市北区宮原町1-852-1<br><br>埼玉新都市交通伊奈線　「加茂宮駅」から徒歩約8分<br>JR宇都宮線　「土呂駅」西口から徒歩約15分</p>
-          <a href="https://maps.google.com/maps?q=さいたま市プラザノース" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.86rem;padding:9px 22px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Google マップで見る
-          </a>
+        <div class="map-card map-card-embed fade-up delay-2">
+          <iframe
+            src="https://maps.google.com/maps?q=埼玉県さいたま市北区宮原町1-852-1&output=embed&hl=ja"
+            width="100%" height="320"
+            style="border:0;border-radius:var(--r);display:block;"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="さいたま市プラザノース 地図"
+            aria-label="さいたま市プラザノースの地図"></iframe>
+          <div style="margin-top:12px;text-align:center;">
+            <a href="https://maps.google.com/maps?q=埼玉県さいたま市北区宮原町1-852-1" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.86rem;padding:9px 22px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Google マップで開く
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -353,6 +367,7 @@
           <h4>イベントについて</h4>
           <ul>
             <li><a href="pages/about.html">ドラゴンフェスティバルとは</a></li>
+            <li><a href="pages/event.html">イベント詳細（第2回）</a></li>
             <li><a href="pages/rules.html">参加規約</a></li>
             <li><a href="pages/privacy.html">プライバシーポリシー</a></li>
           </ul>
@@ -362,6 +377,7 @@
           <ul>
             <li><a href="pages/register.html">参加登録</a></li>
             <li id="foot-participants" style="display:none"><a href="pages/participants.html">参加者一覧</a></li>
+            <li id="foot-characters"   style="display:none"><a href="pages/characters.html">キャラクター一覧</a></li>
             <li><a href="pages/beginner.html">初めての方へ</a></li>
           </ul>
         </div>

@@ -78,26 +78,29 @@ function setupNav() {
   });
 }
 
-/* ---- Participants nav: show after OPEN_TIME ---- */
+/* ---- Participants / Characters nav: show after OPEN_TIME ---- */
 function setupParticipantsNavLink() {
   const OPEN_TIME = (typeof CONST !== 'undefined' && CONST.PARTICIPANTS_OPEN_TIME)
     ? CONST.PARTICIPANTS_OPEN_TIME
     : new Date('2026-04-01T12:00:00+09:00');
   if (new Date() < OPEN_TIME) return;
-  document.querySelectorAll('#nav-participants, #mm-participants, #foot-participants').forEach(el => {
+  document.querySelectorAll(
+    '#nav-participants, #mm-participants, #foot-participants,' +
+    '#nav-characters,   #mm-characters,   #foot-characters'
+  ).forEach(el => {
     el.style.display = '';
   });
+  const heroLinks = document.getElementById('hero-list-links');
+  if (heroLinks) heroLinks.style.display = 'flex';
 }
 
-/* ---- FAQ accordion ---- */
+/* ---- FAQ accordion (multi-open) ---- */
 function setupFAQ() {
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-q');
     if (!question) return;
     question.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      item.classList.toggle('open');
     });
   });
 }

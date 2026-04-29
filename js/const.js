@@ -9,13 +9,16 @@ const CONST = {
 
   // GAS ウェブアプリのデプロイ URL
   // ※ GAS を再デプロイした場合はこの値を更新すること
-  GAS_BASE: 'https://script.google.com/macros/s/AKfycbzgLEHYn-rHu4xJAiUfBxVpvWJ-wNf37j-7uYxXgQ5z0N--iMznKNzbP-838l78GboK/exec',
+  GAS_BASE: 'https://script.google.com/macros/s/AKfycbxpSAfphlVhE8l-PeKlLvuEt2C9talLUGr9WChzNCLsVUNgnM39ZyRYgYTL3uRx13vR/exec',
 
   // API エンドポイント（GAS_BASE に連結して使用）
   API: {
     STATUS:         '?path=/api/status',
     PARTICIPANTS:   '?path=/api/participants',
-    VALIDATE_TOKEN: '?path=/api/validate-token'
+    CHARACTERS:     '?path=/api/characters',
+    VALIDATE_TOKEN: '?path=/api/validate-token',
+    MYPAGE:         '?path=/api/mypage',
+    SCORES:         '?path=/api/scores'
   },
 
   // アップロード制限

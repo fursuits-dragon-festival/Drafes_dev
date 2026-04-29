@@ -322,20 +322,6 @@ body::after {
   text-align:center;
 }
 
-.hero::before {
-  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(ellipse at 65% 5%,  rgba(255,179,0,0.28) 0%,transparent 46%),
-    radial-gradient(ellipse at 12% 66%, rgba(21,214,152,0.16) 0%,transparent 42%),
-    radial-gradient(ellipse at 50% 98%, rgba(217,26,77,0.12) 0%,transparent 40%);
-}
-
-/* 下部ウォームグロー — コンテンツへのスムーズな遷移 */
-.hero::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:30%;
-  background:linear-gradient(to top,rgba(255,200,50,0.08),transparent);
-  pointer-events:none; z-index:1;
-}
 
 /* Cloud — 演出（控えめ） */
 .cloud {
@@ -611,7 +597,9 @@ body::after {
   padding:12px 32px;
   font-family:var(--font-body); font-size:.96rem; font-weight:700;
   border-radius:var(--r-full); border:none; cursor:pointer;
-  transition:all .25s var(--ease); text-decoration:none; white-space:nowrap;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+  text-decoration:none; white-space:nowrap;
+  will-change:transform; backface-visibility:hidden;
 }
 
 .btn-primary {
@@ -623,13 +611,12 @@ body::after {
 .btn-primary:hover { transform:translateY(-3px); box-shadow:0 9px 34px rgba(255,179,0,.64); color:#1A0C00; }
 
 .btn-secondary {
-  background:rgba(255,202,40,0.13);
+  background:rgba(50, 40, 10, 0.92);
   color:var(--gold);
-  border:1.5px solid rgba(255,202,40,0.56);
-  backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,202,40,0.72);
 }
 .btn-secondary:hover {
-  background:rgba(255,202,40,0.26);
+  background:rgba(70, 55, 10, 0.97);
   color:var(--gold);
   border-color:var(--gold);
   transform:translateY(-2px);
@@ -638,10 +625,9 @@ body::after {
 
 /* Hero CTA secondary — higher contrast against hero gradient */
 .hero-cta .btn-secondary {
-  background:rgba(14,28,76,0.54);
+  background:rgba(14,28,76,0.92);
   color:rgba(255,230,90,.96);
   border-color:rgba(255,202,40,.72);
-  backdrop-filter:blur(14px);
 }
 .hero-cta .btn-secondary:hover {
   background:rgba(14,28,76,0.72);
@@ -665,11 +651,10 @@ body::after {
 .btn-emerald:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(21,214,152,.56); color:#001A0E; }
 
 .btn-outline {
-  background:rgba(255,255,255,.12); color:rgba(255,255,255,.92);
-  border:1.5px solid rgba(255,255,255,.42);
-  backdrop-filter:blur(8px);
+  background:rgba(30, 25, 10, 0.90); color:var(--gold);
+  border:1.5px solid rgba(255,202,40,.60);
 }
-.btn-outline:hover { background:rgba(255,255,255,.24); color:white; transform:translateY(-2px); }
+.btn-outline:hover { background:rgba(50, 40, 10, 0.97); color:var(--gold); border-color:var(--gold); transform:translateY(-2px); }
 
 .btn-purple {
   background:linear-gradient(135deg,#6040B0 0%,#8860E0 100%);
@@ -692,13 +677,6 @@ body::after {
 section {
   padding:76px 20px;
   position:relative; z-index:1;
-  /* 暖かい白オーバーレイ → 昼間のフェスティバル感 */
-  background:rgba(255,248,240,0.10);
-}
-
-/* 交互セクション — ゴールデン暖かいアクセント */
-.sec-alt {
-  background:rgba(255,210,50,0.09);
 }
 
 .container    { max-width:1120px; margin:0 auto; }
@@ -778,7 +756,6 @@ section {
   display:flex; align-items:center; justify-content:center;
   transition:transform .22s, box-shadow .22s;
 }
-.info-card:hover .info-card-icon { transform:scale(1.08); }
 .info-card-label { font-size:.70rem; font-weight:700; color:var(--text-sub); text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; display:block; }
 .info-card-val   { font-size:.98rem; font-weight:700; color:var(--text); line-height:1.4; word-break:keep-all; overflow-wrap:break-word; }
 
@@ -901,6 +878,8 @@ section {
 }
 .map-card h3 { font-family:var(--font-heading);color:var(--sky-deep);margin-bottom:8px;font-size:1.05rem; }
 .map-card p  { font-size:.88rem;color:var(--text-sub);margin-bottom:18px; }
+.map-card-embed { padding:20px; align-items:stretch; }
+.map-card-embed iframe { border-radius:var(--r); }
 
 /* ================================================================
    NAV CARDS
@@ -1235,7 +1214,6 @@ section {
   margin-bottom:22px;color:var(--text);
 }
 .register-box h2 { font-family:var(--font-heading);color:var(--sky-deep);margin-bottom:10px;font-size:1.4rem; }
-
 .contact-box {
   background:var(--glass-alt);
   border:1px solid var(--glass-border);
@@ -1556,6 +1534,42 @@ section {
 .participants-msg { text-align:center; padding:36px 20px; color:var(--text-sub); grid-column:1/-1; }
 
 /* ================================================================
+   CHARACTERS LIST — キャラクター一覧
+   ================================================================ */
+.characters-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:12px; margin-top:8px;
+}
+.char-card {
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:var(--r-lg); padding:14px 16px;
+  box-shadow:var(--shadow-s); backdrop-filter:blur(12px);
+  display:flex; align-items:flex-start; gap:12px;
+  transition:transform .22s var(--ease), box-shadow .22s;
+}
+.char-card:hover { transform:translateY(-3px); box-shadow:var(--glass-shadow), var(--gold-glow); }
+.char-card.dragon {
+  border-color:rgba(255,202,40,.64);
+  background:rgba(255,248,215,.95);
+}
+.char-card-icon {
+  flex-shrink:0; width:44px; height:44px; border-radius:50%;
+  background:rgba(96,160,232,.14); border:1px solid rgba(96,160,232,.34);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--sky-deep);
+}
+.char-card.dragon .char-card-icon {
+  background:rgba(255,179,0,.16); border-color:rgba(255,202,40,.52); color:var(--gold-dark);
+}
+.char-card-body { flex:1; min-width:0; }
+.char-name {
+  font-family:var(--font-heading); font-weight:700; font-size:1.0rem;
+  color:var(--text); word-break:break-word; margin-bottom:3px;
+}
+.char-card.dragon .char-name { color:var(--gold-deep); }
+
+/* ================================================================
    UPLOAD FORM — 画像アップロード
    ================================================================ */
 .upload-box {
@@ -1643,16 +1657,6 @@ section {
 /* ================================================================
    EXHIBITION — トップページ展示企画セクション専用
    ================================================================ */
-.sec-exhibition {
-  background:linear-gradient(135deg,rgba(100,50,0,0.13) 0%,rgba(60,30,80,0.09) 100%);
-}
-.sec-exhibition::before {
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(ellipse at 14% 50%, rgba(255,179,0,0.20) 0%,transparent 50%),
-    radial-gradient(ellipse at 86% 50%, rgba(21,214,152,0.12) 0%,transparent 46%),
-    radial-gradient(ellipse at 50% 100%, rgba(217,26,77,0.07) 0%,transparent 40%);
-}
 
 /* 2カラムカード */
 .exhibition-inner {
@@ -1848,22 +1852,6 @@ body::after {
   background-position:0 0;
 }
 
-/* ─── ③ セクション背景: 柔らかいサイドグロー ─── */
-section:not(.hero):not(.sec-alt):not(.sec-exhibition) {
-  background-image:
-    radial-gradient(ellipse at 82% 50%, rgba(96,160,232,0.06) 0%,transparent 55%);
-  background-size:100% 100%;
-  background-position:0 0;
-}
-section.sec-alt {
-  background-color:rgba(255,210,50,0.07);
-  background-image:
-    radial-gradient(ellipse at 16% 50%, rgba(255,179,0,0.09) 0%,transparent 52%);
-  background-size:100% 100%;
-  background-position:0 0;
-}
-/* セクション境界: やわらかい1pxライン */
-section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
 
 /* ─── ④ .cbox — ふんわりホバー・ソフトコーナーグロー ─── */
 .cbox {
@@ -1874,7 +1862,7 @@ section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
     radial-gradient(ellipse at 96% 4%, rgba(255,202,40,0.09) 0%,transparent 48%);
 }
 .cbox:hover {
-  transform:translateY(-3px) scale(1.006);
+  transform:translateY(-3px);
   box-shadow:var(--glass-shadow),0 0 38px rgba(255,179,0,0.14);
 }
 
@@ -1916,17 +1904,17 @@ section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
     radial-gradient(circle at 86% 36%, rgba(217,26,77,.10) 0%,transparent 30%);
 }
 
-/* ─── ⑧ ボタン: ふんわり浮き（scale追加） ─── */
-.btn-primary:hover    { transform:translateY(-3px) scale(1.025); }
-.btn-secondary:hover  { transform:translateY(-2px) scale(1.015); }
-.btn-gold-detail:hover { transform:translateY(-3px) scale(1.020); }
+/* ─── ⑧ ボタン: ふんわり浮き（translateYのみ・blurなし） ─── */
+.btn-primary:hover    { transform:translateY(-3px); }
+.btn-secondary:hover  { transform:translateY(-2px); }
+.btn-gold-detail:hover { transform:translateY(-3px); }
 
-/* ─── ⑨ info-card: やさしいリフト（回転なし） ─── */
-.info-card:hover               { transform:translateY(-6px) scale(1.02); }
-.info-card:hover .info-card-icon { transform:scale(1.12); }
+/* ─── ⑨ info-card: やさしいリフト（translateYのみ） ─── */
+.info-card:hover               { transform:translateY(-6px); }
+.info-card:hover .info-card-icon { transform:scale(1.10); }
 
 /* ─── ⑩ glass-card: ふんわり浮き ─── */
-.glass-card:hover { transform:translateY(-5px) scale(1.01); }
+.glass-card:hover { transform:translateY(-5px); }
 
 /* ================================================================
    FUR DRAGON — もふもふドラゴンモチーフ追加
@@ -1962,6 +1950,17 @@ section + section { box-shadow:inset 0 1px 0 rgba(255,202,40,0.15); }
 }
 
 /* ─── C. sec-head 装飾ライン: 微ぼかしで発光感 ─── */
-/* シャープな直線からわずかにソフトな光に変える */
 .sec-head::before,
 .sec-head::after { filter:blur(0.6px); }
+
+/* ─── D. sec-head グロー — もふもふ束感を強化 ─── */
+/* 3点の楕円グラデーションを重ねて"毛の束"のような塊に */
+.sec-head h2::after {
+  width:90px; height:14px;
+  background:
+    radial-gradient(ellipse at 36% 50%, rgba(255,179,0,0.52) 0%,transparent 50%),
+    radial-gradient(ellipse at 64% 50%, rgba(255,202,40,0.42) 0%,transparent 46%),
+    radial-gradient(ellipse at 50% 24%, rgba(255,220,80,0.34) 0%,transparent 40%);
+  filter:blur(5px);
+}
+

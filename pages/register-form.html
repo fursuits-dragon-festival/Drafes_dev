@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>参加登録フォーム | ドラゴンフェスティバル</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/const.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-wrap">
+    <a href="../index.html" class="nav-logo"><img src="../images/logo_mock.png" alt="ドラゴンフェスティバル ロゴ"><span class="nav-logo-name">ドラゴンフェスティバル</span></a>
+    <ul class="nav-list">
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">イベントについて <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="about.html">ドラゴンフェスティバルとは</a></li>
+          <li><a href="event.html">イベント詳細（第2回）</a></li>
+          <li><a href="rules.html">参加規約</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">参加する <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="register.html">参加登録</a></li>
+          <li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li>
+          <li id="nav-characters"   style="display:none"><a href="characters.html">キャラクター一覧</a></li>
+          <li><a href="beginner.html">初めての方へ</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">その他 <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="faq.html">よくある質問</a></li>
+          <li><a href="history.html">過去実績</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="staff.html">スタッフ一覧</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a href="https://x.com/Fursuits_Drafes" class="nav-x" target="_blank" rel="noopener" aria-label="公式X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>
+    <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" aria-hidden="true">
+    <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="mm-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">その他</div><ul class="mm-links"><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+    <a href="https://x.com/Fursuits_Drafes" class="mm-x" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-hero">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="page-title-wrap">
+      <img src="../images/dragon-cute.png" class="pd-title pd-title-l" alt="" aria-hidden="true">
+      <h1 class="page-hero-title">参加登録フォーム</h1>
+      <img src="../images/dragon-friendly.png" class="pd-title pd-title-r" alt="" aria-hidden="true">
+    </div>
+    <p class="page-hero-sub">必要事項を入力してご登録ください</p>
+  </div>
+
+  <section>
+    <div class="container-sm">
+
+      <!-- ステータス表示エリア -->
+      <div id="status-area" style="margin-bottom:20px;">
+        <div class="cbox" style="text-align:center;padding:24px;">
+          <span class="btn-spinner" style="display:inline-block;margin-right:8px;"></span>
+          <span style="font-size:.95rem;color:var(--text-sub);">受付状況を確認中...</span>
+        </div>
+      </div>
+
+      <!-- フォーム本体 -->
+      <div class="cbox fade-up" id="form-wrap" style="margin-bottom:24px;display:none;">
+        <h2 class="cbox-title">参加登録</h2>
+
+        <div class="notice notice-info" style="margin-bottom:20px;">
+          登録を送信することで<a href="rules.html">参加規約</a>および<a href="privacy.html">プライバシーポリシー</a>に同意したものとみなします。
+        </div>
+
+        <form id="reg-form" novalidate>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+
+            <!-- メールアドレス -->
+            <div>
+              <label for="reg-email" class="reg-label">メールアドレス <span class="req">*</span></label>
+              <input id="reg-email" type="email" autocomplete="email" required placeholder="example@email.com" class="reg-input">
+              <p class="reg-hint">参加確認メールをお送りします。正確にご入力ください。</p>
+            </div>
+
+            <!-- X ID -->
+            <div>
+              <label for="reg-xid" class="reg-label">X(Twitter) ID <span class="req">*</span></label></label>
+              <input id="reg-xid" type="text" autocomplete="off" placeholder="@example（任意）" class="reg-input">
+            </div>
+
+            <!-- ハンドルネーム -->
+            <div>
+              <label for="reg-name" class="reg-label">ハンドルネーム <span class="req">*</span></label>
+              <input id="reg-name" type="text" required placeholder="イベントで使用するお名前" class="reg-input">
+            </div>
+
+            <!-- 参加区分 -->
+            <div>
+              <label class="reg-label">参加区分 <span class="req">*</span></label>
+              <div class="reg-radio-group">
+                <label class="reg-radio"><input type="radio" name="reg-category" value="ドラゴン"> ドラゴン（竜族着ぐるみ）</label>
+                <label class="reg-radio"><input type="radio" name="reg-category" value="着ぐるみ"> 着ぐるみ（竜族以外）</label>
+                <label class="reg-radio"><input type="radio" name="reg-category" value="一般"> 一般</label>
+              </div>
+            </div>
+
+            <!-- キャラクター名 -->
+            <div>
+              <label for="reg-char-name" class="reg-label">キャラクター名<span class="req" id="char-req" style="display:none">*</span></label>
+              <input id="reg-char-name" type="text" placeholder="着ぐるみキャラクターのお名前" class="reg-input">
+            </div>
+
+            <!-- ボランティア可否 -->
+            <div>
+              <label class="reg-label">ボランティア可否 <span class="req">*</span></label>
+              <p class="reg-hint" style="margin-bottom:8px;">会場設営・見回り等を手伝っていただける方は「可能」をお選びください。</p>
+              <div class="reg-radio-group">
+                <label class="reg-radio"><input type="radio" name="reg-volunteer" value="可能"> 可能</label>
+                <label class="reg-radio"><input type="radio" name="reg-volunteer" value="不可"> 不可</label>
+              </div>
+            </div>
+
+            <!-- 展示企画 -->
+            <div>
+              <label class="reg-label">展示企画への参加（アップロード対象）</label>
+              <p class="reg-hint" style="margin-bottom:8px;">会場内での展示を希望する場合はお選びください（複数選択可）。</p>
+              <div class="reg-radio-group">
+                <label class="reg-radio"><input type="checkbox" id="reg-upload-photo"  value="写真"> 写真（着ぐるみ写真を展示）</label>
+                <label class="reg-radio"><input type="checkbox" id="reg-upload-illust" value="イラスト"> イラスト（イラストを展示）</label>
+              </div>
+            </div>
+
+          </div>
+
+          <p id="reg-err" style="display:none;margin-top:16px;color:var(--ruby);font-size:.88rem;font-weight:600;padding:12px 16px;background:rgba(220,50,50,.08);border-radius:var(--r);"></p>
+          <div style="display:flex;justify-content:center;margin-top:24px;">
+            <button type="submit" id="reg-submit" class="btn btn-primary" style="width:200px;justify-content:center;">
+              登録する
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 送信成功 -->
+      <div class="cbox fade-up" id="reg-success" style="display:none;text-align:center;padding:32px 24px;">
+        <div style="font-size:3rem;margin-bottom:16px;">🎉</div>
+        <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:10px;color:var(--jade,#00B070);">参加登録が完了しました！</h2>
+        <p style="font-size:.94rem;color:var(--text-sub);margin-bottom:20px;">
+          入力いただいたメールアドレスに確認メールをお送りしました。<br>
+          メール記載のパスワードでマイページにログインできます。
+        </p>
+        <div id="reg-receipt" style="display:none;padding:16px 24px;background:rgba(255,202,40,0.15);border-radius:var(--r);font-weight:700;font-size:1.1rem;margin-bottom:20px;"></div>
+        <a href="register.html" class="btn btn-secondary">参加登録ページへ戻る</a>
+      </div>
+
+      <!-- 戻るボタン -->
+      <div style="display:flex;justify-content:center;margin-bottom:24px;">
+        <a href="register.html" class="btn btn-secondary" style="justify-content:center;">← 参加登録ページへ戻る</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="footer-brand-name">ドラゴンフェスティバル</div><p class="footer-tagline">竜族のお祭り　着ぐるみ交流イベント</p><a href="https://x.com/Fursuits_Drafes" class="footer-x" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a></div>
+      <nav class="footer-nav">
+        <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="foot-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+        <div class="fn-group"><h4>その他</h4><ul><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+      </nav>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2027 ドラゴンフェスティバル All Rights Reserved.</p></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<style>
+  .reg-label { display:block; font-size:.85rem; font-weight:700; margin-bottom:6px; color:var(--text-sub); }
+  .req { color:var(--ruby); }
+  .reg-input {
+    width:100%; padding:12px 16px; border-radius:var(--r);
+    border:1.5px solid var(--glass-border);
+    background:rgba(255,255,255,0.92);
+    font-size:.96rem; color:var(--text); outline:none; box-sizing:border-box;
+  }
+  .reg-input:focus { border-color:rgba(255,179,0,.6); }
+  .reg-input:disabled { background:rgba(200,200,200,0.4); color:#888; cursor:not-allowed; }
+  .reg-hint { font-size:.78rem; color:var(--text-sub); margin-top:4px; }
+  .reg-radio-group { display:flex; flex-direction:column; gap:10px; }
+  .reg-radio { display:flex; align-items:center; gap:10px; font-size:.95rem; cursor:pointer; }
+  .reg-radio input { accent-color:var(--gold-dark); width:18px; height:18px; flex-shrink:0; }
+  .reg-radio input:disabled { cursor:not-allowed; }
+  .reg-input.reg-error { border-color: var(--ruby) !important; background: rgba(220,50,50,.06) !important; }
+  .reg-radio-group.reg-error .reg-radio { color: var(--ruby); }
+  .reg-loading { text-align:center; padding:20px; color:var(--text-sub); font-size:.95rem; }
+  /* ホバーアニメーション無効化 */
+  .cbox:hover, .cbox { transform: none !important; box-shadow: none; }
+  .btn:hover { transform: none !important; }
+</style>
+<script>
+(function() {
+  'use strict';
+
+  var GAS_BASE    = CONST.GAS_BASE;
+  var statusArea  = document.getElementById('status-area');
+  var formWrap    = document.getElementById('form-wrap');
+  var successArea = document.getElementById('reg-success');
+  var form        = document.getElementById('reg-form');
+  var submitBtn   = document.getElementById('reg-submit');
+  var errMsg      = document.getElementById('reg-err');
+
+  // ── ステータス取得・UI制御 ────────────────────────────────
+  function fetchStatus() {
+    fetch(GAS_BASE + CONST.API.STATUS)
+      .then(function(r) { return r.json(); })
+      .then(renderStatus)
+      .catch(function() {
+        statusArea.innerHTML = '<div class="notice notice-warn">ステータスの取得に失敗しました。ページを再読み込みしてください。</div>';
+      });
+  }
+
+  function renderStatus(data) {
+    statusArea.innerHTML = '';
+
+    if (data.eventEnded) {
+      statusArea.innerHTML = '<div class="notice notice-warn">イベントは終了しました。ご参加ありがとうございました。</div>';
+      return;
+    }
+
+    if (!data.isOpen || !data.acceptingRegistration) {
+      statusArea.innerHTML = '<div class="notice notice-warn">現在受付を停止しています。</div>';
+      return;
+    }
+
+    if (data.remaining <= 0) {
+      statusArea.innerHTML = '<div class="notice notice-warn">申し訳ございません。定員に達しました。</div>';
+      return;
+    }
+
+    // 受付開始前
+    if (data.registrationStartAt) {
+      var now     = new Date();
+      var startAt = new Date(data.registrationStartAt);
+      if (now < startAt) {
+        var fmt = startAt.toLocaleString('ja-JP', {
+          year:'numeric', month:'2-digit', day:'2-digit',
+          hour:'2-digit', minute:'2-digit'
+        });
+        statusArea.innerHTML = '<div class="notice">受付開始前です。<strong>' + fmt + '</strong> から受付を開始します。</div>';
+        formWrap.style.display = '';
+        setAllInputsDisabled(true);
+        submitBtn.textContent = '受付開始前';
+        return;
+      }
+    }
+
+    // 受付中
+    statusArea.innerHTML =
+      '<div class="status-remaining">残り <strong>' + data.remaining + '</strong> 名 / 定員 ' + data.capacity + ' 名</div>';
+    formWrap.style.display = '';
+    setAllInputsDisabled(false);
+    submitBtn.textContent = '登録する';
+  }
+
+  function setAllInputsDisabled(disabled) {
+    var inputs = form.querySelectorAll('input, button[type=submit]');
+    inputs.forEach(function(el) { el.disabled = disabled; });
+  }
+
+  // ── フォーム送信 ──────────────────────────────────────────
+  form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    errMsg.style.display = 'none';
+
+    var email     = document.getElementById('reg-email').value.trim();
+    var xId       = document.getElementById('reg-xid').value.trim();
+    var name      = document.getElementById('reg-name').value.trim();
+    var catRadio  = form.querySelector('input[name=reg-category]:checked');
+    var category  = catRadio ? catRadio.value : '';
+    var charName  = document.getElementById('reg-char-name').value.trim();
+    var volRadio  = form.querySelector('input[name=reg-volunteer]:checked');
+    var volunteer = volRadio ? volRadio.value : '';
+    var uploadTargets = [];
+    var errTxts = [];    
+
+    if (document.getElementById('reg-upload-photo').checked)  uploadTargets.push('写真');
+    if (document.getElementById('reg-upload-illust').checked) uploadTargets.push('イラスト');
+
+    // バリデーション（赤枠ハイライト付き）
+    function setFieldError(id, hasError) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('reg-error', hasError);
+    }
+    function setGroupError(selector, hasError) {
+      var el = form.querySelector(selector);
+      if (el) el.classList.toggle('reg-error', hasError);
+    }
+    var emailValid = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // X ID: 半角英数字・アンダースコアのみ（@ は先頭のみ許容）
+    var xIdClean  = xId ? xId.replace(/^@/, '') : '';
+    var xIdValid  = xId && /^[a-zA-Z0-9_]{1,50}$/.test(xIdClean);
+    setFieldError('reg-email', !emailValid);
+    setFieldError('reg-xid',   !xIdValid);
+    setFieldError('reg-name',  !name);
+    setGroupError('.reg-radio-group:has(input[name=reg-category])',  !category);
+    setGroupError('.reg-radio-group:has(input[name=reg-volunteer])', !volunteer);
+
+    if (!emailValid) errTxts.push(!email ? 'メールアドレスを入力してください。' : 'メールアドレスの形式が正しくありません。');
+    if (!xIdValid)   errTxts.push(!xId ? 'X(Twitter) IDを入力してください。' : 'X IDは半角英数字・アンダースコアのみ使用できます（例: @example_user）。');
+    if (!name)     errTxts.push('ハンドルネームを入力してください。');
+    if (!category) errTxts.push('参加区分を選択してください。');
+    if (category === 'ドラゴン' || category === '着ぐるみ') {
+      setFieldError('reg-char-name', !charName);
+      if (!charName) errTxts.push('着ぐるみ参加の場合、キャラクター名を入力してください。');
+    }
+    if (!volunteer) errTxts.push('ボランティア可否を選択してください。');
+
+    if (errTxts.length > 0) { showErr(errTxts.join('<br>')); return; }
+
+    setAllInputsDisabled(true);
+    submitBtn.innerHTML = '<span class="btn-spinner"></span> 送信中...';
+
+    fetch(GAS_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'register',
+        email: email, xId: xId, name: name,
+        category: category, characterName: charName,
+        volunteer: volunteer, uploadTargets: uploadTargets
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.ok) {
+        formWrap.style.display    = 'none';
+        successArea.style.display = '';
+        if (res.receiptNo) {
+          var r = document.getElementById('reg-receipt');
+          r.textContent    = '受付番号: ' + res.receiptNo;
+          r.style.display  = '';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setAllInputsDisabled(false);
+        submitBtn.textContent = '登録する';
+        showErr(res.message || '送信に失敗しました。しばらくしてから再度お試しください。');
+      }
+    })
+    .catch(function() {
+      setAllInputsDisabled(false);
+      submitBtn.textContent = '登録する';
+      showErr('通信エラーが発生しました。しばらくしてから再度お試しください。');
+    });
+  });
+
+  function showErr(msg) {
+    errMsg.innerHTML     = msg;
+    errMsg.style.display = '';
+    errMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  var charReq = document.getElementById('char-req');
+  var charInput = document.getElementById('reg-char-name');
+
+  function updateCharState() {
+    var selected = form.querySelector('input[name=reg-category]:checked');
+    var value = selected ? selected.value : '';
+
+    // 必須マーク制御
+    if (value === 'ドラゴン' || value === '着ぐるみ') {
+      charReq.style.display = '';
+    } else {
+      charReq.style.display = 'none';
+    }
+
+    // 入力可否制御
+    if (value === '一般') {
+      charInput.disabled = true;
+      charInput.value = ''; // 一般ならクリア（安全）
+    } else {
+      charInput.disabled = false;
+    }
+  }
+
+  var radios = form.querySelectorAll('input[name=reg-category]');
+  radios.forEach(function (r) {
+    r.addEventListener('change', updateCharState);
+  });
+
+  // 初期表示
+  updateCharState();
+
+  fetchStatus();
+})();
+</script>
+</body>
+</html>

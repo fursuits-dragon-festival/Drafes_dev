@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Dragon Gem Catcher</title>
+  <script src="../js/const.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -64,9 +65,17 @@
 
 <a href="../index.html" id="back-link">← トップへ</a>
 
-<div id="game-wrap">
+<div id="game-wrap" style="position:relative;">
   <div id="title-text">Dragon Gem Catcher</div>
   <canvas id="c"></canvas>
+  <!-- ハイスコア時 X ID 入力オーバーレイ -->
+  <div id="xid-overlay" style="display:none;position:absolute;left:50%;transform:translateX(-50%);background:rgba(10,14,42,.92);border:1.5px solid rgba(62,238,173,.6);border-radius:10px;padding:16px 20px;text-align:center;width:260px;z-index:10;">
+    <p style="font-size:.78rem;color:#3EEEAD;font-weight:700;margin-bottom:10px;">X IDを登録してスコアを送信</p>
+    <input id="xid-overlay-input" type="text" placeholder="@example" autocomplete="off"
+      style="width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;color:#fff;padding:7px 10px;font-size:.88rem;outline:none;box-sizing:border-box;margin-bottom:10px;">
+    <button id="xid-overlay-submit" style="width:100%;background:#3EEEAD;color:#0a0e2a;border:none;border-radius:6px;padding:8px;font-size:.88rem;font-weight:700;cursor:pointer;">送信する</button>
+    <p id="xid-overlay-msg" style="display:none;margin-top:8px;font-size:.75rem;color:rgba(255,255,255,.7);"></p>
+  </div>
 </div>
 
 <script>
@@ -128,7 +137,7 @@
   function loadImages(cb) {
     if (!IMG_ENABLED) { cb(); return; }
     const entries = [
-      ['dragon',     'dragon.svg'],
+      ['dragon',     'dragon.png'],
       ['gemGold',    'gem_gold.svg'],
       ['gemRuby',    'gem_ruby.svg'],
       ['gemEmerald', 'gem_emerald.svg'],
@@ -157,6 +166,90 @@
   // Gems spawn in the same range, so every gem is always catchable.
   const MARGIN = 20;
   const CATCH_R = 30;
+
+  // --- Score submission ---
+  // GAS URLはconst.jsで管理（ページにconst.jsを読み込んでいないため直接参照）
+  const GAS_BASE = typeof CONST !== 'undefined' ? CONST.GAS_BASE : 'https://script.google.com/macros/s/AKfycbwEXpus0oHc_144miR-RH9Y_h2-iHd97csVdmXODtB6f0fqQIL6jBidIZvVt5TCQeLp/exec';
+  let scoreSubmitMsg = '';
+  let scoreXId = localStorage.getItem('df_game_xid') || '';
+  let pendingScore = 0;           // X ID 入力待ちのスコア
+  let scoreSubmitted = false;     // このゲームオーバーで送信済みか
+
+  // スコアをGASに送信（Promise返却）
+  function sendScoreToServer(xId, finalScore) {
+    return fetch(GAS_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'submit_score', xId: xId, score: finalScore })
+    }).then(function(r) { return r.json(); });
+  }
+
+  // ゲームオーバー時: X IDがあれば即送信、なければオーバーレイを表示
+  function handleGameOver(finalScore) {
+    scoreSubmitted = false;
+    pendingScore   = finalScore;
+    if (!scoreXId) {
+      showXidOverlay();
+      return;
+    }
+    // X IDキャッシュあり → 自動送信
+    scoreSubmitMsg = '送信中...';
+    sendScoreToServer(scoreXId, finalScore).then(function(res) {
+      scoreSubmitMsg = res.ok
+        ? (res.newBest ? 'ハイスコア更新！サーバーに送信しました' : 'スコアを送信しました')
+        : '送信失敗';
+      scoreSubmitted = true;
+    }).catch(function() { scoreSubmitMsg = '送信失敗（通信エラー）'; });
+  }
+
+  // X ID オーバーレイを表示（ゲームオーバー画面上）
+  const xidOverlay     = document.getElementById('xid-overlay');
+  const xidInput       = document.getElementById('xid-overlay-input');
+  const xidSubmitBtn   = document.getElementById('xid-overlay-submit');
+  const xidOverlayMsg  = document.getElementById('xid-overlay-msg');
+
+  function showXidOverlay() {
+    // キャンバスのサイズに合わせてオーバーレイを配置
+    const canvasRect = canvas.getBoundingClientRect();
+    const wrapRect   = canvas.parentElement.getBoundingClientRect();
+    xidOverlay.style.top  = (canvasRect.top - wrapRect.top + canvasRect.height / 2 - 80) + 'px';
+    xidOverlay.style.display = 'block';
+    xidInput.value = '';
+    xidInput.focus();
+  }
+
+  function hideXidOverlay() {
+    xidOverlay.style.display = 'none';
+  }
+
+  xidSubmitBtn.addEventListener('click', function() {
+    const v = xidInput.value.trim().replace(/^@/, '').toLowerCase();
+    if (!v) { xidOverlayMsg.textContent = 'X IDを入力してください'; xidOverlayMsg.style.display = ''; return; }
+
+    xidSubmitBtn.disabled    = true;
+    xidSubmitBtn.textContent = '送信中...';
+    xidOverlayMsg.style.display = 'none';
+
+    sendScoreToServer(v, pendingScore).then(function(res) {
+      if (res.ok) {
+        scoreXId = v;
+        localStorage.setItem('df_game_xid', v);
+        scoreSubmitMsg = res.newBest ? 'スコアはサーバーに送信されました (' + res.score + ')' : 'スコア送信済み';
+        scoreSubmitted = true;
+        hideXidOverlay();
+      } else {
+        xidOverlayMsg.textContent   = res.message || '送信に失敗しました';
+        xidOverlayMsg.style.display = '';
+      }
+      xidSubmitBtn.disabled    = false;
+      xidSubmitBtn.textContent = '送信する';
+    }).catch(function() {
+      xidOverlayMsg.textContent   = '通信エラー。再度お試しください';
+      xidOverlayMsg.style.display = '';
+      xidSubmitBtn.disabled    = false;
+      xidSubmitBtn.textContent = '送信する';
+    });
+  });
 
   // --- State ---
   let state = 'start'; // 'start' | 'playing' | 'over'
@@ -237,10 +330,12 @@
 
   // --- Game init ---
   function startGame() {
+    hideXidOverlay();
     score = 0; lives = LIVES_MAX;
     gems = []; particles = [];
     missFlash = 0; spawnTimer = 0; frame = 0;
     dragon.x = W / 2; dragon.targetX = W / 2; dragon.bobT = 0;
+    scoreSubmitMsg = '';
     state = 'playing';
   }
 
@@ -250,7 +345,7 @@
     // Spawn within [MARGIN, W-MARGIN] — same range as dragon, so always catchable
     gems.push({
       x: MARGIN + Math.random() * (W - MARGIN * 2),
-      y: -GEM_SIZE,
+      y: 66,  // HUD（y=8〜46）より下からスポーン（シャインがHUDに隠れない）
       type,
       rot: 0,
     });
@@ -361,6 +456,9 @@
     if (IMG[imgKey]) {
       const s = 40;
       ctx.save();
+      ctx.globalAlpha  = 1;           // 毎フレーム明示リセット（透過フリッカー防止）
+      ctx.shadowBlur   = 0;
+      ctx.shadowColor  = 'transparent';
       ctx.translate(x, y);
       ctx.rotate(rot);
       ctx.imageSmoothingEnabled = true;
@@ -370,12 +468,24 @@
     }
     const s = GEM_SIZE;
     ctx.save();
+    ctx.globalAlpha  = 1;
+    ctx.shadowBlur   = 0;           // shadowBlur は使わない（上端クリッピング問題を回避）
+    ctx.shadowColor  = 'transparent';
     ctx.translate(x, y);
     ctx.rotate(rot);
-    // glow
-    ctx.shadowColor = type.glow;
-    ctx.shadowBlur = 14;
-    ctx.fillStyle = type.color;
+    // グロー: 大きめのシェイプを低透明度で重ねる（shadowBlur 代替）
+    ctx.globalAlpha = 0.38;
+    ctx.fillStyle   = type.glow;
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 1.4);
+    ctx.lineTo(s * 0.84, 0);
+    ctx.lineTo(0,  s * 1.4);
+    ctx.lineTo(-s * 0.84, 0);
+    ctx.closePath();
+    ctx.fill();
+    // ボディ
+    ctx.globalAlpha = 1;
+    ctx.fillStyle   = type.color;
     ctx.beginPath();
     ctx.moveTo(0, -s);
     ctx.lineTo(s * 0.6, 0);
@@ -383,8 +493,7 @@
     ctx.lineTo(-s * 0.6, 0);
     ctx.closePath();
     ctx.fill();
-    // shine
-    ctx.shadowBlur = 0;
+    // シャイン（白ハイライト）
     ctx.fillStyle = 'rgba(255,255,255,0.45)';
     ctx.beginPath();
     ctx.moveTo(0, -s);
@@ -393,6 +502,7 @@
     ctx.lineTo(-s * 0.3, -s * 0.3);
     ctx.closePath();
     ctx.fill();
+    ctx.beginPath();  // パスをクリア（残存パスが次の描画に影響しないよう）
     ctx.restore();
   }
 
@@ -401,6 +511,7 @@
     // Score box
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath();
     ctx.roundRect(8, 8, 88, 38, 8);
     ctx.fill();
     ctx.fillStyle = 'rgba(255,210,60,.90)';
@@ -414,6 +525,7 @@
     // Best
     ctx.save();
     ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.beginPath();
     ctx.roundRect(W/2 - 44, 8, 88, 38, 8);
     ctx.fill();
     ctx.fillStyle = 'rgba(200,255,220,.70)';
@@ -429,6 +541,7 @@
     ctx.save();
     ctx.textAlign = 'right';
     ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath();
     ctx.roundRect(W - 72, 8, 64, 38, 8);
     ctx.fill();
     ctx.font = '10px sans-serif';
@@ -445,41 +558,40 @@
 
   // --- Draw background ---
   function drawBG(t) {
-    // 背景画像が読み込み済みなら使用（星は常に上書き描画）
+    ctx.save();  // save/restoreで状態を完全に分離（alphaリーク防止）
+    ctx.shadowBlur  = 0;
+    ctx.shadowColor = 'transparent';
+
     if (IMG.bg) {
+      ctx.globalAlpha = 1;
       ctx.drawImage(IMG.bg, 0, 0, W, H);
-      // 星のアニメーションはキャンバス描画で重ねる
       for (const s of bgStars) {
         s.tw += 0.018;
-        const a = s.a * (0.5 + 0.5 * Math.sin(s.tw));
-        ctx.globalAlpha = a;
+        ctx.globalAlpha = s.a * (0.5 + 0.5 * Math.sin(s.tw));
         ctx.fillStyle = '#fff';
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
       }
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0,   '#07091e');
+      grad.addColorStop(0.5, '#0a0e2a');
+      grad.addColorStop(1,   '#0d1535');
       ctx.globalAlpha = 1;
-      return;
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      for (const s of bgStars) {
+        s.tw += 0.018;
+        ctx.globalAlpha = s.a * (0.5 + 0.5 * Math.sin(s.tw));
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
-    // Deep space gradient (fallback)
-    const grad = ctx.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0,   '#07091e');
-    grad.addColorStop(0.5, '#0a0e2a');
-    grad.addColorStop(1,   '#0d1535');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
 
-    // Stars
-    for (const s of bgStars) {
-      s.tw += 0.018;
-      const a = s.a * (0.5 + 0.5 * Math.sin(s.tw));
-      ctx.globalAlpha = a;
-      ctx.fillStyle = '#fff';
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
+    ctx.restore();  // globalAlpha を含む全状態をリセット
   }
 
   // --- Screens ---
@@ -513,14 +625,25 @@
     ctx.fillText('金：+1　赤：+2　緑：+3', W/2, H/2 + 110);
     ctx.fillText('ライフ 3 個　宝石を落とすと1個減少', W/2, H/2 + 128);
 
+    ctx.fillStyle = 'rgba(255,0,0,.7)';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('シークレット企画なので、', W/2, H/2 + 165);
+    ctx.fillText('SNSへの投稿や情報拡散はしないでね！', W/2, H/2 + 185);
+
     // Start prompt
     const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 400);
     ctx.globalAlpha = pulse;
     ctx.fillStyle = '#FFD040';
     ctx.font = 'bold 15px sans-serif';
-    ctx.fillText('タップ / クリック / Enter でスタート', W/2, H - 60);
+    ctx.fillText('タップ / クリック でスタート', W/2, H - 60);
     ctx.globalAlpha = 1;
 
+    // キャッシュ済みX IDを表示
+    if (scoreXId) {
+      ctx.fillStyle = 'rgba(255,255,255,.40)';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('@' + scoreXId, W/2, H - 34);
+    }
     ctx.restore();
   }
 
@@ -548,22 +671,23 @@
     ctx.font = '14px sans-serif';
     ctx.fillText((isNewBest ? '★ NEW BEST! ' : 'Best: ') + hi, W/2, H/2 + 16);
 
-    if (isNewBest) {
-      // Screenshot prompt
-      const bgX = 20, bgW = W - 40, bgH = 46, bgY = H/2 + 28;
-      ctx.fillStyle = 'rgba(62,238,173,0.15)';
-      ctx.strokeStyle = 'rgba(62,238,173,0.70)';
+    if (scoreSubmitMsg) {
+      const isSending = scoreSubmitMsg === '送信中...';
+      const msgColor = isSending ? '#FFD040' : '#3EEEAD';
+      const bgX = 20, bgW = W - 40, bgH = 30, bgY = H/2 + 26;
+      ctx.fillStyle = isSending ? 'rgba(255,210,40,0.10)' : 'rgba(62,238,173,0.12)';
+      ctx.strokeStyle = isSending ? 'rgba(255,210,40,0.55)' : 'rgba(62,238,173,0.65)';
       ctx.lineWidth = 1.5;
-      ctx.roundRect(bgX, bgY, bgW, bgH, 8);
+      ctx.beginPath();
+      ctx.roundRect(bgX, bgY, bgW, bgH, 7);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = '#3EEEAD';
-      ctx.font = 'bold 12px sans-serif';
-      ctx.fillText('📸 この画面のスクリーンショットを', W/2, H/2 + 46);
-      ctx.fillText('当日受付で見せてください！', W/2, H/2 + 64);
+      ctx.fillStyle = msgColor;
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText(scoreSubmitMsg, W/2, H/2 + 46);
     }
 
-    const retryY = isNewBest ? H/2 + 90 : H/2 + 60;
+    const retryY = (isNewBest || scoreSubmitMsg) ? H/2 + 80 : H/2 + 60;
     const pulse = 0.65 + 0.35 * Math.sin(Date.now() / 400);
     ctx.globalAlpha = pulse;
     ctx.fillStyle = '#FFD040';
@@ -628,7 +752,11 @@
       if (g.y > H + GEM_SIZE) {
         lives--;
         missFlash = 18;
-        if (lives <= 0) { state = 'over'; }
+        if (lives <= 0) {
+          state = 'over';
+          scoreSubmitMsg = '';
+          handleGameOver(score);
+        }
         return false;
       }
       return true;
@@ -647,6 +775,11 @@
     // --- Draw ---
     drawBG(ts);
 
+    // shadow / alpha を毎フレームリセットしてジェムのフリッカーを防ぐ
+    ctx.globalAlpha  = 1;
+    ctx.shadowBlur   = 0;
+    ctx.shadowColor  = 'transparent';
+
     // Miss flash overlay
     if (missFlash > 0) {
       ctx.fillStyle = `rgba(255,50,50,${missFlash / 18 * 0.22})`;
@@ -656,18 +789,27 @@
     // Gems
     for (const g of gems) drawGem(g);
 
+    // shadow リセット（パーティクルの shadow がジェムに影響しないよう）
+    ctx.shadowBlur  = 0;
+    ctx.shadowColor = 'transparent';
+
     // Particles
     for (const p of particles) {
       ctx.save();
       ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
+      ctx.fillStyle   = p.color;
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 6;
+      ctx.shadowBlur  = 6;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
+
+    // パーティクル後も shadow リセット
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur  = 0;
+    ctx.shadowColor = 'transparent';
 
     // Dragon
     const bobY = Math.sin(dragon.bobT) * 3;

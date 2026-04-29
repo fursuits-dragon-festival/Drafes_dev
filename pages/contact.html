@@ -14,10 +14,10 @@
     <a href="../index.html" class="nav-logo"><img src="../images/logo_mock.png" alt="ドラゴンフェスティバル ロゴ"><span class="nav-logo-name">ドラゴンフェスティバル</span></a>
     <ul class="nav-list">
       <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">イベントについて <span class="nav-arrow"></span></button>
-        <ul class="nav-dropdown"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul>
+        <ul class="nav-dropdown"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul>
       </li>
       <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">参加する <span class="nav-arrow"></span></button>
-        <ul class="nav-dropdown"><li><a href="register.html">参加登録</a></li><li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul>
+        <ul class="nav-dropdown"><li><a href="register.html">参加登録</a></li><li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="nav-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul>
       </li>
       <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">その他 <span class="nav-arrow"></span></button>
         <ul class="nav-dropdown"><li><a href="faq.html">よくある質問</a></li><li><a href="history.html">過去実績</a></li><li><a href="contact.html">お問い合わせ</a></li><li><a href="staff.html">スタッフ一覧</a></li></ul>
@@ -27,8 +27,8 @@
     <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
   <div class="mobile-menu" aria-hidden="true">
-    <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
-    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="mm-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
     <div class="mm-group"><div class="mm-cat">その他</div><ul class="mm-links"><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
     <a href="https://x.com/Fursuits_Drafes" class="mm-x" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a>
   </div>
@@ -38,7 +38,7 @@
   <div class="page-hero">
     <div class="cloud c1"></div><div class="cloud c3"></div>
     <div class="page-title-wrap">
-      <img src="../images/dragon-cute.svg" class="pd-title pd-title-l" alt="" aria-hidden="true">
+      <img src="../images/dragon-cute.png" class="pd-title pd-title-l" alt="" aria-hidden="true">
       <h1 class="page-hero-title">お問い合わせ</h1>
     </div>
     <p class="page-hero-sub">ご不明な点はお気軽にお問い合わせください</p>
@@ -48,37 +48,70 @@
     <div class="container-sm">
 
 
-      <div class="cbox fade-up" style="margin-bottom:24px;">
+      <div class="cbox fade-up" id="contact-pre" style="margin-bottom:24px;">
         <h2 class="cbox-title">お問い合わせの前に</h2>
         <p>
           お問い合わせの前に、<a href="faq.html">よくある質問</a>および<a href="rules.html">参加規約</a>をご確認ください。多くのご質問についてはこちらで解決できる場合がございます。
         </p>
       </div>
 
-      <div class="notice notice-warn fade-up" style="margin-bottom:24px;border-radius:var(--r-sm);font-size:.97rem;">
+      <div class="notice notice-warn fade-up" id="contact-warn" style="margin-bottom:24px;border-radius:var(--r-sm);font-size:.97rem;">
         <strong>⚠ お問い合わせにあたってのお願い</strong><br>
         <span style="display:block;margin-top:6px;">スタッフや他の参加者への誹謗中傷・侮辱・嫌がらせにあたる内容のお問い合わせはお断りします。<br/>悪質な場合は内容を公表の上、今後のご参加をお断りすることがあります。</span>
       </div>
 
-      <div class="contact-box fade-up delay-1">
-        <h2>お問い合わせフォーム</h2>
-        <p style="color:var(--text-sub);margin-bottom:28px;">
-          下記のボタンよりお問い合わせフォームへ移動します。<br>
-        </p>
-        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSc3rw0iUyU1X8c3IDXc_Al5w6vtJYGV60c6mFKFvHi2cBMZMg/viewform?usp=header" class="btn btn-purple btn-lg" target="_blank" style="opacity:.7;cursor:default;" aria-disabled="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            お問い合わせフォーム
-          </a>
-          <a href="https://x.com/Fursuits_Drafes" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
-            公式X(Twitter)
-          </a>
-        </div>
+      <!-- お問い合わせフォーム -->
+      <div class="cbox fade-up delay-1" id="contact-form-wrap" style="margin-bottom:24px;">
+        <h2 class="cbox-title">お問い合わせフォーム</h2>
+
+        <form id="contact-form" novalidate>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+
+            <div>
+              <label for="ct-email" class="ct-label">メールアドレス（返信先） <span class="ct-req">*</span></label>
+              <input id="ct-email" type="email" autocomplete="email" required placeholder="example@email.com" class="ct-input">
+            </div>
+
+            <div>
+              <label for="ct-name" class="ct-label">お名前 <span class="ct-req">*</span></label>
+              <input id="ct-name" type="text" required placeholder="ハンドルネーム可" class="ct-input">
+            </div>
+
+            <div>
+              <label for="ct-xid" class="ct-label">X(Twitter) ID <span class="ct-req">*</span></label>
+              <input id="ct-xid" type="text" required placeholder="@example" class="ct-input">
+            </div>
+
+            <div>
+              <label for="ct-body" class="ct-label">お問い合わせ内容 <span class="ct-req">*</span></label>
+              <textarea id="ct-body" required rows="7" placeholder="お問い合わせ内容をご記入ください" class="ct-input" style="resize:vertical;font-family:inherit;"></textarea>
+            </div>
+
+          </div>
+
+          <p id="ct-err" style="display:none;margin-top:16px;color:var(--ruby);font-size:.88rem;font-weight:600;padding:12px 16px;background:rgba(220,50,50,.08);border-radius:var(--r);"></p>
+
+          <div style="display:flex;justify-content:center;margin-top:24px;">
+            <button type="submit" id="ct-submit" class="btn btn-primary" style="width:200px;justify-content:center;">
+              送信する
+            </button>
+          </div>
+        </form>
       </div>
 
-      <div class="notice notice-info fade-up delay-2" style="margin-top:24px;border-radius:var(--r-sm);">
-        お問い合わせへの返答にはお時間をいただく場合がございます。<br/>イベント直前はスタッフも準備で多忙となりますので、お早めにお問い合わせいただけますと幸いです。
+      <!-- 送信成功 -->
+      <div class="cbox fade-up" id="contact-success" style="display:none;text-align:center;padding:32px 24px;margin-bottom:24px;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">✅</div>
+        <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">お問い合わせを受け付けました</h2>
+        <p style="font-size:.92rem;color:var(--text-sub);">
+          内容を確認の上、ご連絡いたします。<br>
+          返信にはお時間をいただく場合がございます。
+        </p>
+      </div>
+
+      <div class="notice notice-info fade-up delay-2" style="margin-bottom:24px;border-radius:var(--r-sm);">
+        お問い合わせへの返答にはお時間をいただく場合がございます。<br>
+        またX(Twitter) <a href="https://x.com/Fursuits_Drafes" target="_blank" rel="noopener">@Fursuits_Drafes</a> へのDMでもお問い合わせいただけます。
       </div>
 
     </div>
@@ -90,8 +123,8 @@
     <div class="footer-top">
       <div class="footer-brand"><div class="footer-brand-name">ドラゴンフェスティバル</div><p class="footer-tagline">竜族のお祭り　着ぐるみ交流イベント</p><a href="https://x.com/Fursuits_Drafes" class="footer-x" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a></div>
       <nav class="footer-nav">
-        <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
-        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+        <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="foot-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
         <div class="fn-group"><h4>その他</h4><ul><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
       </nav>
     </div>
@@ -99,5 +132,99 @@
   </div>
 </footer>
 <script src="../js/main.js"></script>
+<style>
+  .ct-label { display:block; font-size:.85rem; font-weight:700; margin-bottom:6px; color:var(--text-sub); }
+  .ct-req   { color:var(--ruby); }
+  .ct-input {
+    width:100%; padding:12px 16px; border-radius:var(--r);
+    border:1.5px solid var(--glass-border);
+    background:rgba(255,255,255,0.92);
+    font-size:.96rem; color:var(--text); outline:none; box-sizing:border-box;
+  }
+  .ct-input:focus { border-color:rgba(255,179,0,.6); }
+  .ct-input.ct-error { border-color: var(--ruby) !important; background: rgba(220,50,50,.06) !important; }
+</style>
+<script>
+(function() {
+  'use strict';
+
+  var form        = document.getElementById('contact-form');
+  var submitBtn   = document.getElementById('ct-submit');
+  var errMsg      = document.getElementById('ct-err');
+  var formWrap    = document.getElementById('contact-form-wrap');
+  var successArea = document.getElementById('contact-success');
+
+  form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    errMsg.style.display = 'none';
+
+    var email = document.getElementById('ct-email').value.trim();
+    var name  = document.getElementById('ct-name').value.trim();
+    var xId   = document.getElementById('ct-xid').value.trim();
+    var body  = document.getElementById('ct-body').value.trim();
+    var errTxts = [];
+
+    function setFieldErr(id, hasError) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('ct-error', hasError);
+    }
+    var emailValid = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setFieldErr('ct-email', !emailValid);
+    setFieldErr('ct-name',  !name);
+    setFieldErr('ct-xid',   !xId);
+    setFieldErr('ct-body',  !body);
+
+    if (!emailValid) errTxts.push(!email ? 'メールアドレスを入力してください。' : 'メールアドレスの形式が正しくありません。');
+    if (!name)       errTxts.push('お名前を入力してください。');
+    if (!xId)        errTxts.push('X(Twitter) IDを入力してください。');
+    if (!body)       errTxts.push('お問い合わせ内容を入力してください。');
+
+    if (errTxts.length > 0) { showErr(errTxts.join('<br>')); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="btn-spinner"></span> 送信中...';
+
+    fetch(CONST.GAS_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'contact',
+        email: email,
+        name:  name,
+        xId:   xId,
+        body:  body
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.ok) {
+        formWrap.style.display    = 'none';
+        successArea.style.display = '';
+        // 送信後に「前に」「お願い」セクションを非表示
+        var pre  = document.getElementById('contact-pre');
+        var warn = document.getElementById('contact-warn');
+        if (pre)  pre.style.display  = 'none';
+        if (warn) warn.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        submitBtn.disabled    = false;
+        submitBtn.textContent = '送信する';
+        showErr(res.message || '送信に失敗しました。しばらくしてから再度お試しください。');
+      }
+    })
+    .catch(function() {
+      submitBtn.disabled    = false;
+      submitBtn.textContent = '送信する';
+      showErr('通信エラーが発生しました。しばらくしてから再度お試しください。');
+    });
+  });
+
+  function showErr(msg) {
+    errMsg.innerHTML   = msg;
+    errMsg.style.display = '';
+    errMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,867 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ | ドラゴンフェスティバル</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/const.js"></script>
+  <style>
+    .mp-section { margin-bottom: 28px; }
+    .mp-upload-preview {
+      width: 100%; max-width: 320px;
+      border-radius: var(--r);
+      margin: 12px 0;
+      display: none;
+    }
+    .mp-upload-preview.visible { display: block; }
+    .mp-file-input-wrap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+    .mp-status-badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: .78rem; font-weight: 700; margin-left: 8px; }
+    .mp-status-done   { background: rgba(99,210,140,.2); color: #1a7f45; }
+    .mp-status-cancel { background: rgba(220,80,80,.15); color: #b91c1c; }
+    .danger-zone { border: 1.5px solid rgba(220,80,80,.35); border-radius: var(--r); padding: 20px; margin-top: 8px; }
+    .btn-danger { background: #c0392b; color: #fff; border: none; padding: 12px 28px; border-radius: var(--r); cursor: pointer; font-size: .96rem; font-weight: 700; transition: opacity .2s; }
+    .btn-danger:hover { opacity: .85; }
+    .btn-danger:disabled { opacity: .5; cursor: not-allowed; }
+    .resize-note { font-size: .78rem; color: var(--text-sub); margin-top: 4px; }
+    .char-image-preview-wrap { position: relative; display: inline-block; }
+    .char-image-preview-wrap img { width: 200px; height: 200px; object-fit: cover; border-radius: var(--r); display: block; }
+    /* ホバーアニメーション無効化 */
+    .cbox:hover, .cbox { transform: none !important; }
+    .btn:hover { transform: none !important; }
+
+    /* キャンセルダイアログ アニメーション */
+    @keyframes dialog-in {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    #cancel-dialog > div { animation: dialog-in .22s cubic-bezier(.34,1.56,.64,1) both; }
+
+    /* dragon-sorry ふわふわ */
+    @keyframes sorry-float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    #cancel-dialog img { animation: sorry-float 2.2s ease-in-out infinite; }
+
+    /* ログアウトボタン */
+    #logout-btn {
+      background: rgba(255,255,255);
+      color: #373737;
+      border: 1.5px solid rgba(255,255,255,.35);
+      padding: 10px 28px;
+      border-radius: var(--r);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    #logout-btn:hover { background: rgba(255,255,255,.25); border-color: rgba(255,255,255,.35); }
+
+    /* ファイル選択ボタンのスタイル */
+    input[type="file"] { color: var(--text-sub); font-size: .85rem; }
+    input[type="file"]::file-selector-button {
+      background: linear-gradient(135deg, var(--gold-dark, #D4840A), var(--gold, #FFB800));
+      color: #1a0a00;
+      border: none;
+      padding: 8px 16px;
+      border-radius: calc(var(--r) - 2px);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 700;
+      margin-right: 10px;
+      transition: opacity .2s;
+    }
+    input[type="file"]::file-selector-button:hover { opacity: .85; }
+
+    /* マイページ読み込み中 */
+    .mp-loading {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-sub);
+      font-size: .95rem;
+    }
+    .mp-loading .btn-spinner {
+      display: inline-block;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-wrap">
+    <a href="../index.html" class="nav-logo"><img src="../images/logo_mock.png" alt="ドラゴンフェスティバル ロゴ"><span class="nav-logo-name">ドラゴンフェスティバル</span></a>
+    <ul class="nav-list">
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">イベントについて <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="about.html">ドラゴンフェスティバルとは</a></li>
+          <li><a href="event.html">イベント詳細（第2回）</a></li>
+          <li><a href="rules.html">参加規約</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">参加する <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="register.html">参加登録</a></li>
+          <li id="nav-participants" style="display:none"><a href="participants.html">参加者一覧</a></li>
+          <li id="nav-characters"   style="display:none"><a href="characters.html">キャラクター一覧</a></li>
+          <li><a href="beginner.html">初めての方へ</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><button class="nav-link-btn" aria-haspopup="true">その他 <span class="nav-arrow"></span></button>
+        <ul class="nav-dropdown">
+          <li><a href="faq.html">よくある質問</a></li>
+          <li><a href="history.html">過去実績</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="staff.html">スタッフ一覧</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a href="https://x.com/Fursuits_Drafes" class="nav-x" target="_blank" rel="noopener" aria-label="公式X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>
+    <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" aria-hidden="true">
+    <div class="mm-group"><div class="mm-cat">イベントについて</div><ul class="mm-links"><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">参加する</div><ul class="mm-links"><li><a href="register.html">参加登録</a></li><li id="mm-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="mm-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+    <div class="mm-group"><div class="mm-cat">その他</div><ul class="mm-links"><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+    <a href="https://x.com/Fursuits_Drafes" class="mm-x" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-hero">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="page-title-wrap">
+      <img src="../images/dragon-cute.png" class="pd-title pd-title-l" alt="" aria-hidden="true">
+      <h1 class="page-hero-title">マイページ</h1>
+      <img src="../images/dragon-friendly.png" class="pd-title pd-title-r" alt="" aria-hidden="true">
+    </div>
+    <p class="page-hero-sub">参加登録内容の確認・各種操作</p>
+  </div>
+
+  <section>
+    <div class="container-sm">
+
+      <div class="notice notice-info fade-up" style="margin-bottom:24px;">
+        参加登録完了メールに記載の <strong>メールアドレス</strong> と <strong>パスワード</strong> でログインしてください。
+      </div>
+
+      <!-- ログインフォーム -->
+      <div class="cbox fade-up" id="login-form-area" style="margin-bottom:24px;">
+        <h2 class="cbox-title">ログイン</h2>
+        <!-- セッション復元中の読み込み表示 -->
+        <div id="login-loading" class="mp-loading" style="display:none;">
+          <span class="btn-spinner"></span>読み込み中...
+        </div>
+        <!-- 通常のログインフォーム -->
+        <div id="login-fields" style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+          <div>
+            <label for="mp-email" style="display:block;font-size:.85rem;font-weight:700;margin-bottom:4px;color:var(--text-sub);">メールアドレス</label>
+            <input id="mp-email" type="email" autocomplete="email" placeholder="example@email.com"
+              style="width:100%;padding:12px 16px;border-radius:var(--r);border:1.5px solid var(--glass-border);background:rgba(255,255,255,0.92);font-size:.96rem;color:var(--text);outline:none;box-sizing:border-box;">
+          </div>
+          <div>
+            <label for="mp-password" style="display:block;font-size:.85rem;font-weight:700;margin-bottom:4px;color:var(--text-sub);">パスワード</label>
+            <input id="mp-password" type="password" autocomplete="current-password" placeholder="メールに記載のパスワード"
+              style="width:100%;padding:12px 16px;border-radius:var(--r);border:1.5px solid var(--glass-border);background:rgba(255,255,255,0.92);font-size:.96rem;color:var(--text);outline:none;box-sizing:border-box;">
+          </div>
+          <button id="login-btn" class="btn btn-primary" style="align-self:flex-start;white-space:nowrap;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+            ログイン
+          </button>
+        </div>
+        <p id="login-err" style="display:none;margin-top:10px;color:var(--ruby);font-size:.88rem;font-weight:600;"></p>
+      </div>
+
+      <!-- マイページ本体 -->
+      <div id="mypage-body" style="display:none;">
+
+        <!-- 登録情報 -->
+        <div class="cbox fade-up mp-section">
+          <h2 class="cbox-title">登録情報</h2>
+          <table id="mypage-table" style="width:100%;border-collapse:collapse;font-size:.94rem;"></table>
+          <div class="notice notice-info" style="margin-top:16px;">
+            登録内容の変更はお問い合わせより受け付けております。
+            <a href="contact.html" style="font-weight:700;">お問い合わせページへ</a>
+          </div>
+        </div>
+
+        <!-- 写真アップロード -->
+        <div class="cbox fade-up mp-section" id="photo-section">
+          <h2 class="cbox-title">写真アップロード</h2>
+          <!-- アップロード済み表示 -->
+          <div id="photo-done-area" style="display:none;">
+            <div class="notice notice-info" style="margin-bottom:12px;">写真はアップロード済みです。差し替えはできません。</div>
+            <img id="photo-uploaded-img" src="" alt="アップロード済み写真"
+              style="max-width:240px;max-height:240px;object-fit:contain;border-radius:var(--r);display:block;">
+          </div>
+          <!-- アップロードフォーム -->
+          <div id="photo-upload-area">
+            <p style="font-size:.88rem;color:var(--text-sub);margin-bottom:12px;">
+              JPEG または PNG 形式、最大 20MB。アップロードは1回のみ有効です。
+            </p>
+            <div class="mp-file-input-wrap">
+              <input type="file" id="photo-file" accept="image/jpeg,image/png" style="flex:1;min-width:200px;">
+              <button id="photo-upload-btn" class="btn btn-primary" style="white-space:nowrap;">アップロード</button>
+            </div>
+            <!-- 選択後プレビュー -->
+            <div id="photo-preview-wrap" style="display:none;margin-top:12px;">
+              <p style="font-size:.82rem;font-weight:700;margin-bottom:6px;color:var(--text-sub);">選択中の画像</p>
+              <img id="photo-preview-img" src="" alt="プレビュー"
+                style="max-width:200px;max-height:200px;object-fit:contain;border-radius:var(--r);display:block;">
+            </div>
+            <p id="photo-msg" style="display:none;margin-top:10px;font-size:.88rem;font-weight:600;"></p>
+          </div>
+        </div>
+
+        <!-- イラストアップロード -->
+        <div class="cbox fade-up mp-section" id="illust-section">
+          <h2 class="cbox-title">イラストアップロード</h2>
+          <!-- アップロード済み表示 -->
+          <div id="illust-done-area" style="display:none;">
+            <div class="notice notice-info" style="margin-bottom:12px;">イラストはアップロード済みです。差し替えはできません。</div>
+            <img id="illust-uploaded-img" src="" alt="アップロード済みイラスト"
+              style="max-width:240px;max-height:240px;object-fit:contain;border-radius:var(--r);display:block;">
+          </div>
+          <!-- アップロードフォーム -->
+          <div id="illust-upload-area">
+            <p style="font-size:.88rem;color:var(--text-sub);margin-bottom:12px;">
+              JPEG または PNG 形式、最大 20MB。アップロードは1回のみ有効です。
+            </p>
+            <div class="mp-file-input-wrap">
+              <input type="file" id="illust-file" accept="image/jpeg,image/png" style="flex:1;min-width:200px;">
+              <button id="illust-upload-btn" class="btn btn-primary" style="white-space:nowrap;">アップロード</button>
+            </div>
+            <!-- 選択後プレビュー -->
+            <div id="illust-preview-wrap" style="display:none;margin-top:12px;">
+              <p style="font-size:.82rem;font-weight:700;margin-bottom:6px;color:var(--text-sub);">選択中の画像</p>
+              <img id="illust-preview-img" src="" alt="プレビュー"
+                style="max-width:200px;max-height:200px;object-fit:contain;border-radius:var(--r);display:block;">
+            </div>
+            <p id="illust-msg" style="display:none;margin-top:10px;font-size:.88rem;font-weight:600;"></p>
+          </div>
+        </div>
+
+        <!-- キャラクター一覧用画像 -->
+        <div class="cbox fade-up mp-section">
+          <h2 class="cbox-title">キャラクター一覧用画像</h2>
+          <p style="font-size:.88rem;color:var(--text-sub);margin-bottom:12px;">
+            キャラクター一覧ページに表示される画像です。JPEG または PNG 形式。差し替えが可能です。<br>
+            選択後に自動でセンタートリミング（正方形）＋リサイズが行われます。
+          </p>
+          <!-- 現在の画像プレビュー -->
+          <div id="char-image-current" style="display:none;margin-bottom:16px;">
+            <p style="font-size:.85rem;font-weight:700;margin-bottom:6px;color:var(--text-sub);">現在の登録画像</p>
+            <div class="char-image-preview-wrap">
+              <img id="char-image-preview-current" src="" alt="現在のキャラクター画像">
+            </div>
+          </div>
+          <!-- アップロードフォーム -->
+          <div>
+            <div class="mp-file-input-wrap">
+              <input type="file" id="char-file" accept="image/jpeg,image/png" style="flex:1;min-width:200px;">
+              <button id="char-upload-btn" class="btn btn-primary" style="white-space:nowrap;">アップロード</button>
+            </div>
+            <p class="resize-note">※ 選択後に自動プレビューでリサイズ後の確認ができます</p>
+            <!-- リサイズ後プレビュー -->
+            <div id="char-preview-wrap" style="display:none;margin-top:12px;">
+              <p style="font-size:.85rem;font-weight:700;margin-bottom:6px;color:var(--text-sub);">プレビュー（リサイズ後）</p>
+              <img id="char-image-preview-new" src="" alt="プレビュー" style="max-width:200px;max-height:200px;object-fit:cover;border-radius:var(--r);">
+            </div>
+            <p id="char-msg" style="display:none;margin-top:10px;font-size:.88rem;font-weight:600;"></p>
+          </div>
+        </div>
+
+        <!-- キャンセル -->
+        <div class="cbox fade-up mp-section">
+          <h2 class="cbox-title" style="color:var(--ruby);">参加キャンセル</h2>
+          <div class="danger-zone">
+            <p style="font-size:.9rem;margin-bottom:12px;text-align:center;">
+              参加をキャンセルする場合は以下のボタンを押してください。<br>
+              <strong>この操作は取り消せません。</strong>
+            </p>
+            <div align="center">
+              <button id="cancel-btn" class="btn-danger">参加をキャンセルする</button>
+            </div>
+            <p id="cancel-msg" style="display:none;margin-top:10px;font-size:.88rem;font-weight:600;"></p>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:8px;">
+          <button id="logout-btn">ログアウト</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- キャンセル確認ダイアログ -->
+<div id="cancel-dialog" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:32px 28px;max-width:360px;width:92%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+    <div align="center">
+    <img src="../images/dragon-sorry.png" alt="" aria-hidden="true" style="width:100px;height:auto;margin-bottom:16px;">
+    </div>
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;color:#222;">本当にキャンセルしますか？</h3>
+    <p style="font-size:.88rem;color:#555;margin-bottom:20px;">この操作は取り消せません。</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="cancel-dialog-yes" style="background:#c0392b;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:.96rem;font-weight:700;cursor:pointer;">キャンセルする</button>
+      <button id="cancel-dialog-no"  style="background:#eee;color:#333;border:none;padding:12px 24px;border-radius:8px;font-size:.96rem;font-weight:700;cursor:pointer;">やめる</button>
+    </div>
+    <p id="cancel-dialog-msg" style="display:none;margin-top:12px;font-size:.85rem;font-weight:600;color:#c0392b;"></p>
+  </div>
+</div>
+
+<!-- キャンセル完了ダイアログ -->
+<div id="cancel-done-dialog" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:32px 28px;max-width:360px;width:92%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:dialog-in .22s cubic-bezier(.34,1.56,.64,1) both;">
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px;color:#222;">キャンセルが完了しました</h3>
+    <p style="font-size:.9rem;color:#555;margin-bottom:24px;">またのご参加をお願いします。</p>
+    <button id="cancel-done-ok" style="background:#2c3e50;color:#fff;border:none;padding:12px 40px;border-radius:8px;font-size:.96rem;font-weight:700;cursor:pointer;min-width:120px;">OK</button>
+  </div>
+</div>
+
+<!-- 画像ライトボックス -->
+<div id="img-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9200;align-items:center;justify-content:center;cursor:zoom-out;">
+  <button id="img-lightbox-close" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:2.2rem;cursor:pointer;line-height:1;" aria-label="閉じる">×</button>
+  <img id="img-lightbox-img" src="" alt="拡大表示" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;cursor:default;">
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-top">
+      <div class="footer-brand"><div class="footer-brand-name">ドラゴンフェスティバル</div><p class="footer-tagline">竜族のお祭り　着ぐるみ交流イベント</p><a href="https://x.com/Fursuits_Drafes" class="footer-x" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.265 5.64L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>公式X(Twitter)</a></div>
+      <nav class="footer-nav">
+        <div class="fn-group"><h4>イベントについて</h4><ul><li><a href="about.html">ドラゴンフェスティバルとは</a></li><li><a href="event.html">イベント詳細（第2回）</a></li><li><a href="rules.html">参加規約</a></li><li><a href="privacy.html">プライバシーポリシー</a></li></ul></div>
+        <div class="fn-group"><h4>参加する</h4><ul><li><a href="register.html">参加登録</a></li><li id="foot-participants" style="display:none"><a href="participants.html">参加者一覧</a></li><li id="foot-characters" style="display:none"><a href="characters.html">キャラクター一覧</a></li><li><a href="beginner.html">初めての方へ</a></li></ul></div>
+        <div class="fn-group"><h4>その他</h4><ul><li><a href="history.html">過去実績</a></li><li><a href="staff.html">スタッフ一覧</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
+      </nav>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2027 ドラゴンフェスティバル All Rights Reserved.</p></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  var GAS_BASE   = CONST.GAS_BASE;
+  var MYPAGE_API = CONST.API.MYPAGE;
+
+  // ── セッション管理（sessionStorage、ブラウザ閉じるまたは4時間で失効）──
+  var SESSION_KEY     = 'df_mypage_session';
+  var SESSION_TIMEOUT = 4 * 60 * 60 * 1000;
+
+  function loadSession() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+      if (!s) return null;
+      if (Date.now() - s.loginTime > SESSION_TIMEOUT) { sessionStorage.removeItem(SESSION_KEY); return null; }
+      return s;
+    } catch(e) { return null; }
+  }
+  function saveSession(email, password, eventId) {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email: email, password: password, eventId: eventId, loginTime: Date.now() }));
+  }
+  function clearSession() { sessionStorage.removeItem(SESSION_KEY); }
+
+  // セッション状態
+  var session = { email: '', password: '', eventId: '', data: null };
+
+  // DOM refs
+  var loginArea    = document.getElementById('login-form-area');
+  var mypageBody   = document.getElementById('mypage-body');
+  var emailInput   = document.getElementById('mp-email');
+  var passwordInput= document.getElementById('mp-password');
+  var loginBtn     = document.getElementById('login-btn');
+  var loginErr     = document.getElementById('login-err');
+  var mypageTable  = document.getElementById('mypage-table');
+  var logoutBtn    = document.getElementById('logout-btn');
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function categoryLabel(cat) {
+    return { 'ドラゴン':'ドラゴン（竜族着ぐるみ）', '着ぐるみ':'着ぐるみ（竜族以外）', '一般':'一般' }[cat] || cat || '—';
+  }
+
+  function showLoginErr(msg) {
+    loginErr.textContent  = msg;
+    loginErr.style.display = '';
+    loginBtn.disabled     = false;
+    loginBtn.innerHTML    = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg> ログイン';
+  }
+
+  function setMsg(elId, msg, ok) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent    = msg;
+    el.style.color    = ok ? 'var(--jade, #1a7f45)' : 'var(--ruby)';
+    el.style.display  = '';
+  }
+
+  // EventID を /api/status から取得してからログイン処理
+  function doLogin() {
+    var email    = emailInput.value.trim();
+    var password = passwordInput.value.trim();
+    if (!email || !password) { showLoginErr('メールアドレスとパスワードを入力してください。'); return; }
+
+    loginErr.style.display = 'none';
+    loginBtn.disabled      = true;
+    loginBtn.innerHTML     = '<span class="btn-spinner"></span> 確認中...';
+
+    // まず EventID を取得
+    fetch(GAS_BASE + CONST.API.STATUS)
+      .then(function(r) { return r.json(); })
+      .then(function(statusData) {
+        var eventId = (statusData && statusData.eventId) ? statusData.eventId : '';
+        if (!eventId) { showLoginErr('イベント情報の取得に失敗しました。しばらくしてから再度お試しください。'); return; }
+
+        var url = GAS_BASE + MYPAGE_API
+          + '&email='    + encodeURIComponent(email)
+          + '&password=' + encodeURIComponent(password)
+          + '&eventId='  + encodeURIComponent(eventId);
+
+        return fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+          if (!data || data.error) {
+            showLoginErr(data && data.error ? data.error : 'ログインに失敗しました。');
+            return;
+          }
+          session.email   = email;
+          session.password = password;
+          session.eventId = eventId;
+          session.data    = data;
+          saveSession(email, password, eventId);
+          renderMypage(data);
+        });
+      })
+      .catch(function() { showLoginErr('通信エラーが発生しました。しばらくしてから再度お試しください。'); });
+  }
+
+  function renderMypage(data) {
+    loginArea.style.display  = 'none';
+    mypageBody.style.display = '';
+    // ログイン案内文を非表示
+    var notice = document.querySelector('.notice.notice-info.fade-up');
+    if (notice) notice.style.display = 'none';
+
+    // 登録情報テーブル
+    var rows = [
+      ['受付番号',     data.receiptNo        || '—'],
+      ['ハンドルネーム', data.name            || '—'],
+      ['X ID',         data.xId              || '—'],
+      ['参加区分',     categoryLabel(data.category)],
+      ['キャラクター名', data.characterName   || '—'],
+      ['ステータス',   data.status           || '—'],
+      ['登録日時',     data.timestamp        || '—']
+    ];
+    mypageTable.innerHTML = rows.map(function(r) {
+      return '<tr style="border-bottom:1px solid rgba(255,202,40,0.2);">'
+        + '<th style="padding:10px 14px;text-align:left;font-size:.80rem;font-weight:700;color:var(--text-sub);white-space:nowrap;width:130px;">' + escHtml(r[0]) + '</th>'
+        + '<td style="padding:10px 14px;color:var(--text);font-weight:500;">' + escHtml(r[1]) + '</td>'
+        + '</tr>';
+    }).join('');
+
+    // 写真アップロード
+    var photoSection = document.getElementById('photo-section');
+    if (data.photoToken || data.photoUploaded) {
+      photoSection.style.display = '';
+      if (data.photoUploaded) {
+        document.getElementById('photo-done-area').style.display   = '';
+        document.getElementById('photo-upload-area').style.display = 'none';
+        if (data.photoImageUrl) {
+          document.getElementById('photo-uploaded-img').src = data.photoImageUrl;
+        }
+      }
+    } else {
+      photoSection.style.display = 'none';
+    }
+
+    // イラストアップロード
+    var illustSection = document.getElementById('illust-section');
+    if (data.illustToken || data.illustUploaded) {
+      illustSection.style.display = '';
+      if (data.illustUploaded) {
+        document.getElementById('illust-done-area').style.display   = '';
+        document.getElementById('illust-upload-area').style.display = 'none';
+        if (data.illustImageUrl) {
+          document.getElementById('illust-uploaded-img').src = data.illustImageUrl;
+        }
+      }
+    } else {
+      illustSection.style.display = 'none';
+    }
+
+    // キャラクター一覧用画像（現在の画像）
+    if (data.charImageUrl) {
+      var curWrap = document.getElementById('char-image-current');
+      curWrap.style.display = '';
+      document.getElementById('char-image-preview-current').src = data.charImageUrl;
+    }
+
+    // アップロードイベント設定
+    setupPhotoUpload(data.photoToken);
+    setupIllustUpload(data.illustToken);
+    setupCharUpload();
+    setupCancel();
+
+    // イベント終了時は全操作ボタンを無効化
+    checkEventEnded();
+
+    // 画像クリックで拡大表示
+    if (window._setupImageLightbox) window._setupImageLightbox();
+  }
+
+  // ── 写真アップロード ───────────────────────────────────────
+  function setupPhotoUpload(token) {
+    if (!token) return;
+    var fileInput   = document.getElementById('photo-file');
+    var btn         = document.getElementById('photo-upload-btn');
+    var previewWrap = document.getElementById('photo-preview-wrap');
+    var previewImg  = document.getElementById('photo-preview-img');
+
+    fileInput.addEventListener('change', function() {
+      if (!fileInput.files.length) { previewWrap.style.display = 'none'; return; }
+      var url = URL.createObjectURL(fileInput.files[0]);
+      previewImg.onload = function() { URL.revokeObjectURL(url); };
+      previewImg.src = url;
+      previewWrap.style.display = '';
+    });
+
+    btn.addEventListener('click', function() {
+      uploadWithToken(token, 'photo', fileInput, 'photo-msg', btn, function(ok) {
+        if (ok) previewWrap.style.display = 'none';
+      });
+    });
+  }
+
+  // ── イラストアップロード ────────────────────────────────────
+  function setupIllustUpload(token) {
+    if (!token) return;
+    var fileInput   = document.getElementById('illust-file');
+    var btn         = document.getElementById('illust-upload-btn');
+    var previewWrap = document.getElementById('illust-preview-wrap');
+    var previewImg  = document.getElementById('illust-preview-img');
+
+    fileInput.addEventListener('change', function() {
+      if (!fileInput.files.length) { previewWrap.style.display = 'none'; return; }
+      var url = URL.createObjectURL(fileInput.files[0]);
+      previewImg.onload = function() { URL.revokeObjectURL(url); };
+      previewImg.src = url;
+      previewWrap.style.display = '';
+    });
+
+    btn.addEventListener('click', function() {
+      uploadWithToken(token, 'illust', fileInput, 'illust-msg', btn, function(ok) {
+        if (ok) previewWrap.style.display = 'none';
+      });
+    });
+  }
+
+  // トークン方式アップロード共通
+  // onComplete(ok) はアップロード後に呼ばれるコールバック
+  function uploadWithToken(token, type, fileInput, msgId, btn, onComplete) {
+    if (!fileInput.files.length) { setMsg(msgId, 'ファイルを選択してください。', false); return; }
+    var file = fileInput.files[0];
+    if (file.size > CONST.UPLOAD.MAX_BYTES) { setMsg(msgId, 'ファイルサイズが20MBを超えています。', false); return; }
+    if (!CONST.UPLOAD.ALLOWED_TYPES.includes(file.type)) { setMsg(msgId, 'JPEG または PNG 形式のみアップロード可能です。', false); return; }
+
+    btn.disabled = true;
+    setMsg(msgId, 'アップロード中...', true);
+
+    toBase64(file).then(function(b64) {
+      var params = new URLSearchParams({
+        token: token, type: type,
+        fileName: file.name, mimeType: file.type,
+        data: b64.split(',')[1]
+      });
+      return fetch(GAS_BASE, { method: 'POST', body: params });
+    }).then(function(r) { return r.json(); }).then(function(res) {
+      setMsg(msgId, res.message || (res.ok ? '完了' : 'エラー'), res.ok);
+      if (res.ok) {
+        fileInput.disabled = true;
+        btn.disabled = true;
+        // アップロード済み画像を表示（fileId が返ってきた場合）
+        if (res.fileId) {
+          var imgUrl    = 'https://drive.google.com/thumbnail?id=' + res.fileId + '&sz=w400';
+          var doneArea  = document.getElementById(type + '-done-area');
+          var uploadedImg = document.getElementById(type + '-uploaded-img');
+          var uploadArea  = document.getElementById(type + '-upload-area');
+          if (doneArea && uploadedImg) {
+            uploadedImg.src     = imgUrl;
+            uploadedImg.style.cursor = 'zoom-in';
+            uploadedImg.addEventListener('click', function() {
+              var lb = document.getElementById('img-lightbox');
+              var lbImg = document.getElementById('img-lightbox-img');
+              if (lb && lbImg) { lbImg.src = imgUrl; lb.style.display = 'flex'; }
+            });
+            doneArea.style.display = '';
+          }
+          if (uploadArea) uploadArea.style.display = 'none';
+        }
+        if (onComplete) onComplete(true);
+      } else {
+        btn.disabled = false;
+        if (onComplete) onComplete(false);
+      }
+    }).catch(function() {
+      setMsg(msgId, '通信エラーが発生しました。', false);
+      btn.disabled = false;
+      if (onComplete) onComplete(false);
+    });
+  }
+
+  // ── キャラクター一覧用画像アップロード ────────────────────
+  function setupCharUpload() {
+    var fileInput   = document.getElementById('char-file');
+    var btn         = document.getElementById('char-upload-btn');
+    var previewWrap = document.getElementById('char-preview-wrap');
+    var previewImg  = document.getElementById('char-image-preview-new');
+    var resizedBlob = null;
+
+    fileInput.addEventListener('change', function() {
+      if (!fileInput.files.length) return;
+      var file = fileInput.files[0];
+      resizeImage(file, 400, function(blob, dataUrl) {
+        resizedBlob = blob;
+        previewImg.src = dataUrl;
+        previewWrap.style.display = '';
+      });
+    });
+
+    btn.addEventListener('click', function() {
+      if (!resizedBlob && !fileInput.files.length) { setMsg('char-msg', 'ファイルを選択してください。', false); return; }
+      var blobToSend = resizedBlob || fileInput.files[0];
+
+      btn.disabled = true;
+      setMsg('char-msg', 'アップロード中...', true);
+
+      toBase64(blobToSend).then(function(b64) {
+        var mimeType = blobToSend.type || 'image/jpeg';
+        // JSON 送信（text/plain でプリフライト回避）
+        return fetch(GAS_BASE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'character',
+            email: session.email, password: session.password, eventId: session.eventId,
+            fileName: 'character.jpg', mimeType: mimeType,
+            data: b64.split(',')[1]
+          })
+        });
+      }).then(function(r) { return r.json(); }).then(function(res) {
+        setMsg('char-msg', res.message || (res.ok ? '完了' : 'エラー'), res.ok);
+        if (res.ok && res.charImageUrl) {
+          var curWrap = document.getElementById('char-image-current');
+          curWrap.style.display = '';
+          document.getElementById('char-image-preview-current').src = res.charImageUrl;
+          previewWrap.style.display = 'none';
+          resizedBlob = null;
+          fileInput.value = '';
+        }
+        btn.disabled = false;
+      }).catch(function() { setMsg('char-msg', '通信エラーが発生しました。', false); btn.disabled = false; });
+    });
+  }
+
+  // ── キャンセル（カスタムダイアログ → 完了ダイアログ → トップへ）───
+  function setupCancel() {
+    var btn       = document.getElementById('cancel-btn');
+    var dialog    = document.getElementById('cancel-dialog');
+    var yesBtn    = document.getElementById('cancel-dialog-yes');
+    var noBtn     = document.getElementById('cancel-dialog-no');
+    var dialogMsg = document.getElementById('cancel-dialog-msg');
+    var doneDialog = document.getElementById('cancel-done-dialog');
+    var doneOk     = document.getElementById('cancel-done-ok');
+
+    btn.addEventListener('click', function() {
+      dialogMsg.style.display = 'none';
+      dialog.style.display    = 'flex';
+    });
+
+    noBtn.addEventListener('click', function() {
+      dialog.style.display = 'none';
+    });
+
+    yesBtn.addEventListener('click', function() {
+      yesBtn.disabled      = true;
+      yesBtn.textContent   = '送信中...';
+      dialogMsg.style.display = 'none';
+
+      fetch(GAS_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'cancel',
+          email: session.email, password: session.password, eventId: session.eventId
+        })
+      }).then(function(r) { return r.json(); }).then(function(res) {
+        if (res.ok) {
+          dialog.style.display    = 'none';
+          doneDialog.style.display = 'flex';  // ④ 完了ダイアログを表示
+        } else {
+          yesBtn.textContent   = 'キャンセルする';
+          yesBtn.disabled      = false;
+          dialogMsg.textContent   = res.message || 'エラーが発生しました。';
+          dialogMsg.style.display = '';
+        }
+      }).catch(function() {
+        yesBtn.textContent   = 'キャンセルする';
+        yesBtn.disabled      = false;
+        dialogMsg.textContent   = '通信エラーが発生しました。';
+        dialogMsg.style.display = '';
+      });
+    });
+
+    // ⑤ OK ボタン: ログアウトしてトップへ
+    doneOk.addEventListener('click', function() {
+      clearSession();
+      window.location.href = '../index.html';
+    });
+  }
+
+  // ── ライトボックス ───────────────────────────────────────
+  (function() {
+    var lb      = document.getElementById('img-lightbox');
+    var lbImg   = document.getElementById('img-lightbox-img');
+    var lbClose = document.getElementById('img-lightbox-close');
+    function showLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '拡大表示';
+      lb.style.display = 'flex';
+    }
+    function hideLightbox() { lb.style.display = 'none'; }
+    lbClose.addEventListener('click', hideLightbox);
+    lb.addEventListener('click', function(e) { if (e.target === lb) hideLightbox(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideLightbox(); });
+    // 各アップロード済み画像にクリックイベントを付与（renderMypage後に呼ぶ）
+    window._setupImageLightbox = function() {
+      ['photo-uploaded-img','illust-uploaded-img','char-image-preview-current'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.style.cursor = 'zoom-in';
+        el.addEventListener('click', function() { showLightbox(el.src, el.alt); });
+      });
+    };
+  })();
+
+  // ── イベント終了チェック ──────────────────────────────────
+  function checkEventEnded() {
+    fetch(GAS_BASE + CONST.API.STATUS)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d.eventEnded) return;
+        var allBtns = document.querySelectorAll('#mypage-body button:not(#logout-btn)');
+        allBtns.forEach(function(b) { b.disabled = true; });
+        var notice = document.createElement('div');
+        notice.className = 'notice notice-warn';
+        notice.style.marginBottom = '16px';
+        notice.textContent = 'イベントは終了しました。各種操作は受け付けていません。';
+        mypageBody.insertBefore(notice, mypageBody.firstChild);
+      })
+      .catch(function() {});
+  }
+
+  // ── ログアウト ────────────────────────────────────────────
+  logoutBtn.addEventListener('click', function() {
+    clearSession();
+    session = { email: '', password: '', eventId: '', data: null };
+    mypageBody.style.display  = 'none';
+    loginArea.style.display   = '';
+    var notice = document.querySelector('.notice.notice-info.fade-up');
+    if (notice) notice.style.display = '';
+    var lf = document.getElementById('login-fields');
+    var ll = document.getElementById('login-loading');
+    if (lf) lf.style.display = '';
+    if (ll) ll.style.display = 'none';
+    emailInput.value    = '';
+    passwordInput.value = '';
+    loginErr.style.display = 'none';
+    loginBtn.disabled      = false;
+    loginBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg> ログイン';
+  });
+
+  // ── ヘルパー ─────────────────────────────────────────────
+  function toBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload  = function() { resolve(reader.result); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // キャラクター一覧用: 中央正方形トリミング → size×size にリサイズ
+  function resizeImage(file, size, callback) {
+    var img = new Image();
+    var url = URL.createObjectURL(file);
+    img.onload = function() {
+      URL.revokeObjectURL(url);
+      var sw = img.naturalWidth, sh = img.naturalHeight;
+      // 短辺を基準に正方形でセンタートリミング
+      var cropSize = Math.min(sw, sh);
+      var sx = (sw - cropSize) / 2;
+      var sy = (sh - cropSize) / 2;
+      var canvas = document.createElement('canvas');
+      canvas.width  = size;
+      canvas.height = size;
+      canvas.getContext('2d').drawImage(img, sx, sy, cropSize, cropSize, 0, 0, size, size);
+      canvas.toBlob(function(blob) {
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        callback(blob, dataUrl);
+      }, 'image/jpeg', 0.85);
+    };
+    img.src = url;
+  }
+
+  // ── イベントバインド ─────────────────────────────────────
+  loginBtn.addEventListener('click', doLogin);
+  emailInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') passwordInput.focus(); });
+  passwordInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
+
+  // ── ページロード時: セッション復元 ─────────────────────────
+  (function() {
+    var saved = loadSession();
+    if (!saved) return;
+
+    // セッションがある場合: フォームと案内文を隠して「読み込み中」を表示
+    session.email    = saved.email;
+    session.password = saved.password;
+    session.eventId  = saved.eventId;
+
+    var loginNotice  = document.querySelector('.notice.notice-info.fade-up');
+    if (loginNotice) loginNotice.style.display = 'none';
+    var loginFields  = document.getElementById('login-fields');
+    var loginLoading = document.getElementById('login-loading');
+    if (loginFields)  loginFields.style.display  = 'none';
+    if (loginLoading) loginLoading.style.display  = '';
+    loginErr.style.display = 'none';
+
+    var url = GAS_BASE + MYPAGE_API
+      + '&email='    + encodeURIComponent(saved.email)
+      + '&password=' + encodeURIComponent(saved.password)
+      + '&eventId='  + encodeURIComponent(saved.eventId);
+
+    fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+      if (!data || data.error) {
+        clearSession();
+        if (loginFields)  loginFields.style.display  = '';
+        if (loginLoading) loginLoading.style.display  = 'none';
+        return;
+      }
+      session.data = data;
+      renderMypage(data);
+    }).catch(function() {
+      clearSession();
+      if (loginFields)  loginFields.style.display  = '';
+      if (loginLoading) loginLoading.style.display  = 'none';
+    });
+  })();
+
+})();
+</script>
+</body>
+</html>
